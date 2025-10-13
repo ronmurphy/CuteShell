@@ -46,7 +46,7 @@ Variants {
         Rectangle {
             id: rwlt
             // spacing:0
-            color: "transparent"
+            color: "white"
             anchors.top: parent.top
             width: parent.width
             height: scaleheightmin
@@ -76,7 +76,7 @@ Variants {
                 objectName: "center"
                 anchors.centerIn: rwlt
                 layoutDirection: Qt.LeftToRight
-                Layout.alignment: Qt.AlignLeft
+                // Layout.alignment: Qt.AlignLeft
                 height: rwlt.scaleheightmin
                 spacing:0
                 // NiriWindowElem{ clr: Settings.windowcolors[0]; clrtrngl: Settings.windowcolors[1]; indx: 6}

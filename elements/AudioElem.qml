@@ -12,7 +12,6 @@ import "../"
 
 BarItem {
     id:root
-    invtrngl:false
     isscrollable: true;
     popupvisible: false
 

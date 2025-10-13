@@ -8,7 +8,7 @@ import QtQuick.Shapes
 import QtQml
 
 
-Item {
+Rectangle {
     id:root
     property color bgclr: Settings.dark
     property color fgclr: Settings.white
@@ -20,12 +20,8 @@ Item {
     function gettext(): string {
         return inp.text
     }
-
-    Loader {
-        scale: 0.8
-        anchors.fill: parent
-        sourceComponent: root.decor
-    }
+    color: "transparent"
+    clip: true
     
     scale: visible ? 1.0 : 0.1
     Behavior on scale { 
@@ -35,24 +31,33 @@ Item {
     implicitHeight: 40
     FontMetrics  {
         id: textMetrics
-        font.pixelSize:15
+        font.pixelSize:20
+    }
+        
+    Loader {
+        id: loader
+        scale: 0.8
+        anchors.fill: parent
+        sourceComponent: root.decor
     }
     TextInput {
         id: inp
+        width: root.width*0.75
         anchors.centerIn: parent
         focus: true
         activeFocusOnPress: true
         activeFocusOnTab: true
-        padding : 5
-        rightPadding: 5
         color: root.fgclr
-        leftPadding: 5
         selectByMouse: true
         text: "S"
         font.pixelSize:20
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
-        onTextChanged: { font.pixelSize=15*Math.min(1,width/(textMetrics.advanceWidth(text)*1.4));textMetrics.font.pixelSize=font.pixelSize}
+        onTextChanged: {
+            font.pixelSize=20*Math.min(1,width/(textMetrics.advanceWidth(text)*1.4));
+            textMetrics.font.pixelSize=font.pixelSize
+        }
+        clip:true
 
         onAccepted: root.accepted()
         onEditingFinished: root.editingfinished()

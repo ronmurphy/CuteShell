@@ -17,7 +17,6 @@ BarItem {
     datamodel: Notifications.notifs;
     isscrollable: true;
     popupvisible: true
-    invtrngl:false
 
     delegatecmpnnt: Button {
         required property string body

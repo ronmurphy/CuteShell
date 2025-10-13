@@ -15,7 +15,6 @@ BarItem {
     objectName:"Network"
     isscrollable: true;
     popupvisible: true
-    invtrngl:false
     datamodel: Network.wifinetworks;
     
     property bool inputEnabled: false
@@ -160,6 +159,7 @@ BarItem {
         id: input
         decor: DecorTriangleItem {
             clr: Settings.dark
+            clip: true
         }
         visible: root.inputactive
         implicitWidth:root.scaleheightmin*5
