@@ -59,24 +59,25 @@ Item {
         }
     }
 
-    // property Component borderDecoration1: null
-    property Component borderDecoration1: TriangleItem {
-        inverted:false;
-        clr:root.clr
-        implicitWidth: root.scaleheightmin/2
-        implicitHeight: root.scaleheightmin
-    }
-    // property Component borderDecoration2: null
-    property Component borderDecoration2: TriangleItem {
-        inverted:true;
-        clr:root.clr
-        implicitWidth: root.scaleheightmin/2
-        implicitHeight: root.scaleheightmin
-    }
-    property Component rectDecoration: DecorTriangleItem {
-        clr:root.clr
-        implicitWidth: root.scaleheightmin/2
-        implicitHeight: root.scaleheightmin
+    property Component borderDecoration1: null
+    // property Component borderDecoration1: TriangleItem {
+    //     inverted:false;
+    //     clr:root.clr
+    //     implicitWidth: root.scaleheightmin/2
+    //     implicitHeight: root.scaleheightmin
+    // }
+    property Component borderDecoration2: null
+    // property Component borderDecoration2: TriangleItem {
+    //     inverted:true;
+    //     clr:root.clr
+    //     implicitWidth: root.scaleheightmin/2
+    //     implicitHeight: root.scaleheightmin
+    // }
+    property Component rectDecoration: DecorCircleItem {
+        clr: "blue"
+        // scale: 0.9
+        implicitWidth: root.implicitWidth
+        implicitHeight: root.scaleheightmin*0.8
     }
     states: [
         State {
@@ -119,11 +120,6 @@ Item {
     ]
     implicitHeight: root.scaleheightmin
     implicitWidth: borderDecor1.implicitWidth+itemrect1.implicitWidth+borderDecor2.implicitWidth-0.8
-    onImplicitWidthChanged: {
-        console.log(borderDecor1.implicitWidth,itemrect1.implicitWidth,borderDecor2.implicitWidth)
-    }
-    // Layout.maximumWidth: root.itemcount * root.scaleheightmin
-    // Layout.minimumWidth: root.scaleheightmin
     Loader {
         id: borderDecor1
         sourceComponent: root.borderDecoration1
@@ -132,7 +128,8 @@ Item {
     Rectangle {
         id: itemrect1
         Loader {
-            anchors.fill : parent
+            // anchors.fill : parent
+            anchors.centerIn: parent
             id: rectDecor
             sourceComponent: root.rectDecoration
         }

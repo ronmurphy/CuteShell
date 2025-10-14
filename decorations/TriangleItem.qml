@@ -10,8 +10,8 @@ import QtQml
 
 Rectangle {
     id: root
-    required property color clr;
-    required property bool inverted;
+    property color clr: "blue"
+    property bool inverted: false
     property real implicitSize: 40
     implicitWidth: implicitSize/2
     implicitHeight: implicitSize

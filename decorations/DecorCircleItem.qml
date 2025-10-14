@@ -12,19 +12,25 @@ Item {
     implicitWidth: 120
     implicitHeight: 40
     property color clr: "blue"
-    SemicircleItem {
+    CircleItem {
         anchors.left: root.left
+        inverted: true
+        clr: "green"
         width: root.height/2
         height: root.height
     }
     Rectangle {
         anchors.centerIn: root
-        color: root.clr
+        color: "red"
+        // color: root.clr
         width: root.width-root.height
         height: root.height
     }
-    SemicircleItem {
+    CircleItem {
         anchors.right: root.right
+
+        clr: "purple"
+        inverted: false
         width: root.height/2
         height: root.height
     }
