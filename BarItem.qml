@@ -60,28 +60,28 @@ Item {
         }
     }
 
-    property Component borderDecoration1: null
-    // property Component borderDecoration1: TriangleItem {
-    //     inverted:false;
-    //     clr:root.clr
-    //     implicitWidth: root.scaleheightmin/2
-    //     implicitHeight: root.scaleheightmin
-    // }
-    property Component borderDecoration2: null
-    // property Component borderDecoration2: TriangleItem {
-    //     inverted:true;
-    //     clr:root.clr
-    //     implicitWidth: root.scaleheightmin/2
-    //     implicitHeight: root.scaleheightmin
-    // }
+    // property Component borderDecoration1: null
+    property Component borderDecoration1: TriangleItem {
+        inverted:false;
+        clr:root.clr
+        implicitWidth: root.scaleheightmin/2
+        implicitHeight: root.scaleheightmin
+    }
+    // property Component borderDecoration2: null
+    property Component borderDecoration2: TriangleItem {
+        inverted:true;
+        clr:root.clr
+        implicitWidth: root.scaleheightmin/2
+        implicitHeight: root.scaleheightmin
+    }
     property Component rectDecoration: DecorCircleItem {
         clr: "blue"
         // scale: 0.9
-        implicitWidth: root.implicitWidth
+        implicitWidth: itemrect1.implicitWidth
         implicitHeight: root.scaleheightmin*0.8
     }
     implicitHeight: root.scaleheightmin
-    implicitWidth: borderDecor1.implicitWidth+itemrect1.implicitWidth+borderDecor2.implicitWidth-0.8
+    implicitWidth: borderDecor1.implicitWidth+itemrect1.implicitWidth+borderDecor2.implicitWidth-2
 
     Loader {
         id: borderDecor1
@@ -103,7 +103,7 @@ Item {
             x: 0
             // x: root.isPopupEmbedded ? 0 : root.parent.x
             y: root.scaleheightmin
-            bottomMargin: root.scaleheightmin
+            bottomMargin: Settings.barAnchor == Settings.barAnchors.TOP ? 0 : root.scaleheightmin
             // y: Settings.barAnchor == Settings.barAnchor.TOP ? root.scaleheightmin : root.scaleheightmin * 2
             height:0
             width: itemrect1.width
@@ -152,12 +152,9 @@ Item {
             contentWidth: itemsrow.width
             contentHeight: root.scaleheightmin
             boundsBehavior:Flickable.DragOverBounds
-            RowLayout {
+            FlexboxLayout {
                 scale:0.9
                 id: itemsrow
-                // anchors.fill:flick
-                // Layout.fillHeight: true; Layout.fillWidth: true
-                spacing:0
             }
         }
     }

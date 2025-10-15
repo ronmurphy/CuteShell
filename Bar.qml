@@ -18,24 +18,34 @@ Variants {
         screen: modelData
         property real scalefW: width/Settings.scaleWidth
         property real scalefH: height/Settings.scaleHeight
-        height: modelData.height-bar.scaleheightmin
+        height: modelData.height/2
+        // height: Settings.barAnchor == Settings.barAnchors.TOP ? modelData.height : bar.scaleheightmin
+        // height: Settings.isTop ? modelData.height : modelData.height-bar.scaleheightmin
         width: modelData.width
         WlrLayershell.layer: WlrLayer.Top
         visible: true
         color: "transparent"
         exclusionMode: ExclusionMode.Normal
-        exclusiveZone:bar.scaleheightmin
+        exclusiveZone: bar.scaleheightmin
         focusable:true
+
         Connections {
             target: Settings
             function onPopupOpenChanged() {
-                inreg.childrenChanged()
+                regions.childrenChanged()
 
+            }
+        }
+        Connections {
+            target: Settings
+            function onBarAnchorChanged() {
+                console.log("hot shto n")
+                bar.state = "bottom"
             }
         }
         mask: Region {
             item: bar
-            id: inreg
+            id: regions
             onChanged: {
                 console.log("HEH")
             }
@@ -44,11 +54,15 @@ Variants {
                 intersection: Intersection.Combine
             }
         }
-
+        Item {
+            id: itemwindow
+            anchors.fill: parent
+        }
         Rectangle {
             id: bar
             color: "white"
-            anchors.bottom: parent.bottom
+            // anchors.top: Settings.barAnchor == Settings.barAnchors.TOP ? parent.top : null
+            // anchors.bottom: Settings.barAnchor == Settings.barAnchors.TOP ? null : parent.bottom
             width: parent.width
             height: scaleheightmin
             property real minheight: 45
@@ -64,8 +78,8 @@ Variants {
                 CpuElem{}
                 DiskElem{}
                 AppLauncherElem{}
-                // MemoryElem{ indx: 4}
-                // MenuElem{ indx: 5}
+                // MemoryElem{ indx: 4 }
+                // MenuElem{ indx: 5 }
             }
             FlexboxLayout {
                 id: center
@@ -88,31 +102,31 @@ Variants {
                 // DateElem{ indx: 8}
             }
             Component.onCompleted: {
-                state = Settings.barAnchor == Settings.barAnchors.TOP ? "top" : "bottom"
+                bar.state = Settings.barAnchor == Settings.barAnchors.TOP ? "top" : "bottom"
+                console.log(state,"HAEFbhbirbvjidfvnjfknj11")
             }
             states: [
                 State {
                     name: "top"
                     AnchorChanges {
-                        target: bar; anchors.top: root.top
+                        target: bar; anchors.top: itemwindow.top
                     }
                 },
                 State {
                     name: "bottom"
                     AnchorChanges {
-                        target: bar; anchors.bottom: root.bottom
+                        target: bar; anchors.bottom: itemwindow.bottom
                     }
                 }
             ]
         }
 
 
-
         anchors {
-            left: true
-            top: false
-            right: true
-            bottom:true
+            left: false
+            top: Settings.barAnchor === Settings.barAnchors.TOP ? true : false
+            right: false
+            bottom: Settings.barAnchor === Settings.barAnchors.TOP ? false : true
         }
         margins {
             top:0

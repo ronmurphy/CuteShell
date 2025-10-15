@@ -14,8 +14,7 @@ Singleton {
         BOTTOM: 1,
     });
 
-    property bool isHorizontal: barAnchor == barAnchors.TOP ||
-        barAnchor == barAnchors.BOTTOM
+    property bool isTop: barAnchor == barAnchors.TOP
 
     property var colors: [
         "#d699b6",
@@ -38,13 +37,6 @@ Singleton {
     
     property bool popupOpen: false
     property Item popupLoader: null
-
-    // color indices for left, center, right bar sides
-    property var colorsMap: new Map([
-      ["left", -1],
-      ["center", -1],
-      ["right", -1],
-    ])
 
     function colorpick(excludeColor: string,idx: int): string {
         const rm = idx % colors.length

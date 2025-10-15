@@ -69,6 +69,7 @@ BarItem {
             text: "󰀻"
         }
         onBtnclick: {
+            Settings.barAnchor = Settings.barAnchors.BOTTOM
             Settings.curridx = root.indx == Settings.curridx ? -1 : root.indx
             root.inputactive = false
             root.popupvisible = false
