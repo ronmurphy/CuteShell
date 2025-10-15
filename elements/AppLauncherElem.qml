@@ -18,7 +18,7 @@ BarItem {
     datamodel: AppLauncher.apps;
     isscrollable: true;
     popupvisible: false
-    isPopupEmbedded: false
+    isPopupEmbedded: true
     property bool inputactive: false
     delegatecmpnnt: ListDelegateItem {
         id: del
@@ -28,7 +28,7 @@ BarItem {
         implicitWidth: root.contentWidth
         implicitHeight: root.scaleheightmin
         decor: DecorTriangleItem {
-            clr: Settings.colorpick(root.clr,del.index)
+            clr: Settings.colorPick(root.clr,del.index)
         }
         BarContentItem {
             id: barcnt
@@ -69,7 +69,7 @@ BarItem {
             text: "󰀻"
         }
         onBtnclick: {
-            Settings.barAnchor = Settings.barAnchors.BOTTOM
+            Settings.changeBarState()
             Settings.curridx = root.indx == Settings.curridx ? -1 : root.indx
             root.inputactive = false
             root.popupvisible = false

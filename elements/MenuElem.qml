@@ -14,8 +14,6 @@ import "../"
 pragma ComponentBehavior: Bound 
 BarItem {
     id:root
-    invtrngl:true
-    itemcount: 2;
     isscrollable: true;
     popupvisible: false
 

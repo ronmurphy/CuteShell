@@ -15,8 +15,8 @@ Singleton {
     property real diskPercent: 0
     property real rxSpeed: 0
     property real txSpeed: 0
+    property list<string> graphBlocks: ["█","░"]
     // Configuration
-
     property var polls: [1,2,8,32,64] // intervals in seconds (must be power of 2)
     property var pollids: [1,1,1,1,3] // indices in polls
     property var metrics: [memInfoFile.reload,cpuStatFile.reload,netDevFile.reload,

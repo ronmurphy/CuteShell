@@ -18,10 +18,10 @@ Item {
     property int indx: -1
     
     Component.onCompleted: {
-        indx = Settings.distributeIndex(indx)
+        indx = Settings.distributeUniqueIndex(indx)
         for (const [i,v] of root.parent.children.entries()) {
             if (v === root) {
-                clr = Settings.colorpick("black",i)
+                clr = Settings.colorPick("black",i)
                 console.log(i)
             }
         }
@@ -31,18 +31,16 @@ Item {
     }
 
     property color clr;
-    required property bool popupvisible;
-    required property bool isscrollable;
+    property bool popupvisible: false;
+    property bool isscrollable: false
     property bool isPopupEmbedded: false;
-    
-    property var datamodel;
-    property Component delegatecmpnnt;
-
     default property alias content: itemsrow.data
     readonly property real contentWidth: itemsrow.width
 
 
     // you can override default component for your own popup behavior
+    property var datamodel;
+    property Component delegatecmpnnt;
     property Component popupcomponent: Rectangle {
         id: rectpop
         anchors.fill:parent
@@ -74,12 +72,19 @@ Item {
         implicitWidth: root.scaleheightmin/2
         implicitHeight: root.scaleheightmin
     }
-    property Component rectDecoration: DecorCircleItem {
+    property Component rectDecoration: BorderRectItem {
         clr: "blue"
         // scale: 0.9
         implicitWidth: itemrect1.implicitWidth
         implicitHeight: root.scaleheightmin*0.8
     }
+    // property Component rectDecoration: DecorCircleItem {
+    //     clr: "blue"
+    //     // scale: 0.9
+    //     implicitWidth: itemrect1.implicitWidth
+    //     implicitHeight: root.scaleheightmin*0.8
+    // }
+
     implicitHeight: root.scaleheightmin
     implicitWidth: borderDecor1.implicitWidth+itemrect1.implicitWidth+borderDecor2.implicitWidth-2
 
@@ -100,10 +105,10 @@ Item {
         implicitWidth: Settings.curridx == root.indx ? itemsrow.width : root.scaleheightmin
         Popup {
             id: popup
-            x: 0
-            // x: root.isPopupEmbedded ? 0 : root.parent.x
+            // x: 0
+            x: root.isPopupEmbedded ? 0 : root.parent.x
             y: root.scaleheightmin
-            bottomMargin: Settings.barAnchor == Settings.barAnchors.TOP ? 0 : root.scaleheightmin
+            bottomMargin: Settings.isTop ? 0 : root.scaleheightmin
             // y: Settings.barAnchor == Settings.barAnchor.TOP ? root.scaleheightmin : root.scaleheightmin * 2
             height:0
             width: itemrect1.width

@@ -34,7 +34,7 @@ BarItem {
         implicitWidth: root.contentWidth
         implicitHeight: root.scaleheightmin
         decor: DecorTriangleItem {
-            clr: Settings.colorpick(root.clr,del.index)
+            clr: Settings.colorPick(root.clr,del.index)
         }
 
         BarContentItem {

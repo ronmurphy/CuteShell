@@ -13,7 +13,9 @@ Singleton {
         TOP: 0,
         BOTTOM: 1,
     });
-
+    function changeBarState() {
+        barAnchor = isTop ? barAnchors.BOTTOM : barAnchors.TOP
+    }
     property bool isTop: barAnchor == barAnchors.TOP
 
     property var colors: [
@@ -38,7 +40,7 @@ Singleton {
     property bool popupOpen: false
     property Item popupLoader: null
 
-    function colorpick(excludeColor: string,idx: int): string {
+    function colorPick(excludeColor: string,idx: int): string {
         const rm = idx % colors.length
         if (colors[rm] === excludeColor) {
             return "#d699b6"
@@ -46,13 +48,7 @@ Singleton {
         return colors[rm]
     }
 
-    function giveColorIndex(side: string): int {
-        const index = colorsMap.get(side)
-        colorsMap.set(side,index+1)
-        return index+1
-    }
-
-    function distributeIndex(): int {
+    function distributeUniqueIndex(): int {
         indexDistribute +=1
         return indexDistribute
     }

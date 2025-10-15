@@ -12,9 +12,9 @@ import "./decorations"
 Item {
     id: root
     property Component decor: null
-    required property real start
-    required property real initvalue
-    required property real end
+    property real start: 0
+    property real initvalue: 0.1
+    property real end: 1
     readonly property real val: sldr.value
     signal slidermoved
     implicitWidth: 80

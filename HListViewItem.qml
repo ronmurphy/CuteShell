@@ -10,12 +10,12 @@ import QtQml
 ListView {
     id: root
     layoutDirection: Qt.LeftToRight
-    verticalLayoutDirection:ListView.TopToBottom
+    verticalLayoutDirection: ListView.TopToBottom
     orientation: horizontal ? Qt.Horizontal : Qt.Vertical
     implicitWidth: 80
     implicitHeight: 200
-    required property var datamodel;
-    required property Component delegatecmpnnt;
+    property var datamodel: null
+    property Component delegatecmpnnt: null
     property bool horizontal: true
     delegate: delegatecmpnnt
     model: datamodel
