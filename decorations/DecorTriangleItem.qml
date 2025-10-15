@@ -22,7 +22,7 @@ Item {
     Rectangle {
         anchors.centerIn: root
         color: root.clr
-        width: root.width-root.height
+        width: root.width-root.height+1
         height: root.height
     }
     TriangleItem {

@@ -13,8 +13,6 @@ Rectangle {
     property color clr: "blue"
     property bool inverted: false
     property real implicitSize: 40
-    implicitWidth: implicitSize/2
-    implicitHeight: implicitSize
     color: "transparent"
     Shape {
         anchors.fill: parent

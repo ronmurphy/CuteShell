@@ -8,7 +8,15 @@ import QtQuick // for Text
 
 Singleton {
     id: root
-    
+    property int barAnchor: barAnchors.TOP
+    property var barAnchors: Object.freeze({
+        TOP: 0,
+        BOTTOM: 1,
+    });
+
+    property bool isHorizontal: barAnchor == barAnchors.TOP ||
+        barAnchor == barAnchors.BOTTOM
+
     property var colors: [
         "#d699b6",
         "#e67e80",
@@ -56,4 +64,5 @@ Singleton {
         indexDistribute +=1
         return indexDistribute
     }
+
 }

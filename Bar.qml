@@ -13,16 +13,18 @@ pragma ComponentBehavior: Bound
 Variants {
     model: Quickshell.screens
     delegate: PanelWindow {
-        id: panel
+        id: root
         required property ShellScreen modelData
         screen: modelData
         property real scalefW: width/Settings.scaleWidth
         property real scalefH: height/Settings.scaleHeight
-        height: modelData.height
+        height: modelData.height-bar.scaleheightmin
+        width: modelData.width
         WlrLayershell.layer: WlrLayer.Top
         visible: true
         color: "transparent"
-        exclusionMode: ExclusionMode.Ignore
+        exclusionMode: ExclusionMode.Normal
+        exclusiveZone:bar.scaleheightmin
         focusable:true
         Connections {
             target: Settings
@@ -32,7 +34,7 @@ Variants {
             }
         }
         mask: Region {
-            item: rwlt
+            item: bar
             id: inreg
             onChanged: {
                 console.log("HEH")
@@ -44,26 +46,20 @@ Variants {
         }
 
         Rectangle {
-            id: rwlt
-            // spacing:0
+            id: bar
             color: "white"
-            anchors.top: parent.top
+            anchors.bottom: parent.bottom
             width: parent.width
             height: scaleheightmin
-            property real minheight: 40
+            property real minheight: 45
             property real scaleFactor: parent.width / Settings.scaleWidth
             property real scaleheightmin: scaleFactor*minheight
-            RowLayout {
+            FlexboxLayout {
                 id: left
                 objectName: "left"
-                anchors.left: rwlt.left
-                // anchors.fill: rwlt
-                layoutDirection: Qt.LeftToRight
-                // Layout.alignment: Qt.AlignLeft
-                height: rwlt.scaleheightmin
-                // width: panel.width/3
-                // Layout.maximumWidth: panel.width/3
-                spacing:0
+                anchors.left: bar.left
+                direction: FlexboxLayout.Row
+                height: bar.scaleheightmin
                 // NiriWorkspaceElem{ indx: 1}
                 CpuElem{}
                 DiskElem{}
@@ -71,40 +67,52 @@ Variants {
                 // MemoryElem{ indx: 4}
                 // MenuElem{ indx: 5}
             }
-            RowLayout {
+            FlexboxLayout {
                 id: center
                 objectName: "center"
-                anchors.centerIn: rwlt
-                layoutDirection: Qt.LeftToRight
-                // Layout.alignment: Qt.AlignLeft
-                height: rwlt.scaleheightmin
-                spacing:0
+                anchors.centerIn: bar
+                direction: FlexboxLayout.Row
+                height: bar.scaleheightmin
                 // NiriWindowElem{ clr: Settings.windowcolors[0]; clrtrngl: Settings.windowcolors[1]; indx: 6}
                 // CavaElem{ clr: Settings.windowcolors[0]; clrtrngl: Settings.windowcolors[1]; indx: 7}
             }
-            RowLayout {
+            FlexboxLayout {
                 id: right
                 objectName: "right"
-                anchors.right: rwlt.right
-                height: rwlt.scaleheightmin
-                layoutDirection: Qt.RightToLeft
-                // Layout.alignment: Qt.AlignRight
-                spacing:0
-                NotificationsElem{ }
+                anchors.right: bar.right
+                height: bar.scaleheightmin
+                direction: FlexboxLayout.RowReverse
                 NetworkElem{ }
                 // BatteryElem{ indx: 10}
                 AudioElem{ }
                 // DateElem{ indx: 8}
             }
+            Component.onCompleted: {
+                state = Settings.barAnchor == Settings.barAnchors.TOP ? "top" : "bottom"
+            }
+            states: [
+                State {
+                    name: "top"
+                    AnchorChanges {
+                        target: bar; anchors.top: root.top
+                    }
+                },
+                State {
+                    name: "bottom"
+                    AnchorChanges {
+                        target: bar; anchors.bottom: root.bottom
+                    }
+                }
+            ]
         }
 
 
 
         anchors {
             left: true
-            top: true
+            top: false
             right: true
-            bottom:false
+            bottom:true
         }
         margins {
             top:0
