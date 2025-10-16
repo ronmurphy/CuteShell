@@ -11,18 +11,14 @@ import "../"
 
 BarItem {
     id:root
-    invtrngl:true
-    itemcount: 2;
     isscrollable: true;
     popupvisible: false
 
     BarContentItem {
-        Layout.preferredWidth: root.scaleheightmin
-        Layout.preferredHeight: root.scaleheightmin
-        item: Text {
+        implicitHeight: root.scaleheightmin
+        implicitWidth: root.scaleheightmin*2
+        contentItem: TextItem {
             text: SysInfo2.memPercent
-            verticalAlignment: Text.AlignVCenter
-            font.pointSize:12
         }
         onBtnclick: {
            Settings.curridx = root.indx == Settings.curridx ? -1 : root.indx

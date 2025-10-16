@@ -10,10 +10,10 @@ import QtQml
 
 Rectangle {
     id:root
-    property color bgclr: Settings.dark
-    property color fgclr: Settings.white
+    property color textClr: Settings.white
     property Component decor: null
-    
+    property real scaleInputWidth: 0.75
+
     signal textedited
     signal accepted
     signal editingfinished
@@ -22,32 +22,28 @@ Rectangle {
     }
     color: "transparent"
     clip: true
-    
-    scale: visible ? 1.0 : 0.1
-    Behavior on scale { 
-        ElasticBehavior  {} 
-    }
     implicitWidth: 80
     implicitHeight: 40
+
     FontMetrics  {
         id: textMetrics
         font.pixelSize:20
     }
-        
+    
     Loader {
         id: loader
-        scale: 0.8
         anchors.fill: parent
         sourceComponent: root.decor
     }
+
     TextInput {
         id: inp
-        width: root.width*0.75
+        width: root.width*root.scaleInputWidth
         anchors.centerIn: parent
         focus: true
         activeFocusOnPress: true
         activeFocusOnTab: true
-        color: root.fgclr
+        color: root.textColor
         selectByMouse: true
         text: "S"
         font.pixelSize:20

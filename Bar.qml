@@ -71,9 +71,9 @@ Variants {
                 anchors.right: bar.right
                 height: bar.scaleheightmin
                 direction: FlexboxLayout.RowReverse
-                NetworkElem{ }
-                // BatteryElem{ indx: 10}
-                AudioElem{ }
+                NetworkElem{}
+                BatteryElem{}
+                AudioElem{}
                 // DateElem{ indx: 8}
             }
             states: [

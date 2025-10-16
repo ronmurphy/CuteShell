@@ -11,13 +11,29 @@ import "../"
 
 BarItem {
     id:root
-    invtrngl:false
-    itemcount: 2;
     isscrollable: true;
     popupvisible: false
+    BarContentItem {
+        Layout.preferredWidth: root.scaleheightmin
+        Layout.preferredHeight: root.scaleheightmin
+        contentItem: TextItem {
+            text: Battery.batteryLevel
+        }
+        onBtnclick: {
+            Settings.curridx = root.indx == Settings.curridx ? -1 : root.indx
+        }
+    }
+    ProgressBarItem {
+        scale: 0.6
+        from: 0
+        value: Battery.batteryLevel
+        to: 100
+        implicitWidth:root.scaleheightmin*2
+        implicitHeight:root.scaleheightmin
+    }
     SliderItem {
-        wdth:root.scalewidthmin
-        hght: root.height
+        implicitWidth:root.scaleheightmin*3
+        implicitHeight:root.scaleheightmin
         id: sld
         start: 1
         initvalue: 50
@@ -25,16 +41,6 @@ BarItem {
         onSlidermoved: {
             Battery.brightness = sld.val
             Battery.changeBrightness = true
-        }
-    }
-    BarContentItem {
-        Layout.preferredWidth: root.scaleheightmin
-        Layout.preferredHeight: root.scaleheightmin
-        item: TextItem {
-            text: Battery.batteryLevel
-        }
-        onBtnclick: {
-            Settings.curridx = root.indx == Settings.curridx ? -1 : root.indx
         }
     }
 }

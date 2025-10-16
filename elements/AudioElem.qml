@@ -17,8 +17,8 @@ BarItem {
 
     BarContentItem {
         id: barContent1
-        Layout.preferredWidth: root.scaleheightmin
-        Layout.preferredHeight: root.scaleheightmin
+        implicitWidth:root.scaleheightmin
+        implicitHeight:root.scaleheightmin
         contentItem: Text {
             text: Math.round(Audio.volume*100)
             verticalAlignment: Text.AlignVCenter

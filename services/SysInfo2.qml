@@ -6,7 +6,7 @@ import Quickshell.Io
   
 Singleton {
     id: root
-
+    //  
     // Public values
     property real cpuUsage: 0
     property real cpuTemp: 0
@@ -15,13 +15,23 @@ Singleton {
     property real diskPercent: 0
     property real rxSpeed: 0
     property real txSpeed: 0
-    property list<string> graphBlocks: ["█","░"]
-    // Configuration
-    property var polls: [1,2,8,32,64] // intervals in seconds (must be power of 2)
-    property var pollids: [1,1,1,1,3] // indices in polls
-    property var metrics: [memInfoFile.reload,cpuStatFile.reload,netDevFile.reload,
-    updateCpuTemperature,diskReload]
+
+    Component.onCompleted: {
+        // Kickoff the cpu name detection for temperature
+        cpuTempNameReader.checkNext()
+    }
+    property int memInfoInterval:intervals[2]
+    property int cpuStatInterval:intervals[2]
+    property int netDevInterval:intervals[3]
+    property int cpuTempInterval:intervals[4]
+    property int diskInfoInterval:intervals[6]
     
+    property var intervals: [0,1,2,5,10,30,60] // intervals in seconds
+
+    function nextInterval(idx: int): int {
+        return idxInterval = idx % intervals.length
+    }
+
     property string clockdate: Qt.formatDateTime(clock.date, "yyyy-MM-dd")
     property string clocktime: Qt.formatDateTime(clock.date, "hh:mm:ss")
 
@@ -29,17 +39,14 @@ Singleton {
       id: clock
       precision: SystemClock.Seconds
     }
+
     // Internal state for CPU calculation
     property var prevCpuStats: null
 
-    // Internal state for network speed calculation
-    // Previous Bytes need to be stored as 'real' as they represent the total of bytes transfered
-    // since the computer started, so their value will easily overlfow a 32bit int.
     property real prevRxBytes: 0
     property real prevTxBytes: 0
     property real prevTime: 0
 
-    // Cpu temperature is the most complex
     readonly property var supportedTempCpuSensorNames: ["coretemp", "k10temp", "zenpower"]
     property string cpuTempSensorName: ""
     property string cpuTempHwmonPath: ""
@@ -48,37 +55,55 @@ Singleton {
     property int intelTempFilesChecked: 0
     property int intelTempMaxFiles: 20 // Will test up to temp20_input
   
-    Component.onCompleted: {
-        // Kickoff the cpu name detection for temperature
-        cpuTempNameReader.checkNext()
-    }
-  
     // Timer for periodic updates
     Timer {
-        id: updateTimer
+        id: memInfoTimer
         triggeredOnStart: true
-        interval: root.polls[minInterval]*1000
+        interval: root.intervals[0]*1000
         repeat: true
-        running: true
-
-        property int counter: 0
-        property int minInterval: 0
-
+        running: interval > 0
         onTriggered: {
-            counter += root.polls[minInterval]
-            for (let i=0; i<root.metrics.length; i++) {
-                if (root.polls[minInterval] > root.polls[i]) {
-                    minInterval = i
-                    counter = 0
-                    return
-                }
-                if (counter % root.polls[root.pollids[i]] === 0) {
-                    root.metrics[i]()
-                }
-            }
-            if (counter >= root.polls[root.polls.length - 1]) {
-                counter = 0
-            }
+            memInfoFile.reload()
+        }
+    }
+    Timer {
+        id: cpuStatTimer
+        triggeredOnStart: true
+        interval: root.intervals[1]*1000
+        repeat: true
+        running: interval > 0
+        onTriggered: {
+            cpuStatFile.reload()
+        }
+    }
+    Timer {
+        id: netDevTimer
+        triggeredOnStart: true
+        interval: root.intervals[2]*1000
+        repeat: true
+        running: interval > 0
+        onTriggered: {
+            netDevFile.reload()
+        }
+    }
+    Timer {
+        id: cpuTempTimer
+        triggeredOnStart: true
+        interval: root.intervals[3]*1000
+        repeat: true
+        running: interval > 0
+        onTriggered: {
+            updateCpuTemperature()
+        }
+    }
+    Timer {
+        id: diskInfoTimer
+        triggeredOnStart: true
+        interval: root.intervals[4]*1000
+        repeat: true
+        running: interval > 0
+        onTriggered: {
+            dfProcess.running = true
         }
     }
 
@@ -105,7 +130,7 @@ Singleton {
     // Uses 'df' aka 'disk free'
     Process {
         id: dfProcess
-        command: ["df", "--output=pcent", "/"]
+        command: ["df","-BG","--output=pcent,avail","/"]
         running: false
         stdout: StdioCollector {
             onStreamFinished: {
@@ -186,9 +211,6 @@ Singleton {
                 checkNextIntelTemp()
             })
         }
-    }
-    function diskReload() {
-        dfProcess.running = true
     }
   
     // Parse memory info from /proc/meminfo

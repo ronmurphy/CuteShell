@@ -11,7 +11,6 @@ import "./decorations"
 
 Item {
     id: root
-    property Component decor: null
     property real start: 0
     property real initvalue: 0.1
     property real end: 1
@@ -19,6 +18,14 @@ Item {
     signal slidermoved
     implicitWidth: 80
     implicitHeight: 40
+
+    property Component backgroundDecor: Rectangle {
+        color:Settings.dark
+    }
+    property Component handleDecor: DecorTriangleItem {
+        clr:Settings.dark
+    }
+    
     Slider {
         id: sldr
         width:root.width
@@ -27,19 +34,20 @@ Item {
         value: root.initvalue
         to: root.end
         onMoved: root.slidermoved()
-        background: Rectangle {
-            anchors.centerIn: sldr
+        background: Loader {
+            id: loader
             width: sldr.width
             height: sldr.height/12
-            color:Settings.dark
+            anchors.centerIn: sldr
+            sourceComponent: root.backgroundDecor
         }
-        handle: DecorTriangleItem {
-            id: inprect
+
+        handle: Loader {
             x: sldr.leftPadding + (sldr.horizontal ? sldr.visualPosition * (sldr.availableWidth - width) : (sldr.availableWidth - width) / 2)
             y: sldr.topPadding + (sldr.vertical ? sldr.visualPosition * (sldr.availableHeight - height) : (sldr.availableHeight - height) / 2)
             width:root.width/3
             height:root.height/2
-            clr:Settings.dark
+            sourceComponent: root.handleDecor
         }
     }
 }

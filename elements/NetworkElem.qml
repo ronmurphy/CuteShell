@@ -138,7 +138,7 @@ BarItem {
         width: root.scaleheightmin
         height: root.scaleheightmin
         contentItem: TextItem {
-            text: Network.statusConn[0] + " " + Network.statusConn[1]
+            text: Network.statusConn[0]
         }
         onBtnclick: {
             // root.popupvisible =false
@@ -146,18 +146,14 @@ BarItem {
             Network.getNetworks = true
         }
     }
-    BarContentItem {
-        width: root.scaleheightmin
-        height: root.scaleheightmin
-        contentItem: TextItem {
-            text: "update anchors"
-        }
-        onBtnclick: {
-        }
-    }
     InputItem {
         id: input
+        scale: visible ? 1.0 : 0.1
+        Behavior on scale { 
+            ElasticBehavior  {} 
+        }
         decor: DecorTriangleItem {
+            scale: 0.7
             clr: Settings.dark
             clip: true
         }

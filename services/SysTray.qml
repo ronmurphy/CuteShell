@@ -30,21 +30,5 @@ Singleton {
             }
         }
     }
-    // onSystrayItemsChanged: {
-    //     systrayitems = []
-    //     for (const item of systrayItems) {
-    //         const icon = (item.icon || "").toLowerCase()
-    //             console.log(icon,"ASDmkldfldsk")
-
-    //         try {
-    //             systrayitems.push({
-    //                 iconsrc:  icon,
-    //             });
-    //         } catch (err) {
-    //             console.log(err)
-    //         }
-    //     }
-        
-    // }
 }
 

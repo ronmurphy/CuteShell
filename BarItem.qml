@@ -76,7 +76,7 @@ Item {
         clr: "blue"
         // scale: 0.9
         implicitWidth: itemrect1.implicitWidth
-        implicitHeight: root.scaleheightmin*0.8
+        implicitHeight: root.scaleheightmin
     }
     // property Component rectDecoration: DecorCircleItem {
     //     clr: "blue"

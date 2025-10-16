@@ -15,10 +15,10 @@ BarItem {
     popupvisible: false
 
     BarContentItem {
-        Layout.preferredWidth: root.scaleheightmin
-        Layout.preferredHeight: root.scaleheightmin
+        implicitHeight: root.scaleheightmin
+        implicitWidth: root.scaleheightmin*2
         contentItem: TextItem {
-            text: SysInfo2.cpuUsage + " " + SysInfo2.cpuTemp
+            text: SysInfo2.cpuUsage + "% " + SysInfo2.cpuTemp + "  "
         }
         onBtnclick: {
            Settings.curridx = root.indx == Settings.curridx ? -1 : root.indx
