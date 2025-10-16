@@ -11,18 +11,14 @@ import "../"
 
 BarItem {
     id:root
-    invtrngl:false
-    itemcount: 4;
     isscrollable: true;
     popupvisible: false
 
     BarContentItem {
-        Layout.preferredWidth: root.scaleheightmin
-        Layout.preferredHeight: root.scaleheightmin
-        item: Text {
+        implicitWidth: root.scaleheightmin*2
+        implicitHeight: root.scaleheightmin
+        contentItem: TextItem {
             text: SysInfo2.clockdate
-            verticalAlignment: Text.AlignVCenter
-            font.pointSize:12
         }
         onBtnclick: {
            Settings.curridx = root.indx == Settings.curridx ? -1 : root.indx

@@ -18,7 +18,7 @@ BarItem {
         implicitHeight: root.scaleheightmin
         implicitWidth: root.scaleheightmin*2
         contentItem: TextItem {
-            text: SysInfo2.memPercent
+            text: SysInfo2.memPercent + "% " + SysInfo2.memGb + " GB"
         }
         onBtnclick: {
            Settings.curridx = root.indx == Settings.curridx ? -1 : root.indx

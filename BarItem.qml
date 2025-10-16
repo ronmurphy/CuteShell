@@ -15,6 +15,7 @@ pragma ComponentBehavior: Bound
 Item {
     id: root
     property real scaleheightmin: parent.parent.scaleheightmin
+    property real defaultWidth: scaleheightmin
     property int indx: -1
     
     Component.onCompleted: {
@@ -58,20 +59,20 @@ Item {
         }
     }
 
-    // property Component borderDecoration1: null
-    property Component borderDecoration1: TriangleItem {
-        inverted:false;
-        clr:root.clr
-        implicitWidth: root.scaleheightmin/2
-        implicitHeight: root.scaleheightmin
-    }
-    // property Component borderDecoration2: null
-    property Component borderDecoration2: TriangleItem {
-        inverted:true;
-        clr:root.clr
-        implicitWidth: root.scaleheightmin/2
-        implicitHeight: root.scaleheightmin
-    }
+    property Component borderDecoration1: null
+    // property Component borderDecoration1: TriangleItem {
+    //     inverted:false;
+    //     clr:root.clr
+    //     implicitWidth: root.scaleheightmin/2
+    //     implicitHeight: root.scaleheightmin
+    // }
+    property Component borderDecoration2: null
+    // property Component borderDecoration2: TriangleItem {
+    //     inverted:true;
+    //     clr:root.clr
+    //     implicitWidth: root.scaleheightmin/2
+    //     implicitHeight: root.scaleheightmin
+    // }
     property Component rectDecoration: BorderRectItem {
         clr: "blue"
         // scale: 0.9
@@ -102,7 +103,7 @@ Item {
             sourceComponent: root.rectDecoration
         }
         implicitHeight: root.scaleheightmin
-        implicitWidth: Settings.curridx == root.indx ? itemsrow.width : root.scaleheightmin
+        implicitWidth: Settings.curridx == root.indx ? itemsrow.width : root.defaultWidth
         Popup {
             id: popup
             // x: 0
@@ -158,7 +159,7 @@ Item {
             contentHeight: root.scaleheightmin
             boundsBehavior:Flickable.DragOverBounds
             FlexboxLayout {
-                scale:0.9
+                direction: FlexboxLayout.Row 
                 id: itemsrow
             }
         }

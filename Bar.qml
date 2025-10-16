@@ -53,8 +53,8 @@ Variants {
                 CpuElem{}
                 DiskElem{}
                 AppLauncherElem{}
-                // MemoryElem{ indx: 4 }
-                // MenuElem{ indx: 5 }
+                MemoryElem{}
+                // MenuElem{}
             }
             FlexboxLayout {
                 id: center
@@ -62,8 +62,8 @@ Variants {
                 anchors.centerIn: bar
                 direction: FlexboxLayout.Row
                 height: bar.scaleheightmin
-                // NiriWindowElem{ clr: Settings.windowcolors[0]; clrtrngl: Settings.windowcolors[1]; indx: 6}
-                // CavaElem{ clr: Settings.windowcolors[0]; clrtrngl: Settings.windowcolors[1]; indx: 7}
+                NiriWindowElem{}
+                CavaElem{}
             }
             FlexboxLayout {
                 id: right
@@ -74,7 +74,7 @@ Variants {
                 NetworkElem{}
                 BatteryElem{}
                 AudioElem{}
-                // DateElem{ indx: 8}
+                DateElem{}
             }
             states: [
                 State {

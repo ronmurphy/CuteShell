@@ -108,7 +108,7 @@ Singleton {
 
                     root.windows.sort((a, b) => a.id - b.id)
                     windowListChanged()
-
+                    console.log(windowsData)
                     // Update focused window index
                     // root.focusedWindowIndex = -1
                     for (var i = 0; i < root.windows.length; i++) {
@@ -137,30 +137,36 @@ Singleton {
             onRead: data => {
                 try {
                     const event = JSON.parse(data.trim())
-
+                    console.log(event)
                     if (event.WorkspacesChanged) {
                         root.updateWorkspaces()
+                        console.log("workspace changed")
                     } else if (event.WindowOpenedOrChanged) {
-                        root.handleWindowOpenedOrChanged(event.WindowOpenedOrChanged)
-                    } else if (event.WindowClosed) {
-                        root.handleWindowClosed(event.WindowClosed)
-                    } else if (event.WindowsChanged) {
-                        root.handleWindowsChanged(event.WindowsChanged)
-                    } else if (event.WorkspaceActivated) {
-                        root.updateWorkspaces()
-                    } else if (event.WindowFocusChanged) {
-                        root.handleWindowFocusChanged(event.WindowFocusChanged)
+                        root.handlewindowopenedorchanged(event.windowopenedorchanged)
+                        console.log("window opened or ch")
+                    } else if (event.windowclosed) {
+                        root.handlewindowclosed(event.windowclosed)
+                        console.log("window closed")
+                    } else if (event.windowschanged) {
+                        root.handlewindowschanged(event.windowschanged)
+                        console.log("window changed")
+                    } else if (event.workspaceactivated) {
+                        root.updateworkspaces()
+                        console.log("worspace activated")
+                    } else if (event.windowfocuschanged) {
+                        root.handlewindowfocuschanged(event.windowfocuschanged)
+                        console.log("window focus changed")
                     }
-                    // Removed OverviewOpenedOrClosed handling
+                    // removed overviewopenedorclosed handling
                 } catch (e) {
-                    console.log("NiriService", "Error parsing event stream:", e, data)
+                    console.log("niriservice", "error parsing event stream:", e, data)
                 }
             }
         }
     }
 
   // Event handlers
-    function handleWindowOpenedOrChanged(eventData) {
+    function handlewindowopenedorchanged(eventData) {
         try {
             const windowData = eventData.window
             const existingIndex = windows.findIndex(w => w.id === windowData.id)
@@ -172,7 +178,10 @@ Singleton {
                 "workspaceId": windowData.workspace_id || null,
                 "isFocused": windowData.is_focused === true
             }
-
+                if (windowData.is_focused === true) {
+                    console.log(windowData.title)
+                    root.focusedWindowTitle = windowData.title
+                }
             if (existingIndex >= 0) {
                 // Update existing window
                 windows[existingIndex] = newWindow
@@ -229,6 +238,10 @@ Singleton {
             windows = []
 
             for (const win of windowsData) {
+                if (win.is_focused === true) {
+                    root.focusedWindowTitle = win.title
+                    console.log(win.title)
+                }
                 windows.push({
                     "id": win.id,
                     "title": win.title || "",
@@ -237,7 +250,6 @@ Singleton {
                     "isFocused": win.is_focused === true
                 })
             }
-
             windows.sort((a, b) => a.id - b.id)
             windowListChanged()
 

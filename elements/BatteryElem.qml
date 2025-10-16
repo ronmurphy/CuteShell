@@ -14,8 +14,8 @@ BarItem {
     isscrollable: true;
     popupvisible: false
     BarContentItem {
-        Layout.preferredWidth: root.scaleheightmin
-        Layout.preferredHeight: root.scaleheightmin
+        implicitWidth: root.scaleheightmin
+        implicitHeight:root.scaleheightmin
         contentItem: TextItem {
             text: Battery.batteryLevel
         }
