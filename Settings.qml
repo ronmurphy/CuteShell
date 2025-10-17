@@ -8,6 +8,7 @@ import QtQuick // for Text
 
 Singleton {
     id: root
+    property list<Item> popupItems: []
     property int barAnchor: barAnchors.TOP
     property var barAnchors: Object.freeze({
         TOP: 0,

@@ -7,6 +7,7 @@ import QtQuick.Layouts
 import QtQuick.Shapes
 import QtQml
 import "../services"
+import "../decorations"
 import "../"
 
 BarItem {
@@ -30,6 +31,13 @@ BarItem {
         to: 100
         implicitWidth:root.scaleheightmin*2
         implicitHeight:root.scaleheightmin
+    }
+    BarContentItem {
+        implicitWidth: root.scaleheightmin
+        implicitHeight:root.scaleheightmin
+        contentItem: TextItem {
+            text: "󰃟 "
+        }
     }
     SliderItem {
         implicitWidth:root.scaleheightmin*3

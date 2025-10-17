@@ -10,10 +10,11 @@ ProgressBar {
     padding: 0
     implicitWidth: 80
     implicitHeight: 40
-    property real stepScale: 0.1 
+    property real stepScale: 0.5 
 
     property Component backgroundDecor: Rectangle {
         color:Settings.dark
+        radius:root.width*0.15
     }
     property Component contentDecor: Rectangle {
         color:Settings.white
@@ -29,7 +30,9 @@ ProgressBar {
         width: root.width
         height:root.height
         Loader {
-            // anchors.centerIn: root
+            anchors.centerIn: root
+            scale:0.6
+            // anchors.margins:root.stepScale*root.width
             width:root.visualPosition * root.width
             height:root.height
             sourceComponent: root.contentDecor

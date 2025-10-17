@@ -15,21 +15,20 @@ Item {
     CircleItem {
         anchors.left: root.left
         inverted: true
-        clr: "green"
+        clr: root.clr
         width: root.height/2
         height: root.height
     }
     Rectangle {
         anchors.centerIn: root
-        color: "red"
-        // color: root.clr
+        color: root.clr
         width: root.width-root.height
         height: root.height
     }
     CircleItem {
         anchors.right: root.right
 
-        clr: "purple"
+        clr: root.clr
         inverted: false
         width: root.height/2
         height: root.height

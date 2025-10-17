@@ -29,7 +29,7 @@ BarItem {
             Layout.preferredWidth: root.scaleheightmin
             Layout.preferredHeight: root.scaleheightmin
             
-            item: Image {
+            contentItem: Image {
                 source: del.iconsrc
             }
 

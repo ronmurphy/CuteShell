@@ -15,6 +15,12 @@ Singleton {
     property string matchstr: "btop"
 
     readonly property var applications: DesktopEntries.applications.values
+    
+    function appIconByAppId(id: string): string {
+        const desktopentry = DesktopEntries.byId(id)
+        console.log(desktopentry)
+        return Quickshell.iconPath(desktopentry.icon, true)
+    }
 
     function searchApplications(query) {
         apps = []
@@ -32,6 +38,7 @@ Singleton {
                 apps.push({
                     appname:  name,
                     appicon:  Quickshell.iconPath(icon, true),
+                    // appicon2: Quickshell.,
                 });
             } catch (err) {
                 console.log(err)

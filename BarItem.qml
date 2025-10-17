@@ -17,7 +17,6 @@ Item {
     property real scaleheightmin: parent.parent.scaleheightmin
     property real defaultWidth: scaleheightmin
     property int indx: -1
-    
     Component.onCompleted: {
         indx = Settings.distributeUniqueIndex(indx)
         for (const [i,v] of root.parent.children.entries()) {
@@ -48,6 +47,9 @@ Item {
         color: root.clr
         clip:true
         radius: 12
+        Loader {
+            // sou
+        }
         ListView {
             // highlightRangeMode: ListView.StrictlyEnforceRange
             highlightRangeMode: ListView.StrictlyEnforceRange
@@ -73,9 +75,10 @@ Item {
     //     implicitWidth: root.scaleheightmin/2
     //     implicitHeight: root.scaleheightmin
     // }
-    property Component rectDecoration: BorderRectItem {
-        clr: "blue"
-        // scale: 0.9
+    property Component rectDecoration: Rectangle {
+        color: root.clr
+        border.color: Qt.darker(root.clr,1.2)
+        border.width: root.scaleheightmin*0.1
         implicitWidth: itemrect1.implicitWidth
         implicitHeight: root.scaleheightmin
     }
@@ -124,6 +127,9 @@ Item {
                 Settings.popupLoader = popuploader
                 Settings.popupOpen = !Settings.popupOpen
                 popup.height = root.scaleheightmin*3
+            }
+            Component.onCompleted: {
+                Settings.popupItems.push(popuploader)
             }
             background: null
             contentItem: null

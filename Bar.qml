@@ -26,14 +26,23 @@ Variants {
         exclusionMode: ExclusionMode.Normal
         exclusiveZone: bar.scaleheightmin
         focusable:true
-
         mask: Region {
             item: bar
             id: regions
-            Region {
-                item: Settings.popupLoader
-                intersection: Intersection.Combine
-            }
+            // Region {
+            //     item: Settings.popupItems
+            //     // item: Variants {
+            //     //     model: Settings.popupItems
+            //     //     delegate: Region {
+            //     //         required property int index
+            //     //         item: Settings.popupItems[index]
+            //     //         intersection: Intersection.Combine
+            //     //     }
+            //     // }
+
+            //     // item: Settings.popupLoader
+            //     intersection: Intersection.Combine
+            // }
         }
         Rectangle {
             id: bar
@@ -50,6 +59,7 @@ Variants {
                 direction: FlexboxLayout.Row
                 height: bar.scaleheightmin
                 // NiriWorkspaceElem{ indx: 1}
+                HyprlandWorkspaceElem{ indx: 1}
                 CpuElem{}
                 DiskElem{}
                 AppLauncherElem{}
@@ -62,7 +72,7 @@ Variants {
                 anchors.centerIn: bar
                 direction: FlexboxLayout.Row
                 height: bar.scaleheightmin
-                NiriWindowElem{}
+                HyprlandWindowElem{}
                 CavaElem{}
             }
             FlexboxLayout {
