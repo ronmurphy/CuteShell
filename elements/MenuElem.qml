@@ -17,35 +17,36 @@ BarItem {
     isscrollable: true;
     popupvisible: false
 
-    HListViewItem {
-        id:listv
-        wdth: root.width
-        hght: root.height
-        datamodel: SysTray.systrayitems
-        horizontal:true
-        delegatecmpnnt: BarContentItem {
-            id: del
-            required property string iconsrc
-            Layout.preferredWidth: root.scaleheightmin
-            Layout.preferredHeight: root.scaleheightmin
-            
-            contentItem: Image {
-                source: del.iconsrc
-            }
-
-            onBtnclick: {
-            }
-        }
-    }
     BarContentItem {
-        Layout.preferredWidth: root.scaleheightmin
-        Layout.preferredHeight: root.scaleheightmin
-        item: TextItem {
+        implicitWidth: root.scaleheightmin
+        implicitHeight: root.scaleheightmin
+        contentItem: TextItem {
             text: "Menu"
         }
         onBtnclick: {
             Settings.curridx = root.indx == Settings.curridx ? -1 : root.indx
             SysTray.systraydo()
+        }
+    }
+    ListView {
+        id:listv
+        implicitWidth: root.indx == Settings.curridx ? root.scaleheightmin*3 : root.scaleheightmin
+        implicitHeight: root.defaultWidth
+        model: SysTray.systrayItems
+        layoutDirection: Qt.LeftToRight
+        orientation: Qt.Horizontal
+        delegate: BarContentItem {
+            id: del
+            required property int index
+            implicitWidth: root.defaultWidth
+            implicitHeight: root.defaultWidth
+            
+            contentItem: Image {
+                source: SysTray.systrayItems[index].icon
+            }
+
+            onBtnclick: {
+            }
         }
     }
 }

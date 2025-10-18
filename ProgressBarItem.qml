@@ -27,10 +27,11 @@ ProgressBar {
     }
 
     contentItem: Item {
+        id: contitem
         width: root.width
         height:root.height
         Loader {
-            anchors.centerIn: root
+            anchors.centerIn: contitem
             scale:0.6
             // anchors.margins:root.stepScale*root.width
             width:root.visualPosition * root.width

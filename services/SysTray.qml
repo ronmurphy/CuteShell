@@ -12,9 +12,8 @@ import Quickshell.Services.SystemTray
 
 Singleton {
     id:root
-    property list<var> systrayitems: []
+    // property list<var> systrayitems: []
     readonly property list<SystemTrayItem> systrayItems: SystemTray.items.values
-
     function systraydo() {
         systrayitems = []
         for (const item of systrayItems) {

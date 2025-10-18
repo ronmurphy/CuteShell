@@ -26,24 +26,6 @@ Variants {
         exclusionMode: ExclusionMode.Normal
         exclusiveZone: bar.scaleheightmin
         focusable:true
-        mask: Region {
-            item: bar
-            id: regions
-            // Region {
-            //     item: Settings.popupItems
-            //     // item: Variants {
-            //     //     model: Settings.popupItems
-            //     //     delegate: Region {
-            //     //         required property int index
-            //     //         item: Settings.popupItems[index]
-            //     //         intersection: Intersection.Combine
-            //     //     }
-            //     // }
-
-            //     // item: Settings.popupLoader
-            //     intersection: Intersection.Combine
-            // }
-        }
         Rectangle {
             id: bar
             color: "white"
@@ -59,20 +41,20 @@ Variants {
                 direction: FlexboxLayout.Row
                 height: bar.scaleheightmin
                 // NiriWorkspaceElem{ indx: 1}
-                HyprlandWorkspaceElem{ indx: 1}
+                // NiriWorkspaceElem{ indx: 1}
                 CpuElem{}
                 DiskElem{}
-                AppLauncherElem{}
+                AppLauncherElem{id: applauncher}
                 MemoryElem{}
-                // MenuElem{}
+                MenuElem{}
             }
             FlexboxLayout {
                 id: center
                 objectName: "center"
-                anchors.centerIn: bar
+                anchors.horizontalCenter: bar.horizontalCenter
                 direction: FlexboxLayout.Row
                 height: bar.scaleheightmin
-                HyprlandWindowElem{}
+                // HyprlandWindowElem{}
                 CavaElem{}
             }
             FlexboxLayout {
@@ -81,7 +63,7 @@ Variants {
                 anchors.right: bar.right
                 height: bar.scaleheightmin
                 direction: FlexboxLayout.RowReverse
-                NetworkElem{}
+                NetworkElem{id: network}
                 BatteryElem{}
                 AudioElem{}
                 DateElem{}
@@ -101,6 +83,22 @@ Variants {
                 }
             ]
         }
+        // Here you define which popups have clickable areas,
+        // ideally it should work automatically but for some reason
+        // rgn.regions list is still empty after Qt.createComponent and myComponent.createObject
+        // i tried every workaround and it's still empty, but maybe it's a skill issue.
+        mask: Region {
+            item: bar
+            id: rgn
+            Region {
+                item: applauncher.popupItem
+                intersection: Intersection.Combine
+            }
+            Region {
+                item: network.popupItem
+                intersection: Intersection.Combine
+            }
+        }
         Item {
             id: itemwindow
             anchors.fill: parent
@@ -108,16 +106,14 @@ Variants {
 
         Connections {
             target: Settings
-            function onPopupOpenChanged() {
-                regions.childrenChanged()
-
+            function onPopupChanged() {
+                rgn.childrenChanged()
             }
         }
         Connections {
             target: Settings
             function onBarAnchorChanged() {
                 bar.state = Settings.isTop ? "top" : "bottom"
-                console.log("pomenay")
             }
         }
         anchors {

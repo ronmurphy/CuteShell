@@ -8,7 +8,8 @@ import QtQuick // for Text
 
 Singleton {
     id: root
-    property list<Item> popupItems: []
+    signal popupChanged
+    
     property int barAnchor: barAnchors.TOP
     property var barAnchors: Object.freeze({
         TOP: 0,
@@ -38,9 +39,6 @@ Singleton {
     property int curridx:-1 // current index for retractable elements
     property int indexDistribute // indices for retractable elements
     
-    property bool popupOpen: false
-    property Item popupLoader: null
-
     function colorPick(excludeColor: string,idx: int): string {
         const rm = idx % colors.length
         if (colors[rm] === excludeColor) {

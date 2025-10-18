@@ -36,7 +36,7 @@ Item {
     property bool isPopupEmbedded: false;
     default property alias content: itemsrow.data
     readonly property real contentWidth: itemsrow.width
-
+    property Item popupItem: popuploader
 
     // you can override default component for your own popup behavior
     property var datamodel;
@@ -47,9 +47,6 @@ Item {
         color: root.clr
         clip:true
         radius: 12
-        Loader {
-            // sou
-        }
         ListView {
             // highlightRangeMode: ListView.StrictlyEnforceRange
             highlightRangeMode: ListView.StrictlyEnforceRange
@@ -107,47 +104,6 @@ Item {
         }
         implicitHeight: root.scaleheightmin
         implicitWidth: Settings.curridx == root.indx ? itemsrow.width : root.defaultWidth
-        Popup {
-            id: popup
-            // x: 0
-            x: root.isPopupEmbedded ? 0 : root.parent.x
-            y: root.scaleheightmin
-            bottomMargin: Settings.isTop ? 0 : root.scaleheightmin
-            // y: Settings.barAnchor == Settings.barAnchor.TOP ? root.scaleheightmin : root.scaleheightmin * 2
-            height:0
-            width: itemrect1.width
-            // Behavior on height { 
-            //     ElasticBehavior  {} 
-            // }
-            onAboutToShow: {
-                Settings.popupLoader = popuploader
-                Settings.popupOpen = !Settings.popupOpen
-            }
-            onOpened: {
-                Settings.popupLoader = popuploader
-                Settings.popupOpen = !Settings.popupOpen
-                popup.height = root.scaleheightmin*3
-            }
-            Component.onCompleted: {
-                Settings.popupItems.push(popuploader)
-            }
-            background: null
-            contentItem: null
-            onAboutToHide: {
-                popup.height = 0
-            }
-            focus: true
-            modal: false
-            visible: Settings.curridx == root.indx && root.popupvisible
-            closePolicy: Popup.NoAutoClose
-            margins:0
-            padding:0
-            Loader {
-                id: popuploader
-                anchors.fill: parent
-                sourceComponent: root.popupcomponent
-            }
-        }
         Behavior on implicitWidth {
             id: bhvr
             enabled:true
@@ -173,6 +129,44 @@ Item {
     Loader {
         id: borderDecor2
         sourceComponent: root.borderDecoration2
+    }
+    Popup {
+        id: popup
+        parent: itemrect1
+        // x: 0
+        x: root.isPopupEmbedded ? 0 : root.parent.x
+        y: root.scaleheightmin
+        bottomMargin: Settings.isTop ? 0 : root.scaleheightmin
+        // y: Settings.barAnchor == Settings.barAnchor.TOP ? root.scaleheightmin : root.scaleheightmin * 2
+        height:0
+        width: itemrect1.width
+        // Behavior on height { 
+        //     ElasticBehavior  {} 
+        // }
+        onAboutToShow: {
+            // Settings.popupChanged()
+        }
+        onOpened: {
+            // Settings.popupChanged()
+            console.log("done123123")
+            popup.height = root.scaleheightmin*3
+        }
+        background: null
+        contentItem: null
+        onAboutToHide: {
+            popup.height = 0
+        }
+        focus: true
+        modal: false
+        visible: Settings.curridx == root.indx && root.popupvisible
+        closePolicy: Popup.NoAutoClose
+        margins:0
+        padding:0
+        Loader {
+            id: popuploader
+            anchors.fill: parent
+            sourceComponent: root.popupcomponent
+        }
     }
 
     states: [
