@@ -7,10 +7,14 @@ import QtQuick.Layouts
 import QtQuick.Shapes
 import QtQml
 import "../services"
+import "../items"
 import "../decorations"
+import "../animations"
 import "../"
 
-BarItem {
+pragma ComponentBehavior: Bound
+
+BarElementItem {
     id:root
     objectName:"Network"
     isscrollable: true;

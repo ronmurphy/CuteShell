@@ -7,12 +7,13 @@ import QtQuick.Layouts
 import QtQuick.Shapes
 import QtQml
 import "../services"
+import "../items"
 import "../decorations"
 import "../"
 
 pragma ComponentBehavior: Bound
 
-BarItem {
+BarElementItem {
     id:root
     objectName:"AppLauncher"
     datamodel: AppLauncher.apps;

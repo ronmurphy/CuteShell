@@ -9,7 +9,8 @@ import QtQuick // for Text
 Singleton {
     id: root
     signal popupChanged
-    
+
+
     property int barAnchor: barAnchors.TOP
     property var barAnchors: Object.freeze({
         TOP: 0,

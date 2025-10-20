@@ -8,9 +8,10 @@ import QtQuick.Layouts
 import QtQuick.Shapes
 import QtQml
 import "../services"
+import "../items"
 import "../"
 
-BarItem {
+BarElementItem {
     id:root
     isscrollable: false;
     popupvisible: false;

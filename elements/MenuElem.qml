@@ -9,10 +9,12 @@ import QtQuick.Shapes
 import Qt.labs.platform
 import QtQml
 import "../services"
+import "../items"
 import "../"
 
 pragma ComponentBehavior: Bound 
-BarItem {
+
+BarElementItem {
     id:root
     isscrollable: true;
     popupvisible: false

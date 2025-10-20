@@ -7,7 +7,9 @@ import QtQuick.Layouts
 import QtQuick.Shapes
 import QtQml
 import "./services"
-import "./decorations"
+import "./items"
+import "../decorations"
+import "../"
 
 Item {
     id: root

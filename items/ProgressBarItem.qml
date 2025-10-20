@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls.Basic
 import "./decorations"
+import "../"
 
 pragma ComponentBehavior: Bound
 
@@ -18,6 +19,7 @@ ProgressBar {
     }
     property Component contentDecor: Rectangle {
         color:Settings.white
+        radius:19
     }
     
     background: Loader {
@@ -31,7 +33,7 @@ ProgressBar {
         width: root.width
         height:root.height
         Loader {
-            anchors.centerIn: contitem
+            // anchors.centerIn: contitem
             scale:0.6
             // anchors.margins:root.stepScale*root.width
             width:root.visualPosition * root.width

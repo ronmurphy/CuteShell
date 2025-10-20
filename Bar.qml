@@ -34,6 +34,8 @@ Variants {
             property real minheight: 45
             property real scaleFactor: parent.width / Settings.scaleWidth
             property real scaleheightmin: scaleFactor*minheight
+            // here you define which bar elements will be positioned
+            // on the left, center and right respectively
             FlexboxLayout {
                 id: left
                 objectName: "left"
@@ -104,12 +106,12 @@ Variants {
             anchors.fill: parent
         }
 
-        Connections {
-            target: Settings
-            function onPopupChanged() {
-                rgn.childrenChanged()
-            }
-        }
+        // Connections {
+        //     target: Settings
+        //     function onPopupChanged() {
+        //         rgn.childrenChanged()
+        //     }
+        // }
         Connections {
             target: Settings
             function onBarAnchorChanged() {

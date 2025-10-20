@@ -9,11 +9,13 @@ import QtQuick.Shapes
 import "./elements"
 import "./services"
 import "./decorations"
+import "./animations"
 
 pragma ComponentBehavior: Bound
 
 Item {
     id: root
+    default property alias content: itemsrow.data
     property real scaleheightmin: parent.parent.scaleheightmin
     property real defaultWidth: scaleheightmin
     property int indx: -1
@@ -34,9 +36,11 @@ Item {
     property bool popupvisible: false;
     property bool isscrollable: false
     property bool isPopupEmbedded: false;
-    default property alias content: itemsrow.data
     readonly property real contentWidth: itemsrow.width
-    property Item popupItem: popuploader
+
+    property Loader popupItem: popuploader
+    property Popup popup: popup
+    // property Item popup: popuploader
 
     // you can override default component for your own popup behavior
     property var datamodel;
@@ -46,7 +50,6 @@ Item {
         anchors.fill:parent
         color: root.clr
         clip:true
-        radius: 12
         ListView {
             // highlightRangeMode: ListView.StrictlyEnforceRange
             highlightRangeMode: ListView.StrictlyEnforceRange
@@ -74,20 +77,29 @@ Item {
     // }
     property Component rectDecoration: Rectangle {
         color: root.clr
+        radius: root.scaleheightmin*0.5
         border.color: Qt.darker(root.clr,1.2)
         border.width: root.scaleheightmin*0.1
-        implicitWidth: itemrect1.implicitWidth
+        implicitWidth: mainrect.implicitWidth
         implicitHeight: root.scaleheightmin
     }
+    // property Component rectDecoration: Rectangle {
+    //     color: root.clr
+    //     radius: root.scaleheightmin*0.5
+    //     border.color: Qt.darker(root.clr,1.2)
+    //     border.width: root.scaleheightmin*0.1
+    //     implicitWidth: mainrect.implicitWidth
+    //     implicitHeight: root.scaleheightmin
+    // }
     // property Component rectDecoration: DecorCircleItem {
     //     clr: "blue"
     //     // scale: 0.9
-    //     implicitWidth: itemrect1.implicitWidth
+    //     implicitWidth: mainrect.implicitWidth
     //     implicitHeight: root.scaleheightmin*0.8
     // }
 
     implicitHeight: root.scaleheightmin
-    implicitWidth: borderDecor1.implicitWidth+itemrect1.implicitWidth+borderDecor2.implicitWidth-2
+    implicitWidth: borderDecor1.implicitWidth+mainrect.implicitWidth+borderDecor2.implicitWidth-2
 
     Loader {
         id: borderDecor1
@@ -95,7 +107,7 @@ Item {
     }
     
     Rectangle {
-        id: itemrect1
+        id: mainrect
         Loader {
             // anchors.fill : parent
             anchors.centerIn: parent
@@ -109,17 +121,16 @@ Item {
             enabled:true
             ElasticBehavior {}
         }
-        color: root.clr
+        color: "transparent"
+        // color: root.clr
         clip: true
         Flickable {
             id: flick
-            width: itemrect1.width
-            height: itemrect1.height
+            width: mainrect.width
+            height: mainrect.height
             interactive:root.isscrollable
-            focus:true
             contentWidth: itemsrow.width
             contentHeight: root.scaleheightmin
-            boundsBehavior:Flickable.DragOverBounds
             FlexboxLayout {
                 direction: FlexboxLayout.Row 
                 id: itemsrow
@@ -132,14 +143,14 @@ Item {
     }
     Popup {
         id: popup
-        parent: itemrect1
+        parent: mainrect
         // x: 0
         x: root.isPopupEmbedded ? 0 : root.parent.x
         y: root.scaleheightmin
         bottomMargin: Settings.isTop ? 0 : root.scaleheightmin
         // y: Settings.barAnchor == Settings.barAnchor.TOP ? root.scaleheightmin : root.scaleheightmin * 2
         height:0
-        width: itemrect1.width
+        width: mainrect.width
         // Behavior on height { 
         //     ElasticBehavior  {} 
         // }
@@ -148,7 +159,6 @@ Item {
         }
         onOpened: {
             // Settings.popupChanged()
-            console.log("done123123")
             popup.height = root.scaleheightmin*3
         }
         background: null
@@ -168,7 +178,6 @@ Item {
             sourceComponent: root.popupcomponent
         }
     }
-
     states: [
         State {
             name: "full"
@@ -176,7 +185,7 @@ Item {
                 target: borderDecor1; anchors.left: root.left
             }
             AnchorChanges {
-                target: itemrect1; anchors.horizontalCenter: root.horizontalCenter
+                target: mainrect; anchors.horizontalCenter: root.horizontalCenter
             }
             AnchorChanges {
                 target: borderDecor2; anchors.right: root.right
@@ -188,7 +197,7 @@ Item {
                 target: borderDecor1; anchors.left: root.left
             }
             AnchorChanges {
-                target: itemrect1; anchors.right: root.right
+                target: mainrect; anchors.right: root.right
             }
         },
         State {
@@ -197,13 +206,13 @@ Item {
                 target: borderDecor2; anchors.right: root.right
             }
             AnchorChanges {
-                target: itemrect1; anchors.left: root.left
+                target: mainrect; anchors.left: root.left
             }
         },
         State {
             name: "none"
             AnchorChanges {
-                target: itemrect1; anchors.top: root; anchors.bottom: root;
+                target: mainrect; anchors.top: root; anchors.bottom: root;
                     anchors.right: root; anchors.left: root;
             }
         }

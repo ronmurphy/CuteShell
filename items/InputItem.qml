@@ -6,7 +6,7 @@ import Quickshell.Widgets
 import QtQuick.Layouts
 import QtQuick.Shapes
 import QtQml
-
+import "../"
 
 Rectangle {
     id:root
@@ -43,7 +43,7 @@ Rectangle {
         focus: true
         activeFocusOnPress: true
         activeFocusOnTab: true
-        color: root.textColor
+        color: root.textClr
         selectByMouse: true
         text: "S"
         font.pixelSize:20

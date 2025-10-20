@@ -8,6 +8,7 @@ import QtQuick.Layouts
 import QtQuick.Shapes
 import QtQml
 
+import "../"
 
 Text {
     id:root
