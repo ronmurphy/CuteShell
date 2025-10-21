@@ -40,7 +40,6 @@ Item {
 
     property Loader popupItem: popuploader
     property Popup popup: popup
-    // property Item popup: popuploader
 
     // you can override default component for your own popup behavior
     property var datamodel;
@@ -61,36 +60,20 @@ Item {
         }
     }
 
-    property Component borderDecoration1: null
-    // property Component borderDecoration1: TriangleItem {
-    //     inverted:false;
-    //     clr:root.clr
-    //     implicitWidth: root.scaleheightmin/2
-    //     implicitHeight: root.scaleheightmin
-    // }
-    property Component borderDecoration2: null
-    // property Component borderDecoration2: TriangleItem {
-    //     inverted:true;
-    //     clr:root.clr
-    //     implicitWidth: root.scaleheightmin/2
-    //     implicitHeight: root.scaleheightmin
-    // }
-    property Component rectDecoration: Rectangle {
-        color: root.clr
-        radius: root.scaleheightmin*0.5
-        border.color: Qt.darker(root.clr,1.2)
-        border.width: root.scaleheightmin*0.1
-        implicitWidth: mainrect.implicitWidth
+    // property Component borderDecoration1: null
+    property Component borderDecoration1: CircleItem {
+        inverted:true;
+        clr:root.clr
+        implicitWidth: root.scaleheightmin/2
         implicitHeight: root.scaleheightmin
     }
-    // property Component rectDecoration: Rectangle {
-    //     color: root.clr
-    //     radius: root.scaleheightmin*0.5
-    //     border.color: Qt.darker(root.clr,1.2)
-    //     border.width: root.scaleheightmin*0.1
-    //     implicitWidth: mainrect.implicitWidth
-    //     implicitHeight: root.scaleheightmin
-    // }
+    // property Component borderDecoration2: null
+    property Component borderDecoration2: CircleItem {
+        inverted:false;
+        clr:root.clr
+        implicitWidth: root.scaleheightmin/2
+        implicitHeight: root.scaleheightmin
+    }
     // property Component rectDecoration: DecorCircleItem {
     //     clr: "blue"
     //     // scale: 0.9
@@ -109,10 +92,14 @@ Item {
     Rectangle {
         id: mainrect
         Loader {
-            // anchors.fill : parent
+            anchors.fill : parent
             anchors.centerIn: parent
             id: rectDecor
-            sourceComponent: root.rectDecoration
+            // sourceComponent: root.rectDecoration
+            Component.onCompleted: {
+                rectDecor.setSource(Settings.decorComponents[0],
+                Object.assign({},{"colors": [root.clr]},Settings.decorProperties[0]));
+            }
         }
         implicitHeight: root.scaleheightmin
         implicitWidth: Settings.curridx == root.indx ? itemsrow.width : root.defaultWidth

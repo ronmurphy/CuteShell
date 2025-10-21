@@ -9,7 +9,7 @@ import QtQuick.Shapes
 import QtQml
 
 
-Rectangle {
+GenericDecorItem {
     id: root
     property color clr: "blue"
     property bool inverted: false

@@ -24,7 +24,7 @@ Item {
     property Component backgroundDecor: Rectangle {
         color:Settings.dark
     }
-    property Component handleDecor: DecorTriangleItem {
+    property Component handleDecor: RectTriangleItem {
         clr:Settings.dark
     }
     

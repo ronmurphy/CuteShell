@@ -7,29 +7,32 @@ import QtQuick.Layouts
 import QtQuick.Shapes
 import QtQml
 
-Item {
+GenericDecorItem {
     id: root
     implicitWidth: 120
     implicitHeight: 40
     property color clr: "blue"
-    TriangleItem {
+    color: "transparent"
+    CircleItem {
         anchors.left: root.left
+        inverted: true
+        clr: root.clr
         width: root.height/2
         height: root.height
-        inverted: false
-        clr: root.clr
     }
     Rectangle {
         anchors.centerIn: root
         color: root.clr
-        width: root.width-root.height+1
+        width: root.width-root.height
         height: root.height
     }
-    TriangleItem {
+    CircleItem {
         anchors.right: root.right
+
+        clr: root.clr
+        inverted: false
         width: root.height/2
         height: root.height
-        inverted: true
-        clr: root.clr
     }
 }
+

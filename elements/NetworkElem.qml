@@ -37,7 +37,7 @@ BarElementItem {
         property bool inputEnabled: false
         implicitWidth: root.contentWidth
         implicitHeight: root.scaleheightmin
-        decor: DecorTriangleItem {
+        decor: RectTriangleItem {
             clr: Settings.colorPick(root.clr,del.index)
         }
 
@@ -93,7 +93,7 @@ BarElementItem {
                 width: del.width * 0.5
                 height: del.height
                 anchors.horizontalCenter: parent.horizontalCenter
-                decor: DecorTriangleItem {
+                decor: RectTriangleItem {
                     clr: Settings.dark
                 }
             }
@@ -156,7 +156,7 @@ BarElementItem {
         Behavior on scale { 
             ElasticBehavior  {} 
         }
-        decor: DecorTriangleItem {
+        decor: RectTriangleItem {
             scale: 0.7
             clr: Settings.dark
             clip: true

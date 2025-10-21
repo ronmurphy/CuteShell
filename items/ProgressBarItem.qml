@@ -1,7 +1,16 @@
 import QtQuick
 import QtQuick.Controls.Basic
-import "./decorations"
+import Quickshell // for PanelWindow
+import Quickshell.Io
+import QtQuick.Controls
+import QtQuick.Layouts
+import Quickshell.Widgets
+import Quickshell.Wayland
+import QtQuick.Shapes
+import "../decorations"
+import "../animations"
 import "../"
+
 
 pragma ComponentBehavior: Bound
 
@@ -34,7 +43,7 @@ ProgressBar {
         height:root.height
         Loader {
             // anchors.centerIn: contitem
-            scale:0.6
+            scale:0.8
             // anchors.margins:root.stepScale*root.width
             width:root.visualPosition * root.width
             height:root.height

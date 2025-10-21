@@ -57,6 +57,7 @@ Variants {
                 direction: FlexboxLayout.Row
                 height: bar.scaleheightmin
                 // HyprlandWindowElem{}
+                NiriWindowElem{}
                 CavaElem{}
             }
             FlexboxLayout {

@@ -28,7 +28,7 @@ BarElementItem {
         required property int index
         implicitWidth: root.contentWidth
         implicitHeight: root.scaleheightmin
-        decor: DecorTriangleItem {
+        decor: RectTriangleItem {
             clr: Settings.colorPick(root.clr,del.index)
         }
         BarContentItem {
@@ -71,6 +71,7 @@ BarElementItem {
         }
         onBtnclick: {
             Settings.changeBarState()
+            Settings.MainRectangleItem = Settings.components[1]
             Settings.curridx = root.indx == Settings.curridx ? -1 : root.indx
             root.inputactive = false
             root.popupvisible = false
@@ -91,7 +92,7 @@ BarElementItem {
 
     InputItem {
         id: input
-        decor: DecorTriangleItem {
+        decor: RectTriangleItem {
             clr: Settings.dark
         }
         visible: root.inputactive
