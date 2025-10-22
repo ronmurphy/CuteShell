@@ -11,18 +11,17 @@ GenericDecorItem {
     id: root
     implicitWidth: 120
     implicitHeight: 40
-    property color clr: "blue"
-    color: "transparent"
+    color: colors[0]
     TriangleItem {
         anchors.left: root.left
         width: root.height/2
         height: root.height
         inverted: false
-        clr: root.clr
+        clr: root.colors[1]
     }
     Rectangle {
         anchors.centerIn: root
-        color: root.clr
+        color: root.colors[1]
         width: root.width-root.height+1
         height: root.height
     }
@@ -31,6 +30,6 @@ GenericDecorItem {
         width: root.height/2
         height: root.height
         inverted: true
-        clr: root.clr
+        clr: root.colors[1]
     }
 }

@@ -17,16 +17,14 @@ GenericDecorItem {
     color: "transparent"
     Shape {
         anchors.fill: root
-
+        preferredRendererType:Shape.CurveRenderer
         ShapePath {
             fillColor: root.clr
             // strokeColor: "darkBlue"
             strokeWidth: -1
             // capStyle: ShapePath.FlatCap
-
             PathAngleArc {
                 centerY: root.height/2
-
                 centerX: root.inverted ? root.height/2 : 0
 
                 radiusX: root.height/2; radiusY: root.height/2

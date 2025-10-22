@@ -33,15 +33,15 @@ BarElementItem {
     ListView {
         id:listv
         implicitWidth: root.indx == Settings.curridx ? root.scaleheightmin*3 : root.scaleheightmin
-        implicitHeight: root.defaultWidth
+        implicitHeight: root.scaleheightmin
         model: SysTray.systrayItems
         layoutDirection: Qt.LeftToRight
         orientation: Qt.Horizontal
         delegate: BarContentItem {
             id: del
             required property int index
-            implicitWidth: root.defaultWidth
-            implicitHeight: root.defaultWidth
+            implicitWidth: root.scaleheightmin
+            implicitHeight: root.scaleheightmin
             
             contentItem: Image {
                 source: SysTray.systrayItems[index].icon

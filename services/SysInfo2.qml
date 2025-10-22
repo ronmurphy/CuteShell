@@ -13,6 +13,7 @@ Singleton {
     property real memGb: 0
     property real memPercent: 0
     property real diskPercent: 0
+    property real diskAvail: 0
     property real rxSpeed: 0
     property real txSpeed: 0
 
@@ -24,7 +25,7 @@ Singleton {
     property int cpuStatInterval:intervals[2]
     property int netDevInterval:intervals[3]
     property int cpuTempInterval:intervals[4]
-    property int diskInfoInterval:intervals[6]
+    property int diskInfoInterval:intervals[1]
     
     property var intervals: [0,1,2,5,10,30,60] // intervals in seconds
 
@@ -135,10 +136,14 @@ Singleton {
         stdout: StdioCollector {
             onStreamFinished: {
                     const lines = text.trim().split('\n')
-                    if (lines.length >= 2) {
-                    const percent = lines[1].replace(/[^0-9]/g, '')
-                    root.diskPercent = parseInt(percent) || 0
-                }
+                    // if (lines.length >= 2) {
+                    // const percent = lines[0].replace(/[^0-9]/g, '')
+                    // const avail = lines[1].replace(/[^0-9]/g, '')
+                    lines = text.trim().split(' ')
+                    console.log(lines[1],lines[2])
+                    root.diskPercent = parseInt(lines[1]) || 0
+                    root.diskAvail = parseInt(lines[1]) || 0
+                // }
             }
         }
     }

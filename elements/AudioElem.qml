@@ -20,13 +20,8 @@ BarElementItem {
         id: barContent1
         implicitWidth:root.scaleheightmin
         implicitHeight:root.scaleheightmin
-        contentItem: Text {
+        contentItem: TextItem {
             text: Math.round(Audio.volume*100)
-            verticalAlignment: Text.AlignVCenter
-
-            horizontalAlignment: Text.AlignHCenter
-            font.pointSize:12
-            clip:true
         }
         onBtnclick: {
                 Settings.curridx = root.indx == Settings.curridx ? -1 : root.indx

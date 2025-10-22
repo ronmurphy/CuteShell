@@ -28,10 +28,10 @@ Variants {
         focusable:true
         Rectangle {
             id: bar
-            color: "white"
+            color: "transparent"
             width: parent.width
             height: scaleheightmin
-            property real minheight: 45
+            property real minheight: 50
             property real scaleFactor: parent.width / Settings.scaleWidth
             property real scaleheightmin: scaleFactor*minheight
             // here you define which bar elements will be positioned
@@ -43,7 +43,7 @@ Variants {
                 direction: FlexboxLayout.Row
                 height: bar.scaleheightmin
                 // NiriWorkspaceElem{ indx: 1}
-                // NiriWorkspaceElem{ indx: 1}
+                NiriWorkspaceElem{}
                 CpuElem{}
                 DiskElem{}
                 AppLauncherElem{id: applauncher}

@@ -19,7 +19,9 @@ BarElementItem {
         implicitWidth: root.defaultWidth
         implicitHeight: root.scaleheightmin
         contentItem: TextItem {
-            // implicitSize: root.scaleheightmin
+            font.pointSize:12
+            elide: Text.ElideRight
+            fontSizeMode: Text.VerticalFit
             text: NiriFinal.currentWindowTitle
         }
         onBtnclick: {

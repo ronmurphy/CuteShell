@@ -28,8 +28,7 @@ Singleton {
 
     property bool hasInitialConnection: false
 
-    signal windowUrgentChanged()
-
+    signal windowUrgentChanged
     DankSocket {
         id: eventStreamSocket
         path: root.socketPath
@@ -65,7 +64,7 @@ Singleton {
         switch (eventType) {
         case 'WorkspacesChanged':
             handleWorkspacesChanged(event.WorkspacesChanged)
-            console.log("Workspaces changed")
+            console.log("Workspaces changed",root.allWorkspaces[0].id)
             break
         case 'WorkspaceActivated':
             console.log("Workspace activated")
@@ -75,13 +74,25 @@ Singleton {
             console.log("Workspace active window changed")
             handleWorkspaceActiveWindowChanged(event.WorkspaceActiveWindowChanged)
             break
+        case 'WorkspaceActiveWindowChanged':
+            console.log("Workspace active window changed")
+            handleWorkspaceActiveWindowChanged(event.WorkspaceActiveWindowChanged)
+            break
+        case 'WindowFocusChanged':
+            console.log("Windows changed")
+            currentWindowTitle = windows.find(p => p.id === event.WindowFocusChanged.id).title
+            break
         case 'WindowsChanged':
+            console.log("Windows changed")
             windows = sortWindowsByLayout(event.WindowsChanged.windows)
+            currentWindowTitle = windows.find(p => p.is_focused).title
             break
         case 'WindowOpenedOrChanged':
+            console.log("Window opened or changed")
             handleWindowOpenedOrChanged(event.WindowOpenedOrChanged)
             break
         case 'WindowClosed':
+            console.log("window closed")
             windows = windows.filter(w => w.id !== event.WindowClosed.id)
             break
         case 'OverviewOpenedOrClosed':
@@ -116,12 +127,11 @@ Singleton {
             const updatedWindows = [...windows]
             updatedWindows[existingIndex] = window
             windows = sortWindowsByLayout(updatedWindows)
-            currentWindowTitle = windows[existingIndex].title
+            currentWindowTitle = windows.find(p => p.is_focused).title
             return
         }
 
         windows = sortWindowsByLayout([...windows, window])
-        currentWindowTitle = windows[existingIndex].title
     }
 
     function handleWorkspacesChanged(data) {
@@ -142,7 +152,7 @@ Singleton {
             focusedWorkspaceIndex = 0
             focusedWorkspaceId = ""
         }
-
+        workspacesChanged()
     }
 
     function handleWorkspaceActivated(data) {
@@ -167,13 +177,7 @@ Singleton {
 
         focusedWorkspaceId = data.id
         focusedWorkspaceIndex = allWorkspaces.findIndex(w => w.id === data.id)
-        const activewindowid = allWorkspaces[focusedWorkspaceIndex].active_window_id
-
         allWorkspaces = Object.values(root.workspaces).sort((a, b) => a.idx - b.idx)
-        
-        const windowidx = windows.findIndex(w => w.id === activewindowid)
-        currentWindowTitle = windows[windowidx].title
-
         workspacesChanged()
     }
 
@@ -186,6 +190,7 @@ Singleton {
 
             for (let prop in w) {
                 updatedWindow[prop] = w[prop]
+                
             }
 
             if (data.active_window_id !== null && data.active_window_id !== undefined) {
@@ -193,13 +198,11 @@ Singleton {
             } else {
                 updatedWindow.is_focused = w.workspace_id == data.workspace_id ? false : w.is_focused
             }
-            if (updatedWindow.is_focused) {
-                currentWindowTitle = updatedWindow.title
-            }
             updatedWindows.push(updatedWindow)
         }
 
         windows = updatedWindows
+        currentWindowTitle = windows.find(p => p.is_focused).title
     }
 
 
@@ -239,7 +242,6 @@ Singleton {
     function powerOffMonitors() {
         return send({"Action": {"PowerOffMonitors": {}}})
     }
-
     function powerOnMonitors() {
         return send({"Action": {"PowerOnMonitors": {}}})
     }
@@ -257,6 +259,11 @@ Singleton {
             return allWorkspaces[focusedWorkspaceIndex].idx + 1
         }
         return 1
+    }
+
+    function findWorkspaceIndexById(id: int): int {
+        const index = allWorkspaces.findIndex(w => w.id === id)
+        return index
     }
 
     function getCurrentKeyboardLayoutName() {

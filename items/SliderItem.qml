@@ -25,7 +25,7 @@ Item {
         color:Settings.dark
     }
     property Component handleDecor: RectTriangleItem {
-        clr:Settings.dark
+        colors: ["transparent",Settings.colorPick(root.clr,del.index)]
     }
     
     Slider {

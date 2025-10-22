@@ -14,5 +14,6 @@ Rectangle {
     implicitWidth: 80
     property list<color> colors: ["transparent","red","green","blue"]
     color: colors[0]
+
 }
 

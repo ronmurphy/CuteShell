@@ -11,7 +11,7 @@ import "../"
 
 pragma ComponentBehavior: Bound
 
-BarItem {
+BarElementItem {
     id:root
     isscrollable: true;
     popupvisible: false;
@@ -30,7 +30,7 @@ BarItem {
     ListView {
         id:listv
         implicitWidth: root.indx == Settings.curridx ? root.scaleheightmin*3 : root.scaleheightmin
-        implicitHeight: root.defaultWidth
+        implicitHeight: root.scaleheightmin
         layoutDirection: Qt.LeftToRight
         orientation: Qt.Horizontal
         model: Hyprland.workspaces
@@ -38,7 +38,7 @@ BarItem {
             id: del
             required property string id;
             implicitWidth: root.defaultWidth
-            implicitHeight: root.defaultWidth
+            implicitHeight: root.scaleheightmin
             
             contentItem: TextItem {
                 text: id

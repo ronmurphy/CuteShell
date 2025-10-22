@@ -15,13 +15,27 @@ pragma ComponentBehavior: Bound
 
 BarElementItem {
     id:root
-    objectName:"AppLauncher"
-    datamodel: AppLauncher.apps;
     isscrollable: true;
     popupvisible: false
     isPopupEmbedded: true
     property bool inputactive: false
-    delegatecmpnnt: ListDelegateItem {
+    
+    popupComponent: Rectangle {
+        id: rectpop
+        anchors.fill:parent
+        color: root.clr
+        clip:true
+        ListView {
+            // highlightRangeMode: ListView.StrictlyEnforceRange
+            highlightRangeMode: ListView.StrictlyEnforceRange
+            anchors.fill: parent
+            model: AppLauncher.apps
+            contentWidth: root.scaleheightmin
+            contentHeight: root.height
+            delegate: root.delegateComponent
+        }
+    }
+    property Component delegateComponent: ListDelegateItem {
         id: del
         required property string appname;
         required property string appicon;
@@ -29,7 +43,7 @@ BarElementItem {
         implicitWidth: root.contentWidth
         implicitHeight: root.scaleheightmin
         decor: RectTriangleItem {
-            clr: Settings.colorPick(root.clr,del.index)
+            colors: ["transparent",Settings.colorPick(root.clr,del.index)]
         }
         BarContentItem {
             id: barcnt
@@ -71,10 +85,9 @@ BarElementItem {
         }
         onBtnclick: {
             Settings.changeBarState()
-            Settings.MainRectangleItem = Settings.components[1]
             Settings.curridx = root.indx == Settings.curridx ? -1 : root.indx
-            root.inputactive = false
-            root.popupvisible = false
+            // root.inputactive = false
+            // root.popupvisible = false
         }
     }
 
@@ -93,7 +106,7 @@ BarElementItem {
     InputItem {
         id: input
         decor: RectTriangleItem {
-            clr: Settings.dark
+            colors: ["transparent",Settings.colorPick(root.clr,del.index)]
         }
         visible: root.inputactive
         implicitWidth:root.scaleheightmin*5

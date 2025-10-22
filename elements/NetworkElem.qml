@@ -19,8 +19,12 @@ BarElementItem {
     objectName:"Network"
     isscrollable: true;
     popupvisible: true
-    datamodel: Network.wifinetworks;
     
+    Component.onCompleted: {
+        popup.parent = flick    
+        popup.width = flick.width
+    }
+
     property bool inputEnabled: false
     property int selectedConn: -1
     function selectstatus(idx: string): string {
@@ -29,7 +33,23 @@ BarElementItem {
         Network.selected[1] == Network.state.PENDING ? " ": " "
     }
         
-    delegatecmpnnt: ListDelegateItem {
+    popupComponent: Rectangle {
+        id: rectpop
+        anchors.fill:parent
+        color: root.clr
+        clip:true
+        ListView {
+            // highlightRangeMode: ListView.StrictlyEnforceRange
+            highlightRangeMode: ListView.StrictlyEnforceRange
+            anchors.fill: parent
+            model: Network.wifinetworks
+            contentWidth: root.scaleheightmin
+            contentHeight: root.height
+            delegate: root.delegateComponent
+        }
+    }
+
+    property Component delegateComponent: ListDelegateItem {
         id:del
         required property string ssid; required property bool profileExist;
         required property string bars; required property string security;
@@ -38,7 +58,7 @@ BarElementItem {
         implicitWidth: root.contentWidth
         implicitHeight: root.scaleheightmin
         decor: RectTriangleItem {
-            clr: Settings.colorPick(root.clr,del.index)
+            colors: ["transparent",Settings.colorPick(root.clr,del.index)]
         }
 
         BarContentItem {
@@ -94,7 +114,7 @@ BarElementItem {
                 height: del.height
                 anchors.horizontalCenter: parent.horizontalCenter
                 decor: RectTriangleItem {
-                    clr: Settings.dark
+                    colors: ["transparent",Settings.colorPick(root.clr,del.index)]
                 }
             }
             Item {
@@ -139,8 +159,8 @@ BarElementItem {
     }
 
     BarContentItem {
-        width: root.scaleheightmin
-        height: root.scaleheightmin
+        implicitWidth:root.scaleheightmin
+        implicitHeight:root.scaleheightmin
         contentItem: TextItem {
             text: Network.statusConn[0]
         }
@@ -158,7 +178,7 @@ BarElementItem {
         }
         decor: RectTriangleItem {
             scale: 0.7
-            clr: Settings.dark
+            colors: ["transparent",Settings.colorPick(root.clr,del.index)]
             clip: true
         }
         visible: root.inputactive
