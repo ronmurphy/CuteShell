@@ -13,13 +13,10 @@ import "../"
 
 BarElementItem {
     id:root
-    isscrollable: true;
-    popupvisible: false
-
     BarContentItem {
         id: barContent1
-        implicitWidth:root.scaleheightmin
-        implicitHeight:root.scaleheightmin
+        implicitWidth:root.scaleHeightMin
+        implicitHeight:root.scaleHeightMin
         contentItem: TextItem {
             text: Math.round(Audio.volume*100)
         }
@@ -28,8 +25,8 @@ BarElementItem {
         }
     }
     SliderItem {
-        implicitWidth:root.scaleheightmin*3
-        implicitHeight:root.scaleheightmin
+        implicitWidth:root.scaleHeightMin*3
+        implicitHeight:root.scaleHeightMin
         id: sld
         start: 0
         initvalue: 0.3

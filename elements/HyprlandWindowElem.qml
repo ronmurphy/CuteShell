@@ -11,12 +11,10 @@ import "../"
 
 BarItem {
     id:root
-    isscrollable: false;
-    popupvisible: false;
-    defaultWidth: scaleheightmin*3
+    defaultWidth: scaleHeightMin*3
     BarContentItem {
         implicitWidth: root.defaultWidth
-        implicitHeight: root.scaleheightmin
+        implicitHeight: root.scaleHeightMin
         contentItem: TextItem {
             font.pointSize:12
             elide: Text.ElideRight

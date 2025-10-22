@@ -12,12 +12,9 @@ import "../"
 
 BarElementItem {
     id:root
-    isscrollable: true;
-    popupvisible: false
-
     BarContentItem {
-        implicitHeight: root.scaleheightmin
-        implicitWidth: root.scaleheightmin*2
+        implicitHeight: root.scaleHeightMin
+        implicitWidth: root.scaleHeightMin*2
         contentItem: TextItem {
             text: SysInfo2.memPercent + "% " + SysInfo2.memGb + " GB"
         }

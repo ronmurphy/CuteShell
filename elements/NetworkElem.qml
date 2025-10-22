@@ -17,8 +17,6 @@ pragma ComponentBehavior: Bound
 BarElementItem {
     id:root
     objectName:"Network"
-    isscrollable: true;
-    popupvisible: true
     
     Component.onCompleted: {
         popup.parent = flick    
@@ -43,7 +41,7 @@ BarElementItem {
             highlightRangeMode: ListView.StrictlyEnforceRange
             anchors.fill: parent
             model: Network.wifinetworks
-            contentWidth: root.scaleheightmin
+            contentWidth: root.scaleHeightMin
             contentHeight: root.height
             delegate: root.delegateComponent
         }
@@ -56,7 +54,7 @@ BarElementItem {
         required property int index
         property bool inputEnabled: false
         implicitWidth: root.contentWidth
-        implicitHeight: root.scaleheightmin
+        implicitHeight: root.scaleHeightMin
         decor: RectTriangleItem {
             colors: ["transparent",Settings.colorPick(root.clr,del.index)]
         }
@@ -159,13 +157,13 @@ BarElementItem {
     }
 
     BarContentItem {
-        implicitWidth:root.scaleheightmin
-        implicitHeight:root.scaleheightmin
+        implicitWidth:root.scaleHeightMin
+        implicitHeight:root.scaleHeightMin
         contentItem: TextItem {
             text: Network.statusConn[0]
         }
         onBtnclick: {
-            // root.popupvisible =false
+            // root.isPopupVisible =false
                 Settings.curridx = root.indx == Settings.curridx ? -1 : root.indx
             Network.getNetworks = true
         }
@@ -182,7 +180,7 @@ BarElementItem {
             clip: true
         }
         visible: root.inputactive
-        implicitWidth:root.scaleheightmin*5
-        implicitHeight:root.scaleheightmin
+        implicitWidth:root.scaleHeightMin*5
+        implicitHeight:root.scaleHeightMin
     }
 }

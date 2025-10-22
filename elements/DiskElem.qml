@@ -12,17 +12,14 @@ import "../"
 
 BarElementItem {
     id:root
-    isscrollable: true;
-    popupvisible: false
-
     BarContentItem {
-        Layout.preferredWidth: root.scaleheightmin
-        Layout.preferredHeight: root.scaleheightmin
+        implicitWidth: root.scaleHeightMin
+        implicitHeight: root.scaleHeightMin
         contentItem: TextItem {
             text: SysInfo2.diskPercent + " " +SysInfo2.diskAvail
         }
         onBtnclick: {
-           Settings.curridx = root.indx == Settings.curridx ? -1 : root.indx
+           Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
         }
     }
 }

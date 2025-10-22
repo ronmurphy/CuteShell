@@ -24,16 +24,16 @@ Variants {
         visible: true
         color: "transparent"
         exclusionMode: ExclusionMode.Normal
-        exclusiveZone: bar.scaleheightmin
+        exclusiveZone: bar.scaleHeightMin
         focusable:true
         Rectangle {
             id: bar
             color: "transparent"
             width: parent.width
-            height: scaleheightmin
+            height: scaleHeightMin
             property real minheight: 50
             property real scaleFactor: parent.width / Settings.scaleWidth
-            property real scaleheightmin: scaleFactor*minheight
+            property real scaleHeightMin: scaleFactor*minheight
             // here you define which bar elements will be positioned
             // on the left, center and right respectively
             FlexboxLayout {
@@ -41,9 +41,9 @@ Variants {
                 objectName: "left"
                 anchors.left: bar.left
                 direction: FlexboxLayout.Row
-                height: bar.scaleheightmin
-                // NiriWorkspaceElem{ indx: 1}
+                height: bar.scaleHeightMin
                 NiriWorkspaceElem{}
+                // HyprlandWorkspaceElem{}
                 CpuElem{}
                 DiskElem{}
                 AppLauncherElem{id: applauncher}
@@ -55,7 +55,7 @@ Variants {
                 objectName: "center"
                 anchors.horizontalCenter: bar.horizontalCenter
                 direction: FlexboxLayout.Row
-                height: bar.scaleheightmin
+                height: bar.scaleHeightMin
                 // HyprlandWindowElem{}
                 NiriWindowElem{}
                 CavaElem{}
@@ -64,7 +64,7 @@ Variants {
                 id: right
                 objectName: "right"
                 anchors.right: bar.right
-                height: bar.scaleheightmin
+                height: bar.scaleHeightMin
                 direction: FlexboxLayout.RowReverse
                 NetworkElem{id: network}
                 BatteryElem{}

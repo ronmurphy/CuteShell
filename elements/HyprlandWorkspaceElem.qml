@@ -13,9 +13,6 @@ pragma ComponentBehavior: Bound
 
 BarElementItem {
     id:root
-    isscrollable: true;
-    popupvisible: false;
-
     Connections {
         target: Hyprland
         function onWorkspacesChanged() {
@@ -29,8 +26,8 @@ BarElementItem {
     }
     ListView {
         id:listv
-        implicitWidth: root.indx == Settings.curridx ? root.scaleheightmin*3 : root.scaleheightmin
-        implicitHeight: root.scaleheightmin
+        implicitWidth: root.indx == Settings.curridx ? root.scaleHeightMin*3 : root.scaleHeightMin
+        implicitHeight: root.scaleHeightMin
         layoutDirection: Qt.LeftToRight
         orientation: Qt.Horizontal
         model: Hyprland.workspaces
@@ -38,7 +35,7 @@ BarElementItem {
             id: del
             required property string id;
             implicitWidth: root.defaultWidth
-            implicitHeight: root.scaleheightmin
+            implicitHeight: root.scaleHeightMin
             
             contentItem: TextItem {
                 text: id

@@ -15,9 +15,7 @@ pragma ComponentBehavior: Bound
 
 BarElementItem {
     id:root
-    isscrollable: true;
-    popupvisible: false
-    isPopupEmbedded: true
+    isPopupVisible: false
     property bool inputactive: false
     
     popupComponent: Rectangle {
@@ -30,7 +28,7 @@ BarElementItem {
             highlightRangeMode: ListView.StrictlyEnforceRange
             anchors.fill: parent
             model: AppLauncher.apps
-            contentWidth: root.scaleheightmin
+            contentWidth: root.scaleHeightMin
             contentHeight: root.height
             delegate: root.delegateComponent
         }
@@ -41,14 +39,14 @@ BarElementItem {
         required property string appicon;
         required property int index
         implicitWidth: root.contentWidth
-        implicitHeight: root.scaleheightmin
+        implicitHeight: root.scaleHeightMin
         decor: RectTriangleItem {
             colors: ["transparent",Settings.colorPick(root.clr,del.index)]
         }
         BarContentItem {
             id: barcnt
             implicitWidth: root.contentWidth
-            implicitHeight: root.scaleheightmin
+            implicitHeight: root.scaleHeightMin
             scale:0.9
             contentItem: Item {
                 id:rl
@@ -78,27 +76,27 @@ BarElementItem {
     }
     
     BarContentItem {
-        implicitSize:root.scaleheightmin
+        implicitSize:root.scaleHeightMin
         contentItem: TextItem {
-            // implicitSize: root.scaleheightmin
+            // implicitSize: root.scaleHeightMin
             text: "󰀻"
         }
         onBtnclick: {
             Settings.changeBarState()
             Settings.curridx = root.indx == Settings.curridx ? -1 : root.indx
             // root.inputactive = false
-            // root.popupvisible = false
+            // root.isPopupVisible = false
         }
     }
 
     BarContentItem {
         visible: !root.inputactive
-        implicitSize:root.scaleheightmin
+        implicitSize:root.scaleHeightMin
         contentItem: TextItem {
             text: ""
         }
         onBtnclick: {
-            root.popupvisible = true
+            root.isPopupVisible = true
             root.inputactive = true
         }
     }
@@ -109,8 +107,8 @@ BarElementItem {
             colors: ["transparent",Settings.colorPick(root.clr,del.index)]
         }
         visible: root.inputactive
-        implicitWidth:root.scaleheightmin*5
-        implicitHeight:root.scaleheightmin
+        implicitWidth:root.scaleHeightMin*5
+        implicitHeight:root.scaleHeightMin
         onTextedited: {
             AppLauncher.searchApplications(gettext())
         }

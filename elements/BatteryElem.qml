@@ -13,11 +13,9 @@ import "../"
 
 BarElementItem {
     id:root
-    isscrollable: true;
-    popupvisible: false
     BarContentItem {
-        implicitWidth: root.scaleheightmin
-        implicitHeight:root.scaleheightmin
+        implicitWidth: root.scaleHeightMin
+        implicitHeight:root.scaleHeightMin
         contentItem: TextItem {
             text: Battery.batteryLevel
         }
@@ -30,19 +28,19 @@ BarElementItem {
         from: 0
         value: Battery.batteryLevel
         to: 100
-        implicitWidth:root.scaleheightmin*2
-        implicitHeight:root.scaleheightmin
+        implicitWidth:root.scaleHeightMin*2
+        implicitHeight:root.scaleHeightMin
     }
     BarContentItem {
-        implicitWidth: root.scaleheightmin
-        implicitHeight:root.scaleheightmin
+        implicitWidth: root.scaleHeightMin
+        implicitHeight:root.scaleHeightMin
         contentItem: TextItem {
             text: "󰃟 "
         }
     }
     SliderItem {
-        implicitWidth:root.scaleheightmin*3
-        implicitHeight:root.scaleheightmin
+        implicitWidth:root.scaleHeightMin*3
+        implicitHeight:root.scaleHeightMin
         id: sld
         start: 1
         initvalue: 50

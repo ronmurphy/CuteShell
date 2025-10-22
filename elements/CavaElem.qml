@@ -13,12 +13,10 @@ import "../"
 
 BarElementItem {
     id:root
-    isscrollable: false;
-    popupvisible: false;
-    defaultWidth: scaleheightmin*3
+    defaultWidth: scaleHeightMin*3
     BarContentItem {
         implicitWidth: root.defaultWidth
-        implicitHeight: root.scaleheightmin
+        implicitHeight: root.scaleHeightMin
         contentItem: TextItem {
             scale:1.2
             text: Cava.output
@@ -29,8 +27,8 @@ BarElementItem {
         }
     }
     // BarContentItem {
-    //     Layout.preferredWidth: root.scaleheightmin
-    //     Layout.preferredHeight: root.scaleheightmin
+    //     Layout.preferredWidth: root.scaleHeightMin
+    //     Layout.preferredHeight: root.scaleHeightMin
     //     item: Text {
     //         text: Mpris.activePlayer && Mpris.activePlayer.canTogglePlaying ? "󰐊" : "󰏤"
     //         horizontalAlignment: Text.AlignHCenter
@@ -43,8 +41,8 @@ BarElementItem {
     //     }
     // }
     // BarContentItem {
-    //     Layout.preferredWidth: root.scaleheightmin
-    //     Layout.preferredHeight: root.scaleheightmin
+    //     Layout.preferredWidth: root.scaleHeightMin
+    //     Layout.preferredHeight: root.scaleHeightMin
     //     item: Text {
     //         text: SysInfo2.clocktime
     //         horizontalAlignment: Text.AlignHCenter

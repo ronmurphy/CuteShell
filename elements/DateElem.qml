@@ -12,12 +12,9 @@ import "../"
 
 BarElementItem {
     id:root
-    isscrollable: true;
-    popupvisible: false
-
     BarContentItem {
-        implicitWidth: root.scaleheightmin*2
-        implicitHeight: root.scaleheightmin
+        implicitWidth: root.scaleHeightMin*2
+        implicitHeight: root.scaleHeightMin
         contentItem: TextItem {
             text: SysInfo2.clockdate
         }

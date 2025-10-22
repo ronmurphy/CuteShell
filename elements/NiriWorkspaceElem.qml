@@ -15,8 +15,6 @@ pragma ComponentBehavior: Bound
 
 BarElementItem {
     id:root
-    isscrollable: true;
-    popupvisible: false;
 
     Connections {
         target: NiriFinal
@@ -28,16 +26,16 @@ BarElementItem {
     }
     ListView {
         id:listv
-        implicitWidth: root.indx == Settings.curridx ? root.scaleheightmin*3 : root.scaleheightmin
-        implicitHeight: root.scaleheightmin
+        implicitWidth: root.uniqueIndex == Settings.curridx ? root.scaleHeightMin*3 : root.scaleHeightMin
+        implicitHeight: root.scaleHeightMin
         layoutDirection: Qt.LeftToRight
         orientation: Qt.Horizontal
         model: NiriFinal.allWorkspaces
         delegate: BarContentItem {
             id: del
             required property string idx;
-            implicitWidth: root.scaleheightmin
-            implicitHeight: root.scaleheightmin
+            implicitWidth: root.scaleHeightMin
+            implicitHeight: root.scaleHeightMin
             
             contentItem: TextItem {
                 text: idx
@@ -46,7 +44,7 @@ BarElementItem {
 
             onBtnclick: {
                 // Hyprland.activateWorkspaceById(id)
-                Settings.curridx = root.indx == Settings.curridx ? -1 : root.indx
+                Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
             }
         }
     }

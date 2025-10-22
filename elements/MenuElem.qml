@@ -16,12 +16,9 @@ pragma ComponentBehavior: Bound
 
 BarElementItem {
     id:root
-    isscrollable: true;
-    popupvisible: false
-
     BarContentItem {
-        implicitWidth: root.scaleheightmin
-        implicitHeight: root.scaleheightmin
+        implicitWidth: root.scaleHeightMin
+        implicitHeight: root.scaleHeightMin
         contentItem: TextItem {
             text: "Menu"
         }
@@ -32,16 +29,16 @@ BarElementItem {
     }
     ListView {
         id:listv
-        implicitWidth: root.indx == Settings.curridx ? root.scaleheightmin*3 : root.scaleheightmin
-        implicitHeight: root.scaleheightmin
+        implicitWidth: root.indx == Settings.curridx ? root.scaleHeightMin*3 : root.scaleHeightMin
+        implicitHeight: root.scaleHeightMin
         model: SysTray.systrayItems
         layoutDirection: Qt.LeftToRight
         orientation: Qt.Horizontal
         delegate: BarContentItem {
             id: del
             required property int index
-            implicitWidth: root.scaleheightmin
-            implicitHeight: root.scaleheightmin
+            implicitWidth: root.scaleHeightMin
+            implicitHeight: root.scaleHeightMin
             
             contentItem: Image {
                 source: SysTray.systrayItems[index].icon

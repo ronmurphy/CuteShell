@@ -12,17 +12,14 @@ import "../"
 
 BarElementItem {
     id:root
-    isscrollable: true;
-    popupvisible: false
-
     BarContentItem {
-        implicitHeight: root.scaleheightmin
-        implicitWidth: root.scaleheightmin*2
+        implicitHeight: root.scaleHeightMin
+        implicitWidth: root.scaleHeightMin*2
         contentItem: TextItem {
             text: SysInfo2.cpuUsage + "% " + SysInfo2.cpuTemp + "  "
         }
         onBtnclick: {
-           Settings.curridx = root.indx == Settings.curridx ? -1 : root.indx
+           Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
         }
     }
 }
