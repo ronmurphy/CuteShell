@@ -52,43 +52,45 @@ Singleton {
         "#3E4452",] //gray
     ]
     property string decorConfigName: "EverforestTriangle"
+
     property list<string> decorComponents: ["./decorations/DirectedRectTriangle.qml",
         "./decorations/GenericDecorItem.qml",
         "./decorations/RectTriangleItem.qml"]
     
-    // function getConfig(themeName,itemType,index,side,lengthSide) {
     function getDecorConfig(options = {}) {
         const configs = {
-            "EverforestTriangle": {
-                "BarElement":{
-                    inverted: options.side === "left" || (options.side === "center" && options.sideIndex === 1) ? true : false,
-                    source:decorComponents[0],
-                    
-                    get decorProperties() {
-                        return {
-                            inverted: this.inverted,
-                            colors: ["transparent",colorPick(options.mainColor,options.uniqueIndex),Settings.colorPick(options.mainColor,options.uniqueIndex)],
-                        }
-                    },
-    
-                    get properties() {
-                        return {
-                            flickableX: this.inverted ? 0 : (options?.contentRectHeight/2 || 0),   
-                            flickableWidth: (options?.contentRectWidth - options?.contentRectHeight/2) || 100, 
-                            defaultWidth: options?.scaleHeightMin*1.5
-                        }
-                        // inverted: options.side === "left" || (options.side === "center" && options.sideIndex === 1) ? true : false,
-                        // flickableX: decorProperties.inverted ?
+            EverforestTriangle: {
+                inverted: options.side === "left" || (options.side === "center" && options.sideIndex === 1) ? true : false,
+                source:decorComponents[0],
+                popupParentItem: options.popupParentItem,
+                sideLength: options.sideLength,
+                gap: -1,
+                colors: options.side === "center" ? ["transparent","#4c7fbbb3"] :
+                    options.sideIndex === options.sideLength-1 ? ["transparent",colorPick("black",options.sideIndex)] : 
+                    [colorPick("black",options.sideIndex+1),colorPick("black",options.sideIndex)], 
+
+                get decorProperties() {
+                    return {
+                        inverted: this.inverted,
+                        colors: this.colors,
                     }
                 },
-                "Input":{
-                    
+
+                get properties() {
+                    return {
+                        flickableX: this.inverted ? 0 : (options?.scaleHeightMin/2 || 0),   
+                        subtractRectWidth: options?.scaleHeightMin/2 || 0, 
+                        defaultWidth: options?.scaleHeightMin*1.5
+                    }
                 },
-                "ProgressBar":{
-                
+                get inputProperties() {
+                    return {}
                 },
-                "Slider":{
-                
+                get progressBarProperties() {
+                    return {}
+                },
+                get SliderProperties() {
+                    return {}
                 }
             },
             "OnedarkCircle": {
@@ -112,7 +114,7 @@ Singleton {
         return configs[options.themeName]
     }
 
-    property list<string> windowcolors: ["#4c7fbbb3","#7fbbb3"]
+    property list<string> centerColors: ["#4c7fbbb3","#7fbbb3"]
     
     property int curridx:-1 // current index for retractable elements
     property int indexDistribute // indices for retractable elements

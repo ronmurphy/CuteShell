@@ -107,6 +107,9 @@ BarElementItem {
         visible: root.inputactive
         implicitWidth:root.scaleHeightMin*5
         implicitHeight:root.scaleHeightMin
+        // Component.onCompleted: {
+        //     input.loader.setSource(root.decorConfig?.BarElement?.source,root.decorConfig?.BarElement?.decorProperties)
+        // }
         onTextedited: {
             AppLauncher.searchApplications(gettext())
         }

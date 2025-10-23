@@ -20,7 +20,7 @@ GenericDecorItem {
         width: root.height/2
         height: root.height
         inverted: root.inverted
-        clr: root.colors[2]
+        clr: root.colors[1]
     }
     Rectangle {
         id: rect
@@ -53,7 +53,3 @@ GenericDecorItem {
         }
     ]
 }
-// state = borderDecoration1 != null && borderDecoration2 != null ? "full" :
-//     borderDecoration2 != null ? "right" :
-//     borderDecoration1 != null ? "left" : "none"
-

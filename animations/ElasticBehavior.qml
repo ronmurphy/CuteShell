@@ -1,7 +1,7 @@
 import QtQuick
 
 NumberAnimation {
-    duration: 300
+    duration: 200
     easing.type: Easing.OutElastic
     easing.amplitude: 1.3
     easing.period: 1

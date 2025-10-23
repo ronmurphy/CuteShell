@@ -16,8 +16,8 @@ pragma ComponentBehavior: Bound
 Item {
     id: root
     default property alias content: itemsrow.data
-    property real scaleHeightMin: parent.parent.scaleHeightMin
-    property real defaultWidth: decorConfig?.BarElement?.properties?.defaultWidth || scaleHeightMin
+    property real scaleHeightMin: parent.parent.scaleHeight
+    property real defaultWidth: decorConfig?.properties?.defaultWidth || scaleHeightMin
     property int uniqueIndex: -1
     property int sideIndex: -1
     property var decorConfig: ({})
@@ -38,14 +38,14 @@ Item {
             side:root.parent.objectName,
             mainColor:mainColor,
             scaleHeightMin: scaleHeightMin,
-            contentRectWidth:contentRect.width,
-            contentRectHeight:contentRect.height,
+            popupParentItem: flick,
+            sideLength: root.parent.children.length,
         })
+        root.parent.gap = decorConfig?.gap
     }
+
     property color mainColor;
     property bool isPopupVisible: false
-    property real flickableX: decorConfig.Properties?.flickableX || 0
-    property real flickableWidth: decorConfig.Properties?.flickableWidth || contentRect.width
     readonly property real contentWidth: itemsrow.width
 
     property Loader popupItem: popuploader
@@ -61,19 +61,13 @@ Item {
             anchors.fill : parent
             anchors.centerIn: parent
             id: rectDecor
-            // sourceComponent: DirectedRectTriangle {
-            //     inverted: root.parent.objectName === "left" || (root.parent.objectName === "center" && root.sideIndex === 1)? true : false
-            //     colors: ["transparent",Settings.colorPick(root.mainColor,root.uniqueIndex),Settings.colorPick(root.mainColor,root.uniqueIndex)]
-            // }
-            // sourceComponent: root.rectDecoration
             Component.onCompleted: {
-                // rectDecor.setSource(null,null);
-                rectDecor.setSource(root.decorConfig?.BarElement?.source,root.decorConfig?.BarElement?.decorProperties)
+                rectDecor.setSource(root.decorConfig?.source,root.decorConfig?.decorProperties)
                 // Object.assign({},{"colors": [root.mainColor]},Settings.decorProperties[0]));
             }
         }
         implicitHeight: root.scaleHeightMin
-        implicitWidth: Settings.curridx == root.uniqueIndex ? itemsrow.width : root.defaultWidth
+        implicitWidth: Settings.curridx == root.uniqueIndex ? itemsrow.width+flick.x : root.defaultWidth
         Behavior on implicitWidth {
             id: bhvr
             enabled:true
@@ -84,8 +78,8 @@ Item {
         clip: true
         Flickable {
             id: flick
-            width: root.decorConfig?.BarElement?.properties?.flickableWidth || contentRect.width
-            x: root.decorConfig?.BarElement?.properties?.flickableX || 0
+            width: contentRect.width-(root.decorConfig?.properties?.subtractRectWidth || 0)
+            x: root.decorConfig?.properties?.flickableX || 0
             // anchors.left: contentRect.left
             // anchors.centerIn: contentRect
             height: contentRect.height
@@ -100,14 +94,16 @@ Item {
     }
     Popup {
         id: popup
-        parent: flick
-        x: 0
+        parent: root.decorConfig?.properties?.popupParent
+
+        // parent: flick
+        x: -root.scaleHeightMin/2
         // x: root.isPopupEmbedded ? 0 : root.parent.x
         y: root.scaleHeightMin
         bottomMargin: Settings.isTop ? 0 : root.scaleHeightMin
         // y: Settings.barAnchor == Settings.barAnchor.TOP ? root.scaleHeightMin : root.scaleHeightMin * 2
         height:0
-        width: flick.width
+        width: flick.width+root.scaleHeightMin/2
         // Behavior on height { 
         //     ElasticBehavior  {} 
         // }

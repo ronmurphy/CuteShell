@@ -18,6 +18,8 @@ BarElementItem {
         implicitWidth: root.defaultWidth
         implicitHeight: root.scaleHeightMin
         contentItem: TextItem {
+            font.bold: true
+            font.weight: Font.ExtraBold
             scale:1.2
             text: Cava.output
             textFormat: Text.StyledText

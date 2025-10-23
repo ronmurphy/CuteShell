@@ -12,6 +12,7 @@ Rectangle {
     id:root
     property color textClr: Settings.white
     property Component decor: null
+    property Loader loader: loader
     property real scaleInputWidth: 0.75
 
     signal textedited
