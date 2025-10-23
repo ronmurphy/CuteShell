@@ -51,28 +51,65 @@ Singleton {
         "#282C34", //black  
         "#3E4452",] //gray
     ]
-    property int currentDecorConfig: 0
-    property list<string> decorComponents: ["./decorations/GenericDecorItem.qml",
+    property string decorConfigName: "EverforestTriangle"
+    property list<string> decorComponents: ["./decorations/DirectedRectTriangle.qml",
         "./decorations/GenericDecorItem.qml",
         "./decorations/RectTriangleItem.qml"]
     
-    property list<var> decorProperties: [
-        {"implicitWidth":0,
-        "implicitHeight":0,
-        },
-        {"radius":0},
-        {},
-        {},
-    ]
-    property list<var> decorConfigs: [
-        (index, side, length) => {
-            console.log("hi");
-        },
-        {},
-        {},
-    ]
-    function isAllowed(index, side, length) {
-        return true
+    // function getConfig(themeName,itemType,index,side,lengthSide) {
+    function getDecorConfig(options = {}) {
+        const configs = {
+            "EverforestTriangle": {
+                "BarElement":{
+                    inverted: options.side === "left" || (options.side === "center" && options.sideIndex === 1) ? true : false,
+                    source:decorComponents[0],
+                    
+                    get decorProperties() {
+                        return {
+                            inverted: this.inverted,
+                            colors: ["transparent",colorPick(options.mainColor,options.uniqueIndex),Settings.colorPick(options.mainColor,options.uniqueIndex)],
+                        }
+                    },
+    
+                    get properties() {
+                        return {
+                            flickableX: this.inverted ? 0 : (options?.contentRectHeight/2 || 0),   
+                            flickableWidth: (options?.contentRectWidth - options?.contentRectHeight/2) || 100, 
+                            defaultWidth: options?.scaleHeightMin*1.5
+                        }
+                        // inverted: options.side === "left" || (options.side === "center" && options.sideIndex === 1) ? true : false,
+                        // flickableX: decorProperties.inverted ?
+                    }
+                },
+                "Input":{
+                    
+                },
+                "ProgressBar":{
+                
+                },
+                "Slider":{
+                
+                }
+            },
+            "OnedarkCircle": {
+                "Settings": {
+                
+                },
+                "BarElement":{
+                
+                },
+                "Input":{
+                    
+                },
+                "ProgressBar":{
+                
+                },
+                "Slider":{
+                
+                }
+            }
+        }
+        return configs[options.themeName]
     }
 
     property list<string> windowcolors: ["#4c7fbbb3","#7fbbb3"]

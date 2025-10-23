@@ -19,7 +19,7 @@ BarElementItem {
     objectName:"Network"
     
     Component.onCompleted: {
-        popup.parent = flick    
+        popup.parent = flick
         popup.width = flick.width
     }
 
@@ -163,8 +163,8 @@ BarElementItem {
             text: Network.statusConn[0]
         }
         onBtnclick: {
-            // root.isPopupVisible =false
-                Settings.curridx = root.indx == Settings.curridx ? -1 : root.indx
+            root.isPopupVisible = !root.isPopupVisible
+            Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
             Network.getNetworks = true
         }
     }

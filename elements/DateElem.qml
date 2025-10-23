@@ -19,7 +19,7 @@ BarElementItem {
             text: SysInfo2.clockdate
         }
         onBtnclick: {
-           Settings.curridx = root.indx == Settings.curridx ? -1 : root.indx
+           Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
         }
     }
 }

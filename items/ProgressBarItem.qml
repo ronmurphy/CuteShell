@@ -21,7 +21,9 @@ ProgressBar {
     implicitWidth: 80
     implicitHeight: 40
     property real stepScale: 0.5 
-
+    property Loader contentLoader: contentLoader
+    property Loader backgroundLoader: backgroundLoader
+    
     property Component backgroundDecor: Rectangle {
         color:Settings.dark
         radius:root.width*0.15
@@ -32,22 +34,18 @@ ProgressBar {
     }
     
     background: Loader {
-        id: loader
+        id: backgroundLoader
         anchors.fill: root
         sourceComponent: root.backgroundDecor
     }
 
-    contentItem: Item {
-        id: contitem
-        width: root.width
+    contentItem: Loader {
+        id: contentLoader
+        // anchors.centerIn: contitem
+        scale:0.8
+        // anchors.margins:root.stepScale*root.width
+        width:root.visualPosition * root.width
         height:root.height
-        Loader {
-            // anchors.centerIn: contitem
-            scale:0.8
-            // anchors.margins:root.stepScale*root.width
-            width:root.visualPosition * root.width
-            height:root.height
-            sourceComponent: root.contentDecor
-        }
+        sourceComponent: root.contentDecor
     }
 }

@@ -23,13 +23,13 @@ BarElementItem {
             text: "Menu"
         }
         onBtnclick: {
-            Settings.curridx = root.indx == Settings.curridx ? -1 : root.indx
+            Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
             SysTray.systraydo()
         }
     }
     ListView {
         id:listv
-        implicitWidth: root.indx == Settings.curridx ? root.scaleHeightMin*3 : root.scaleHeightMin
+        implicitWidth: root.uniqueIndex == Settings.curridx ? root.scaleHeightMin*3 : root.scaleHeightMin
         implicitHeight: root.scaleHeightMin
         model: SysTray.systrayItems
         layoutDirection: Qt.LeftToRight

@@ -83,9 +83,7 @@ BarElementItem {
         }
         onBtnclick: {
             Settings.changeBarState()
-            Settings.curridx = root.indx == Settings.curridx ? -1 : root.indx
-            // root.inputactive = false
-            // root.isPopupVisible = false
+            Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
         }
     }
 
@@ -96,7 +94,7 @@ BarElementItem {
             text: ""
         }
         onBtnclick: {
-            root.isPopupVisible = true
+            root.isPopupVisible = !root.isPopupVisible
             root.inputactive = true
         }
     }
