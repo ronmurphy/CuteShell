@@ -25,37 +25,50 @@ BarElementItem {
             textFormat: Text.StyledText
         }
         onBtnclick: {
-           Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
+            root.isPopupVisible = !root.isPopupVisible
+            Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
         }
     }
-    // BarContentItem {
-    //     Layout.preferredWidth: root.scaleHeightMin
-    //     Layout.preferredHeight: root.scaleHeightMin
-    //     item: Text {
-    //         text: Mpris.activePlayer && Mpris.activePlayer.canTogglePlaying ? "󰐊" : "󰏤"
-    //         horizontalAlignment: Text.AlignHCenter
-    //         verticalAlignment: Text.AlignVCenter
-    //         font.pointSize:12
-    //         textFormat: Text.StyledText
-    //     }
-    //     onBtnclick: {
-    //         Mpris.playPause();
-    //     }
-    // }
-    // BarContentItem {
-    //     Layout.preferredWidth: root.scaleHeightMin
-    //     Layout.preferredHeight: root.scaleHeightMin
-    //     item: Text {
-    //         text: SysInfo2.clocktime
-    //         horizontalAlignment: Text.AlignHCenter
-    //         verticalAlignment: Text.AlignVCenter
-    //         font.pointSize:12
-    //         textFormat: Text.StyledText
-    //     }
-    //     onBtnclick: {
-    //         Mpris.playPause();
-    //     }
-    // }
+    popupComponent: Rectangle {
+        id: popupRect
+        BarContentItem {
+            anchors.left: popupRect.left
+            implicitWidth: root.scaleHeightMin
+            implicitHeight: root.scaleHeightMin
+            contentItem: TextItem {
+                text: Mpris.activePlayer && Mpris.activePlayer.canTogglePlaying ? "󰐊" : "󰏤"
+                textFormat: Text.StyledText
+            }
+            onBtnclick: {
+                Mpris.playPause();
+            }
+        }
+        BarContentItem {
+            anchors.right: popupRect.right
+            implicitWidth: root.scaleHeightMin
+            implicitHeight: root.scaleHeightMin
+            contentItem: TextItem {
+                text: SysInfo2.clocktime
+                textFormat: Text.StyledText
+            }
+            onBtnclick: {
+                Mpris.playPause();
+            }
+        }
+        BarContentItem {
+            anchors.centerIn: popupRect.center
+            anchors.horizontalCenter: popupRect.horizontalCenter
+            implicitWidth: root.scaleHeightMin*5
+            implicitHeight: root.scaleHeightMin
+            contentItem: TextItem {
+                text: Mpris.currentArtist + " " + Mpris.currentTrack
+                textFormat: Text.StyledText
+            }
+            onBtnclick: {
+                Mpris.playPause();
+            }
+        }
+    }
 }
 
 

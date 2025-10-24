@@ -62,25 +62,36 @@ Singleton {
             EverforestTriangle: {
                 inverted: options.side === "left" || (options.side === "center" && options.sideIndex === 1) ? true : false,
                 source:decorComponents[0],
-                popupParentItem: options.popupParentItem,
+                popupParentItem: options.popupParentVariants[1],
+                popupWidth: options.popupWidth,
                 sideLength: options.sideLength,
                 gap: -1,
                 colors: options.side === "center" ? ["transparent","#4c7fbbb3"] :
                     options.sideIndex === options.sideLength-1 ? ["transparent",colorPick("black",options.sideIndex)] : 
                     [colorPick("black",options.sideIndex+1),colorPick("black",options.sideIndex)], 
 
+                get properties() {
+                    return {
+                        flickableX: this.inverted ? 0 : (options?.scaleHeightMin/2 || 0),   
+                        subtractRectWidth: options?.scaleHeightMin/2 || 0, 
+                        defaultWidth: options?.scaleHeightMin*1.5,
+                        popupWidth: this.popupWidth + (options.scaleHeightMin/2),
+                        popupX: options.scaleHeightMin/2,
+                        popupParentItem: this.popupParentItem,
+                    }
+                },
                 get decorProperties() {
                     return {
                         inverted: this.inverted,
                         colors: this.colors,
                     }
                 },
-
-                get properties() {
+                get listDelegate() {
                     return {
-                        flickableX: this.inverted ? 0 : (options?.scaleHeightMin/2 || 0),   
-                        subtractRectWidth: options?.scaleHeightMin/2 || 0, 
-                        defaultWidth: options?.scaleHeightMin*1.5
+                        source: "../decorations/RectTriangleItem.qml",
+                        properties: {
+                        
+                        }
                     }
                 },
                 get inputProperties() {

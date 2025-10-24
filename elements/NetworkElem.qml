@@ -17,11 +17,6 @@ pragma ComponentBehavior: Bound
 BarElementItem {
     id:root
     objectName:"Network"
-    
-    Component.onCompleted: {
-        popup.parent = flick
-        popup.width = flick.width
-    }
 
     property bool inputEnabled: false
     property int selectedConn: -1
@@ -47,7 +42,7 @@ BarElementItem {
         }
     }
 
-    property Component delegateComponent: ListDelegateItem {
+    property Component delegateComponent: Item {
         id:del
         required property string ssid; required property bool profileExist;
         required property string bars; required property string security;
@@ -55,10 +50,20 @@ BarElementItem {
         property bool inputEnabled: false
         implicitWidth: root.contentWidth
         implicitHeight: root.scaleHeightMin
-        decor: RectTriangleItem {
-            colors: ["transparent",Settings.colorPick(root.clr,del.index)]
-        }
+        // decor: RectTriangleItem {
+        //     colors: ["transparent",Settings.colorPick(root.clr,del.index)]
+        // }
 
+        // Loader {
+        //     id: delegateLoader
+        //     anchors.fill: parent
+        //     Component.onCompleted: {
+        //         delegateLoader.setSource(root.decorConfig?.listDelegate?.source,
+        //         Object.assign(root.decorConfig?.listDelegate?.properties,
+        //         {colors: ["transparent",Settings.colorPick(root.mainColor,del.index)]}))
+
+        //     }
+        // }
         BarContentItem {
             scale: 0.9
             id: netInfo

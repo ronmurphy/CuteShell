@@ -27,6 +27,16 @@ BarElementItem {
             SysTray.systraydo()
         }
     }
+    BarContentItem {
+        implicitWidth: root.scaleHeightMin
+        implicitHeight: root.scaleHeightMin
+        contentItem: TextItem {
+            text: " "
+        }
+        onBtnclick: {
+            Settings.changeBarState()
+        }
+    }
     ListView {
         id:listv
         implicitWidth: root.uniqueIndex == Settings.curridx ? root.scaleHeightMin*3 : root.scaleHeightMin

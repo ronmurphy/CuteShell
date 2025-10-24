@@ -10,39 +10,18 @@ import QtQml.Models
 
 Singleton {
     id:root
-    // property ObjectModel<var> apps: []
-    property list<var> apps: []
-    property string matchstr: "btop"
+    property string matchString: "btop"
 
     readonly property var applications: DesktopEntries.applications.values
+    readonly property list<DesktopEntry> allDesktopEntries: DesktopEntries.applications.values
+
+    property list<DesktopEntry> desktopEntries: allDesktopEntries.filter(
+        entry => entry?.name?.toLowerCase().includes(matchString) || false
+    );
     
     function appIconByAppId(id: string): string {
         const desktopentry = DesktopEntries.byId(id)
         console.log(desktopentry)
         return Quickshell.iconPath(desktopentry.icon, true)
-    }
-
-    function searchApplications(query) {
-        apps = []
-        const matches = applications.filter(word => word.name.includes(query));
-        // const queryLower = query.toLowerCase().trim()
-        for (const app of matches) {
-            const name = (app.name || "").toLowerCase()
-            const icon = (app.icon || "").toLowerCase()
-            const genericName = (app.genericName || "").toLowerCase()
-            const comment = (app.comment || "").toLowerCase()
-            const keywords = app.keywords ? app.keywords.map(k => k.toLowerCase()) : []
-            console.log(icon,"thats icon")
-            
-            try {
-                apps.push({
-                    appname:  name,
-                    appicon:  Quickshell.iconPath(icon, true),
-                    // appicon2: Quickshell.,
-                });
-            } catch (err) {
-                console.log(err)
-            }
-        }
     }
 }

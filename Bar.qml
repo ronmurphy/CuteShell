@@ -58,7 +58,7 @@ Variants {
                 height: bar.scaleHeight
                 // HyprlandWindowElem{}
                 NiriWindowElem{}
-                CavaElem{}
+                CavaElem{id: cava}
             }
             FlexboxLayout {
                 id: right
@@ -99,6 +99,10 @@ Variants {
             }
             Region {
                 item: network.popupItem
+                intersection: Intersection.Combine
+            }
+            Region {
+                item: cava.popupItem
                 intersection: Intersection.Combine
             }
         }

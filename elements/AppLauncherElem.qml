@@ -18,6 +18,8 @@ BarElementItem {
     isPopupVisible: false
     property bool inputactive: false
     
+    // popupParent: root
+    
     popupComponent: Rectangle {
         id: rectpop
         anchors.fill:parent
@@ -27,21 +29,29 @@ BarElementItem {
             // highlightRangeMode: ListView.StrictlyEnforceRange
             highlightRangeMode: ListView.StrictlyEnforceRange
             anchors.fill: parent
-            model: AppLauncher.apps
+            model: AppLauncher.desktopEntries
             contentWidth: root.scaleHeightMin
             contentHeight: root.height
             delegate: root.delegateComponent
         }
     }
-    property Component delegateComponent: ListDelegateItem {
+    
+    property Component delegateComponent: Item {
         id: del
-        required property string appname;
-        required property string appicon;
+        required property string name;
+        required property string icon;
         required property int index
         implicitWidth: root.contentWidth
         implicitHeight: root.scaleHeightMin
-        decor: RectTriangleItem {
-            colors: ["transparent",Settings.colorPick(root.clr,del.index)]
+        Loader {
+            id: delegateLoader
+            anchors.fill: parent
+            Component.onCompleted: {
+                delegateLoader.setSource(root.decorConfig?.listDelegate?.source,
+                Object.assign(root.decorConfig?.listDelegate?.properties,
+                {colors: ["transparent",Settings.colorPick(root.mainColor,del.index)]}))
+
+            }
         }
         BarContentItem {
             id: barcnt
@@ -58,13 +68,13 @@ BarElementItem {
                     width: rl.height
                     height: rl.height
                     Layout.alignment: Qt.AlignCenter
-                    source:del.appicon
+                    source:Quickshell.iconPath(del.icon,true)
                 }
                 TextItem {
                     anchors.right: parent.right
                     width: rl.width-rl.height
                     height: rl.height
-                    text: del.appname
+                    text: del.name
                 }
             }
             onBtnclick: {
@@ -82,7 +92,6 @@ BarElementItem {
             text: "󰀻"
         }
         onBtnclick: {
-            Settings.changeBarState()
             Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
         }
     }
@@ -111,7 +120,9 @@ BarElementItem {
         //     input.loader.setSource(root.decorConfig?.BarElement?.source,root.decorConfig?.BarElement?.decorProperties)
         // }
         onTextedited: {
-            AppLauncher.searchApplications(gettext())
+            
+            AppLauncher.matchString = gettext().toLowerCase()
+            console.log(AppLauncher.matchString)
         }
     }
 

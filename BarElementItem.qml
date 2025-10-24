@@ -38,7 +38,8 @@ Item {
             side:root.parent.objectName,
             mainColor:mainColor,
             scaleHeightMin: scaleHeightMin,
-            popupParentItem: flick,
+            popupWidth: root.parent.width,
+            popupParentVariants: [root.parent.parent,root.parent,root,flick],
             sideLength: root.parent.children.length,
         })
         root.parent.gap = decorConfig?.gap
@@ -49,9 +50,10 @@ Item {
     readonly property real contentWidth: itemsrow.width
 
     property Loader popupItem: popuploader
-    property Popup popup: popup
+    // property Popup popup: popup
     property Flickable flick: flick
     property Component popupComponent: null
+    property Item popupParent: null
 
     implicitHeight: root.scaleHeightMin
     implicitWidth: contentRect.implicitWidth
@@ -67,9 +69,8 @@ Item {
             }
         }
         implicitHeight: root.scaleHeightMin
-        implicitWidth: Settings.curridx == root.uniqueIndex ? itemsrow.width+flick.x : root.defaultWidth
+        implicitWidth: Settings.curridx == root.uniqueIndex ? itemsrow.width+(root.decorConfig?.properties?.subtractRectWidth || 0) : root.defaultWidth
         Behavior on implicitWidth {
-            id: bhvr
             enabled:true
             ElasticBehavior {}
         }
@@ -78,7 +79,7 @@ Item {
         clip: true
         Flickable {
             id: flick
-            width: contentRect.width-(root.decorConfig?.properties?.subtractRectWidth || 0)
+            width: contentRect.implicitWidth-(root.decorConfig?.properties?.subtractRectWidth || 0)
             x: root.decorConfig?.properties?.flickableX || 0
             // anchors.left: contentRect.left
             // anchors.centerIn: contentRect
@@ -94,16 +95,16 @@ Item {
     }
     Popup {
         id: popup
-        parent: root.decorConfig?.properties?.popupParent
+        parent: root.decorConfig?.properties?.popupParentItem
 
         // parent: flick
-        x: -root.scaleHeightMin/2
+        x: root.decorConfig?.properties?.popupX || 0
         // x: root.isPopupEmbedded ? 0 : root.parent.x
         y: root.scaleHeightMin
         bottomMargin: Settings.isTop ? 0 : root.scaleHeightMin
         // y: Settings.barAnchor == Settings.barAnchor.TOP ? root.scaleHeightMin : root.scaleHeightMin * 2
         height:0
-        width: flick.width+root.scaleHeightMin/2
+        width: root.decorConfig?.properties?.popupWidth || contentRect.width
         // Behavior on height { 
         //     ElasticBehavior  {} 
         // }

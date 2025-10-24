@@ -38,6 +38,7 @@ Rectangle {
     }
 
     TextInput {
+        echoMode: TextInput.Normal
         id: inp
         width: root.width*root.scaleInputWidth
         anchors.centerIn: parent
