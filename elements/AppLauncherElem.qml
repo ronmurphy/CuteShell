@@ -109,6 +109,13 @@ BarElementItem {
         }
     }
 
+    onConfigChanged: {
+        input.contentLoader.setSource(root.config?.inputProps?.source,
+        root.config?.inputProps?.properties,)
+        input.contentLoader.setSource(root.config?.inputProps?.source,
+        root.config?.inputProps?.properties)
+    }
+
     InputItem {
         id: input
         decor: RectTriangleItem {

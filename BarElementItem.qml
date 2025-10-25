@@ -81,8 +81,6 @@ Item {
             id: flick
             width: contentRect.implicitWidth-(root.config?.props?.subtractRectWidth || 0)
             x: root.config?.props?.flickableX || 0
-            // anchors.left: contentRect.left
-            anchors.centerIn: contentRect
             height: contentRect.height
             contentWidth: itemsrow.width
             contentHeight: root.scaleHeightMin
@@ -105,7 +103,8 @@ Item {
         bottomMargin: Settings.isTop ? 0 : root.scaleHeightMin
         // y: Settings.barAnchor == Settings.barAnchor.TOP ? root.scaleHeightMin : root.scaleHeightMin * 2
         height:0
-        width: root.config?.props?.popupWidth || contentRect.width
+        width: root.config?.props?.popupWidth ||
+            contentRect.width - root.config?.props?.subtractPopupWidth
         // Behavior on height { 
         //     ElasticBehavior  {} 
         // }

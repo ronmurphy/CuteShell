@@ -66,10 +66,10 @@ Variants {
                 anchors.right: bar.right
                 height: bar.scaleHeight
                 direction: FlexboxLayout.RowReverse
-                NetworkElem{id: network}
+                DateElem{}
                 BatteryElem{}
                 AudioElem{}
-                DateElem{}
+                NetworkElem{id: network}
             }
             states: [
                 State {

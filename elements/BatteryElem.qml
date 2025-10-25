@@ -25,9 +25,10 @@ BarElementItem {
     // }
     Item {
         id:batteryDecor
-        implicitWidth: root.scaleHeightMin*2
-        implicitHeight:root.scaleHeightMin
-        scale: 0.6
+        implicitWidth: root.scaleHeightMin*1.3
+        implicitHeight:root.scaleHeightMin*0.7
+            anchors.verticalCenter:parent.verticalCenter
+        // scale: 0.6
         ProgressBarItem {
             width: parent.width*0.9
             height:parent.height
@@ -49,8 +50,9 @@ BarElementItem {
             color: "black"
         }
         BarContentItem {
-            implicitWidth: root.scaleHeightMin
-            implicitHeight:root.scaleHeightMin
+            anchors.fill: parent
+            // implicitWidth: root.scaleHeightMin
+            // implicitHeight:root.scaleHeightMin
 
             anchors.horizontalCenter: parent.horizontalCenter
             contentItem: TextItem {

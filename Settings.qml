@@ -62,27 +62,31 @@ Singleton {
             EverforestTriangle: {
                 inverted: options.side === "left" || (options.side === "center" && options.sideIndex === 1) ? true : false,
                 source:decorComponents[0],
-                mainColor: Settings.colorPick("black",options?.sideIndex || 0),
-                popupParentItem: options.side === "left" ||  options.side === "right" ? options.popupParentVariants[3]
+                mainColor: colorPick("black",options?.sideIndex || 0),
+                popupParentItem: options.side === "left" ||  options.side === "right" ? options.popupParentVariants[2]
                     : options.popupParentVariants[1],
 
-                popupWidth: options.side === "left" ||  options.side === "right" ? null
-                    : options.popupWidthVariants[1],
+                popupWidth: options.side === "center" ? options.popupWidthVariants[1] : 0,
+                subtractPopupWidth: 0,
+                addPopupWidth: options.side === "left" ? 0 :
+                    options.side === "right" ? options.scaleHeightMin/2: 0,
 
                 sideLength: options.sideLength,
                 gap: -1,
                 colors: options.side === "center" ? ["transparent","#4c7fbbb3"] :
                     options.sideIndex === options.sideLength-1 ? ["transparent",colorPick("black",options.sideIndex)] : 
                     [colorPick("black",options.sideIndex+1),colorPick("black",options.sideIndex)], 
+                popupX: options.side === "left" ? -options.scaleHeightMin/2 :
+                    options.side === "right" ? options.scaleHeightMin/2 : options.scaleHeightMin/2,
 
                 get props() {
                     return {
                         flickableX: this.inverted ? 0 : (options?.scaleHeightMin/2 || 0),   
                         subtractRectWidth: options?.scaleHeightMin/2 || 0, 
                         defaultWidth: options?.firstChildrenWidth+(options?.scaleHeightMin*0.5),
-                        // defaultWidth: options?.scaleHeightMin*1.5,
-                        popupWidth: this.popupWidth ?? null,
-                        popupX: options.scaleHeightMin/2,
+                        popupWidth: this.popupWidth,
+                        subtractPopupWidth: this.subtractPopupWidth,
+                        popupX: this.popupX,
                         popupParentItem: this.popupParentItem,
                         mainColor: this.mainColor,
                     }

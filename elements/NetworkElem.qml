@@ -5,6 +5,7 @@ import QtQuick.Controls
 import Quickshell.Widgets
 import QtQuick.Layouts
 import QtQuick.Shapes
+import QtQuick.Effects
 import QtQml
 import "../services"
 import "../items"
@@ -47,6 +48,14 @@ BarElementItem {
         required property string ssid; required property bool profileExist;
         required property string bars; required property string security;
         required property int index
+        // MultiEffect {
+        //     anchors.fill: del
+        //     source: del
+        //     blur:100
+        //     blurEnabled:false
+        //     // blur.radius: 10 // Adjust the blur radius as needed
+        //     // Other effects can be added here, e.g., shadow, colorization
+        // }
         property bool inputEnabled: false
         implicitWidth: root.contentWidth
         implicitHeight: root.scaleHeightMin
@@ -189,6 +198,6 @@ BarElementItem {
         visible: root.inputactive
         // anchors.verticalCenter: root.verticalCenter
         implicitWidth:root.scaleHeightMin*3
-        implicitHeight:root.scaleHeightMin*0.8
+        implicitHeight:root.scaleHeightMin*0.6
     }
 }
