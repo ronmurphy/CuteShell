@@ -12,7 +12,6 @@ Singleton {
     id:root
     property string matchString: "btop"
 
-    readonly property var applications: DesktopEntries.applications.values
     readonly property list<DesktopEntry> allDesktopEntries: DesktopEntries.applications.values
 
     property list<DesktopEntry> desktopEntries: allDesktopEntries.filter(

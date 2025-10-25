@@ -21,6 +21,12 @@ Item {
     implicitWidth: 80
     implicitHeight: 40
 
+    property Loader handleloader: handleLoader
+    // property url source: ""
+    // property var props: ({})
+    property Loader backgroundloader: backgroundLoader
+    // property Slider slider: sldr
+
     property Component backgroundDecor: Rectangle {
         color:Settings.dark
     }
@@ -37,7 +43,7 @@ Item {
         to: root.end
         onMoved: root.slidermoved()
         background: Loader {
-            id: loader
+            id: backgroundLoader
             width: sldr.width
             height: sldr.height/12
             anchors.centerIn: sldr
@@ -45,11 +51,18 @@ Item {
         }
 
         handle: Loader {
+            id: handleLoader
             x: sldr.leftPadding + (sldr.horizontal ? sldr.visualPosition * (sldr.availableWidth - width) : (sldr.availableWidth - width) / 2)
             y: sldr.topPadding + (sldr.vertical ? sldr.visualPosition * (sldr.availableHeight - height) : (sldr.availableHeight - height) / 2)
             width:root.width/3
             height:root.height/2
-            sourceComponent: root.handleDecor
+            // Component.onCompleted: {
+            //     if (sourceComponent === null) {
+            //         handleLoader.setSource(root.source,root.props)
+            //     }
+            // }
+            sourceComponent: null
+            // sourceComponent: root.handleDecor
         }
     }
 }

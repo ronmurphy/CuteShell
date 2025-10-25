@@ -57,36 +57,41 @@ Singleton {
         "./decorations/GenericDecorItem.qml",
         "./decorations/RectTriangleItem.qml"]
     
-    function getDecorConfig(options = {}) {
+    function getConfig(options = {}) {
         const configs = {
             EverforestTriangle: {
                 inverted: options.side === "left" || (options.side === "center" && options.sideIndex === 1) ? true : false,
                 source:decorComponents[0],
-                popupParentItem: options.popupParentVariants[1],
-                popupWidth: options.popupWidth,
+
+                popupParentItem: options.side === "left" ||  options.side === "right" ? options.popupParentVariants[3]
+                    : options.popupParentVariants[1],
+
+                popupWidth: options.side === "left" ||  options.side === "right" ? null
+                    : options.popupWidthVariants[1],
+
                 sideLength: options.sideLength,
                 gap: -1,
                 colors: options.side === "center" ? ["transparent","#4c7fbbb3"] :
                     options.sideIndex === options.sideLength-1 ? ["transparent",colorPick("black",options.sideIndex)] : 
                     [colorPick("black",options.sideIndex+1),colorPick("black",options.sideIndex)], 
 
-                get properties() {
+                get props() {
                     return {
                         flickableX: this.inverted ? 0 : (options?.scaleHeightMin/2 || 0),   
                         subtractRectWidth: options?.scaleHeightMin/2 || 0, 
                         defaultWidth: options?.scaleHeightMin*1.5,
-                        popupWidth: this.popupWidth + (options.scaleHeightMin/2),
+                        popupWidth: this.popupWidth ?? null,
                         popupX: options.scaleHeightMin/2,
                         popupParentItem: this.popupParentItem,
                     }
                 },
-                get decorProperties() {
+                get mainDecorProps() {
                     return {
                         inverted: this.inverted,
                         colors: this.colors,
                     }
                 },
-                get listDelegate() {
+                get listDelegateProps() {
                     return {
                         source: "../decorations/RectTriangleItem.qml",
                         properties: {

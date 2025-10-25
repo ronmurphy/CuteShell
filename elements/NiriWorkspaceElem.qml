@@ -27,6 +27,9 @@ BarElementItem {
     ListView {
         id:listv
         implicitWidth: root.uniqueIndex == Settings.curridx ? root.scaleHeightMin*3 : root.scaleHeightMin
+        onImplicitWidthChanged: {
+            listv.positionViewAtIndex(NiriFinal.focusedWorkspaceIndex, ListView.Contain)
+        }
         implicitHeight: root.scaleHeightMin
         layoutDirection: Qt.LeftToRight
         orientation: Qt.Horizontal

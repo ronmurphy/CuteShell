@@ -28,6 +28,10 @@ BarElementItem {
         id:listv
         implicitWidth: root.indx == Settings.curridx ? root.scaleHeightMin*3 : root.scaleHeightMin
         implicitHeight: root.scaleHeightMin
+        onImplicitWidthChanged: {
+            listv.positionViewAtIndex(Hyprland.findWorkspaceIndexById(Hyprland.focusedworkspace.id), ListView.Contain)
+        }
+
         layoutDirection: Qt.LeftToRight
         orientation: Qt.Horizontal
         model: Hyprland.workspaces

@@ -14,6 +14,7 @@ import "../"
 BarElementItem {
     id:root
     defaultWidth: scaleHeightMin*3
+    isRectractable: false
     BarContentItem {
         implicitWidth: root.defaultWidth
         implicitHeight: root.scaleHeightMin

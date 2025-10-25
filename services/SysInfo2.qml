@@ -12,8 +12,8 @@ Singleton {
     property real cpuTemp: 0
     property real memGb: 0
     property real memPercent: 0
-    property real diskPercent: 0
-    property real diskAvail: 0
+    property string diskPercent: ""
+    property string diskAvail: ""
     property real rxSpeed: 0
     property real txSpeed: 0
 
@@ -135,15 +135,12 @@ Singleton {
         running: false
         stdout: StdioCollector {
             onStreamFinished: {
-                    const lines = text.trim().split('\n')
-                    // if (lines.length >= 2) {
-                    // const percent = lines[0].replace(/[^0-9]/g, '')
-                    // const avail = lines[1].replace(/[^0-9]/g, '')
-                    lines = text.trim().split(' ')
-                    console.log(lines[1],lines[2])
-                    root.diskPercent = parseInt(lines[1]) || 0
-                    root.diskAvail = parseInt(lines[1]) || 0
-                // }
+                    const lines = text.trim().split('\n');
+                    const dataLine = lines[1];
+                    const parts = dataLine.split(/\s+/);
+                    console.log(parts,"P A R T S")
+                    root.diskPercent = parts[1] || "";
+                    root.diskAvail = parts[2] || "";
             }
         }
     }

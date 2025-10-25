@@ -17,10 +17,11 @@ Item {
     id: root
     default property alias content: itemsrow.data
     property real scaleHeightMin: parent.parent.scaleHeight
-    property real defaultWidth: decorConfig?.properties?.defaultWidth || scaleHeightMin
+    property real defaultWidth: config?.props?.defaultWidth || scaleHeightMin
     property int uniqueIndex: -1
     property int sideIndex: -1
-    property var decorConfig: ({})
+    property var config: ({})
+    property bool isRectractable: true
     
     Component.onCompleted: {
         uniqueIndex = Settings.distributeUniqueIndex(uniqueIndex)
@@ -31,18 +32,18 @@ Item {
                 console.log(i)
             }
         }
-        decorConfig = Settings.getDecorConfig({
+        config = Settings.getConfig({
             themeName: Settings.decorConfigName,
             uniqueIndex:uniqueIndex,
             sideIndex:sideIndex,
             side:root.parent.objectName,
             mainColor:mainColor,
             scaleHeightMin: scaleHeightMin,
-            popupWidth: root.parent.width,
+            popupWidthVariants: [root.parent.parent.width,root.parent.width,root.width,flick.width],
             popupParentVariants: [root.parent.parent,root.parent,root,flick],
             sideLength: root.parent.children.length,
         })
-        root.parent.gap = decorConfig?.gap
+        root.parent.gap = config?.gap
     }
 
     property color mainColor;
@@ -50,13 +51,14 @@ Item {
     readonly property real contentWidth: itemsrow.width
 
     property Loader popupItem: popuploader
-    // property Popup popup: popup
+    property Popup popup: popup
     property Flickable flick: flick
     property Component popupComponent: null
     property Item popupParent: null
 
     implicitHeight: root.scaleHeightMin
     implicitWidth: contentRect.implicitWidth
+    readonly property real maxWidth: itemsrow.width+(root.config?.props?.subtractRectWidth || 0)
     Rectangle {
         id: contentRect
         Loader {
@@ -64,12 +66,13 @@ Item {
             anchors.centerIn: parent
             id: rectDecor
             Component.onCompleted: {
-                rectDecor.setSource(root.decorConfig?.source,root.decorConfig?.decorProperties)
-                // Object.assign({},{"colors": [root.mainColor]},Settings.decorProperties[0]));
+                rectDecor.setSource(root.config?.source,root.config?.mainDecorProps)
+                // Object.assign({},{"colors": [root.mainColor]},Settings.mainDecorProps[0]));
             }
         }
         implicitHeight: root.scaleHeightMin
-        implicitWidth: Settings.curridx == root.uniqueIndex ? itemsrow.width+(root.decorConfig?.properties?.subtractRectWidth || 0) : root.defaultWidth
+        implicitWidth: Settings.curridx == root.uniqueIndex ? root.maxWidth
+            : root.isRectractable ? root.defaultWidth : root.maxWidth
         Behavior on implicitWidth {
             enabled:true
             ElasticBehavior {}
@@ -79,8 +82,8 @@ Item {
         clip: true
         Flickable {
             id: flick
-            width: contentRect.implicitWidth-(root.decorConfig?.properties?.subtractRectWidth || 0)
-            x: root.decorConfig?.properties?.flickableX || 0
+            width: contentRect.implicitWidth-(root.config?.props?.subtractRectWidth || 0)
+            x: root.config?.props?.flickableX || 0
             // anchors.left: contentRect.left
             // anchors.centerIn: contentRect
             height: contentRect.height
@@ -95,16 +98,16 @@ Item {
     }
     Popup {
         id: popup
-        parent: root.decorConfig?.properties?.popupParentItem
+        parent: root.config?.props?.popupParentItem
 
         // parent: flick
-        x: root.decorConfig?.properties?.popupX || 0
+        x: root.config?.props?.popupX || 0
         // x: root.isPopupEmbedded ? 0 : root.parent.x
         y: root.scaleHeightMin
         bottomMargin: Settings.isTop ? 0 : root.scaleHeightMin
         // y: Settings.barAnchor == Settings.barAnchor.TOP ? root.scaleHeightMin : root.scaleHeightMin * 2
         height:0
-        width: root.decorConfig?.properties?.popupWidth || contentRect.width
+        width: root.config?.props?.popupWidth || contentRect.width
         // Behavior on height { 
         //     ElasticBehavior  {} 
         // }

@@ -25,27 +25,31 @@ ProgressBar {
     property Loader backgroundLoader: backgroundLoader
     
     property Component backgroundDecor: Rectangle {
-        color:Settings.dark
+        color:"transparent"
         radius:root.width*0.15
+        border.width: root.width*0.1
+        border.color: "black"
     }
     property Component contentDecor: Rectangle {
-        color:Settings.white
-        radius:19
+        color:"white"
+        radius:root.width*0.15
     }
     
     background: Loader {
+        z:2
         id: backgroundLoader
-        anchors.fill: root
+        // anchors.fill: root
         sourceComponent: root.backgroundDecor
     }
 
-    contentItem: Loader {
-        id: contentLoader
-        // anchors.centerIn: contitem
-        scale:0.8
-        // anchors.margins:root.stepScale*root.width
-        width:root.visualPosition * root.width
-        height:root.height
-        sourceComponent: root.contentDecor
+    contentItem: Item {
+        id: contentitem
+        // anchors.fill: root
+        Loader {
+            width:root.position * contentitem.width
+            height:root.height
+            id: contentLoader
+            sourceComponent: root.contentDecor
+        }
     }
 }

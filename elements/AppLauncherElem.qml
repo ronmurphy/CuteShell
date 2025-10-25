@@ -47,8 +47,8 @@ BarElementItem {
             id: delegateLoader
             anchors.fill: parent
             Component.onCompleted: {
-                delegateLoader.setSource(root.decorConfig?.listDelegate?.source,
-                Object.assign(root.decorConfig?.listDelegate?.properties,
+                delegateLoader.setSource(root.config?.listDelegateProps?.source,
+                Object.assign(root.config?.listDelegateProps?.properties,
                 {colors: ["transparent",Settings.colorPick(root.mainColor,del.index)]}))
 
             }
@@ -57,13 +57,14 @@ BarElementItem {
             id: barcnt
             implicitWidth: root.contentWidth
             implicitHeight: root.scaleHeightMin
-            scale:0.9
+            // scale:1
+            x: delegateLoader.height
             contentItem: Item {
                 id:rl
                 width: barcnt.width
                 height: barcnt.height
                 Image {
-                    scale:0.8
+                    // scale:1
                     anchors.left: parent.left
                     width: rl.height
                     height: rl.height
@@ -117,7 +118,7 @@ BarElementItem {
         implicitWidth:root.scaleHeightMin*5
         implicitHeight:root.scaleHeightMin
         // Component.onCompleted: {
-        //     input.loader.setSource(root.decorConfig?.BarElement?.source,root.decorConfig?.BarElement?.decorProperties)
+        //     input.loader.setSource(root.config?.BarElement?.source,root.config?.BarElement?.decorProperties)
         // }
         onTextedited: {
             

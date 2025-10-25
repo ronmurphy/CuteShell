@@ -36,8 +36,8 @@ BarElementItem {
             highlightRangeMode: ListView.StrictlyEnforceRange
             anchors.fill: parent
             model: Network.wifinetworks
-            contentWidth: root.scaleHeightMin
-            contentHeight: root.height
+            // contentWidth: root.scaleHeightMin
+            // contentHeight: root.height
             delegate: root.delegateComponent
         }
     }
@@ -50,20 +50,16 @@ BarElementItem {
         property bool inputEnabled: false
         implicitWidth: root.contentWidth
         implicitHeight: root.scaleHeightMin
-        // decor: RectTriangleItem {
-        //     colors: ["transparent",Settings.colorPick(root.clr,del.index)]
-        // }
+        Loader {
+            id: delegateLoader
+            anchors.fill: parent
+            Component.onCompleted: {
+                delegateLoader.setSource(root.config?.listDelegateProps?.source,
+                Object.assign(root.config?.listDelegateProps?.properties,
+                {colors: ["transparent",Settings.colorPick(root.mainColor,del.index)]}))
 
-        // Loader {
-        //     id: delegateLoader
-        //     anchors.fill: parent
-        //     Component.onCompleted: {
-        //         delegateLoader.setSource(root.decorConfig?.listDelegate?.source,
-        //         Object.assign(root.decorConfig?.listDelegate?.properties,
-        //         {colors: ["transparent",Settings.colorPick(root.mainColor,del.index)]}))
-
-        //     }
-        // }
+            }
+        }
         BarContentItem {
             scale: 0.9
             id: netInfo

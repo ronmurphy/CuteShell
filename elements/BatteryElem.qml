@@ -23,13 +23,31 @@ BarElementItem {
             Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
         }
     }
-    ProgressBarItem {
-        scale: 0.6
-        from: 0
-        value: Battery.batteryLevel
-        to: 100
-        implicitWidth:root.scaleHeightMin*2
+    Item {
+        id:batteryDecor
+        implicitWidth: root.scaleHeightMin*2
         implicitHeight:root.scaleHeightMin
+        scale: 0.6
+        ProgressBarItem {
+            width: parent.width*0.9
+            height:parent.height
+            anchors.left: parent.left
+            from: 0
+            // value: 100
+            value: 50
+            // value: Battery.batteryLevel
+            to: 100
+            implicitWidth:root.scaleHeightMin*2
+            implicitHeight:root.scaleHeightMin
+        }
+        Rectangle {
+            anchors.right: parent.right
+            anchors.verticalCenter:parent.verticalCenter
+            radius: parent.height*0.1
+            width: parent.width*0.1
+            height:parent.height/2
+            color: "black"
+        }
     }
     BarContentItem {
         implicitWidth: root.scaleHeightMin
