@@ -57,7 +57,7 @@ BarElementItem {
         //     // Other effects can be added here, e.g., shadow, colorization
         // }
         property bool inputEnabled: false
-        implicitWidth: root.contentWidth
+        implicitWidth: root.maxWidth
         implicitHeight: root.scaleHeightMin
         Loader {
             id: delegateLoader
@@ -179,10 +179,8 @@ BarElementItem {
         }
     }
     onConfigChanged: {
-        input.contentLoader.setSource(root.config?.inputProps?.source,
-        root.config?.inputProps?.properties,)
-        input.contentLoader.setSource(root.config?.inputProps?.source,
-        root.config?.inputProps?.properties)
+        input.contentLoader.setSource(root.config.inputProps.source,
+        root.config.inputProps.properties)
     }
     InputItem {
         id: input

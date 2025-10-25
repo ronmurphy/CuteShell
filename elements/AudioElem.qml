@@ -15,10 +15,11 @@ BarElementItem {
     id:root
     BarContentItem {
         id: barContent1
-        implicitWidth:root.scaleHeightMin
+        implicitWidth:root.scaleHeightMin*1.5
         implicitHeight:root.scaleHeightMin
         contentItem: TextItem {
-            text: Math.round(Audio.volume*100)
+            text: Audio.volume + Audio.icon
+            font.pointSize:20
         }
         onBtnclick: {
                 Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex

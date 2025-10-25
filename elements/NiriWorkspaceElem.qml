@@ -36,17 +36,18 @@ BarElementItem {
         model: NiriFinal.allWorkspaces
         delegate: BarContentItem {
             id: del
-            required property string idx;
+            required property int idx;
+            required property int index;
             implicitWidth: root.scaleHeightMin
             implicitHeight: root.scaleHeightMin
-            
             contentItem: TextItem {
                 text: idx
-                color: Settings.colors_grayscale[0][0]
+                color: del.index === NiriFinal.focusedWorkspaceIndex ? root.config.grayScaleColors[2]
+                : root.config.grayScaleColors[0]
             }
 
             onBtnclick: {
-                // Hyprland.activateWorkspaceById(id)
+                NiriFinal.switchToWorkspace(del.idx)
                 Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
             }
         }

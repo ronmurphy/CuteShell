@@ -14,9 +14,21 @@ BarElementItem {
     id:root
     BarContentItem {
         implicitHeight: root.scaleHeightMin
-        implicitWidth: root.scaleHeightMin*2
+        implicitWidth: root.scaleHeightMin*1.5
         contentItem: TextItem {
-            text: SysInfo2.memPercent + "% " + SysInfo2.memGb + " GB"
+            font.pointSize:12
+            text: "  "+SysInfo2.memGb + " GB"
+        }
+        onBtnclick: {
+           Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
+        }
+    }
+    BarContentItem {
+        implicitHeight: root.scaleHeightMin
+        implicitWidth: root.scaleHeightMin
+        contentItem: TextItem {
+            text: SysInfo2.memPercent + "% "
+            font.pointSize:12
         }
         onBtnclick: {
            Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex

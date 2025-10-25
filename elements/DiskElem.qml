@@ -16,7 +16,9 @@ BarElementItem {
         implicitWidth: root.scaleHeightMin
         implicitHeight: root.scaleHeightMin
         contentItem: TextItem {
-            text: SysInfo2.diskPercent
+            font.pointSize:12
+
+            text: SysInfo2.diskAvail
         }
         onBtnclick: {
            Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
@@ -26,7 +28,9 @@ BarElementItem {
         implicitWidth: root.scaleHeightMin
         implicitHeight: root.scaleHeightMin
         contentItem: TextItem {
-            text: SysInfo2.diskAvail
+            font.pointSize:12
+
+            text: SysInfo2.diskPercent
         }
         onBtnclick: {
            Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex

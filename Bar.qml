@@ -42,13 +42,13 @@ Variants {
                 anchors.left: bar.left
                 direction: FlexboxLayout.Row
                 height: bar.scaleHeight
+                MenuElem{}
                 NiriWorkspaceElem{}
                 // HyprlandWorkspaceElem{}
                 CpuElem{}
                 DiskElem{}
                 AppLauncherElem{id: applauncher}
                 MemoryElem{}
-                MenuElem{}
             }
             FlexboxLayout {
                 id: center

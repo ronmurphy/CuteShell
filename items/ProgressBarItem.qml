@@ -21,8 +21,8 @@ ProgressBar {
     implicitWidth: 80
     implicitHeight: 40
     property real stepScale: 0.5 
-    property Loader contentLoader: contentLoader
-    property Loader backgroundLoader: backgroundLoader
+    property Loader contentloader: contentLoader
+    property Loader backgroundloader: backgroundLoader
     
     property Component backgroundDecor: Rectangle {
         color:"transparent"

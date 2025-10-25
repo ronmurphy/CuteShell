@@ -20,7 +20,7 @@ Item {
     property real defaultWidth: config?.props?.defaultWidth || scaleHeightMin
     property int uniqueIndex: -1
     property int sideIndex: -1
-    property var config: ({})
+    property var config: null
     property bool isRectractable: true
     
     Component.onCompleted: {
@@ -87,6 +87,8 @@ Item {
             clip: true
             FlexboxLayout {
                 direction: FlexboxLayout.Row 
+                alignContent:FlexboxLayout.AlignCenter
+                alignItems:FlexboxLayout.AlignCenter
                 // anchors.verticalCenter: root.verticalCenter
                 id: itemsrow
             }

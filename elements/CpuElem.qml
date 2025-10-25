@@ -14,9 +14,23 @@ BarElementItem {
     id:root
     BarContentItem {
         implicitHeight: root.scaleHeightMin
-        implicitWidth: root.scaleHeightMin*2
+        implicitWidth: root.scaleHeightMin*1.5
         contentItem: TextItem {
-            text: SysInfo2.cpuUsage + "% " + SysInfo2.cpuTemp + "  "
+            font.pointSize:12
+            // elide: Text.ElideRight
+            // fontSizeMode: Text.HorizontalFit
+            text: "  "+SysInfo2.cpuUsage + "% "
+        }
+        onBtnclick: {
+           Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
+        }
+    }
+    BarContentItem {
+        implicitHeight: root.scaleHeightMin
+        implicitWidth: root.scaleHeightMin
+        contentItem: TextItem {
+            font.pointSize:12
+            text: SysInfo2.cpuTemp + "  "
         }
         onBtnclick: {
            Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex

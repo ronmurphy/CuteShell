@@ -38,7 +38,6 @@ Rectangle {
         sourceComponent: root.decor
     }
 
-    anchors.verticalCenter: parent.verticalCenter
     TextInput {
         echoMode: TextInput.Normal
         id: inp

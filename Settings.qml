@@ -45,6 +45,7 @@ Singleton {
     ]
     property list<var> colors_grayscale: [
         ["#424b50",
+        "#8a887d",
         "#d3c6aa"],
 
         ["#ABB2BF", //white  
@@ -62,7 +63,10 @@ Singleton {
             EverforestTriangle: {
                 inverted: options.side === "left" || (options.side === "center" && options.sideIndex === 1) ? true : false,
                 source:decorComponents[0],
+                
                 mainColor: colorPick("black",options?.sideIndex || 0),
+                grayScaleColors: root.colors_grayscale[0],
+                
                 popupParentItem: options.side === "left" ||  options.side === "right" ? options.popupParentVariants[2]
                     : options.popupParentVariants[1],
 
@@ -89,6 +93,7 @@ Singleton {
                         popupX: this.popupX,
                         popupParentItem: this.popupParentItem,
                         mainColor: this.mainColor,
+                        grayScaleColor: this.grayScaleColors,
                     }
                 },
                 get mainDecorProps() {
@@ -109,21 +114,36 @@ Singleton {
                     return {
                         source: "../decorations/RectTriangleItem.qml",
                         properties: {
-                            colors: ["transparent",root.colors_grayscale[0][0]],
+                            colors: ["transparent",this.grayScaleColors[0]],
                             // scale: 0.7,
                             // implicitWidth: options?.scaleHeightMin,
                             // implicitHeight: options?.scaleHeightMin
                         }
                     }
                 },
-                get progressBarProperties() {
-                    return {}
+                get progressBarProps() {
+                    return {
+                        bgSource: "../decorations/GenericDecorItem.qml",
+                        bgProps: {
+                            color: "transparent",
+                            radius:options.scaleHeightMin*0.2,
+                            "border.width": options.scaleHeightMin*0.07,
+                            "border.color": this.grayScaleColors[0],
+                            borderColor: this.grayScaleColors[0],
+                        },
+                        fgSource: "../decorations/GenericDecorItem.qml",
+                        fgProps: {
+                            // colors: ["transparent",root.colors_grayscale[0][0]],
+                            color:this.grayScaleColors[2],
+                            radius:options.scaleHeightMin*0.3
+                        }
+                    }
                 },
                 get sliderProps() {
                     return {
                         source: "../decorations/RectTriangleItem.qml",
                         properties: {
-                            colors: ["transparent",root.colors_grayscale[0][0]]
+                            colors: ["transparent",this.grayScaleColors[0]]
                         }
                     }
                 }
@@ -156,8 +176,9 @@ Singleton {
     
     function colorPick(excludeColor: string,idx: int): string {
         const rm = idx % colors[0].length
+        const rm2 = idx+1 % colors[0].length
         if (colors[0][rm] === excludeColor) {
-            return colors[0][idx+1 % colors[0].length]
+            return colors[0][rm2]
         }
         return colors[0][rm]
     }

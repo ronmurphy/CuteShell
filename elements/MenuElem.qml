@@ -16,11 +16,15 @@ pragma ComponentBehavior: Bound
 
 BarElementItem {
     id:root
+    onImplicitWidthChanged: {
+        textitem.rotation = textitem.rotation === 0 ? 90 :0
+    }
     BarContentItem {
         implicitWidth: root.scaleHeightMin
         implicitHeight: root.scaleHeightMin
         contentItem: TextItem {
-            text: "Menu"
+            id:textitem
+            text: " "
         }
         onBtnclick: {
             Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
@@ -35,6 +39,16 @@ BarElementItem {
         }
         onBtnclick: {
             Settings.changeBarState()
+        }
+    }
+    BarContentItem {
+        implicitWidth: root.scaleHeightMin
+        implicitHeight: root.scaleHeightMin
+        contentItem: TextItem {
+            text: " "
+        }
+        onBtnclick: {
+            Quickshell.execDetached(["sh" ,"-c","niri msg action screenshot"])
         }
     }
     ListView {
