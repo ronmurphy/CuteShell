@@ -169,6 +169,12 @@ BarElementItem {
             Network.getNetworks = true
         }
     }
+    onConfigChanged: {
+        input.contentLoader.setSource(root.config?.inputProps?.source,
+        root.config?.inputProps?.properties,)
+        input.contentLoader.setSource(root.config?.inputProps?.source,
+        root.config?.inputProps?.properties)
+    }
     InputItem {
         id: input
         scale: visible ? 1.0 : 0.1
@@ -181,7 +187,8 @@ BarElementItem {
             clip: true
         }
         visible: root.inputactive
-        implicitWidth:root.scaleHeightMin*5
-        implicitHeight:root.scaleHeightMin
+        // anchors.verticalCenter: root.verticalCenter
+        implicitWidth:root.scaleHeightMin*3
+        implicitHeight:root.scaleHeightMin*0.8
     }
 }

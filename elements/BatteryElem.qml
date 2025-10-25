@@ -13,16 +13,16 @@ import "../"
 
 BarElementItem {
     id:root
-    BarContentItem {
-        implicitWidth: root.scaleHeightMin
-        implicitHeight:root.scaleHeightMin
-        contentItem: TextItem {
-            text: Battery.batteryLevel
-        }
-        onBtnclick: {
-            Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
-        }
-    }
+    // BarContentItem {
+    //     implicitWidth: root.scaleHeightMin
+    //     implicitHeight:root.scaleHeightMin
+    //     contentItem: TextItem {
+    //         text: Battery.batteryLevel
+    //     }
+    //     onBtnclick: {
+    //         Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
+    //     }
+    // }
     Item {
         id:batteryDecor
         implicitWidth: root.scaleHeightMin*2
@@ -34,8 +34,8 @@ BarElementItem {
             anchors.left: parent.left
             from: 0
             // value: 100
-            value: 50
-            // value: Battery.batteryLevel
+            // value: 50
+            value: Battery.batteryLevel
             to: 100
             implicitWidth:root.scaleHeightMin*2
             implicitHeight:root.scaleHeightMin
@@ -48,6 +48,18 @@ BarElementItem {
             height:parent.height/2
             color: "black"
         }
+        BarContentItem {
+            implicitWidth: root.scaleHeightMin
+            implicitHeight:root.scaleHeightMin
+
+            anchors.horizontalCenter: parent.horizontalCenter
+            contentItem: TextItem {
+                text: Battery.batteryLevel
+            }
+            onBtnclick: {
+                Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
+            }
+        }
     }
     BarContentItem {
         implicitWidth: root.scaleHeightMin
@@ -55,6 +67,12 @@ BarElementItem {
         contentItem: TextItem {
             text: "󰃟 "
         }
+    }
+    onConfigChanged: {
+        sld.handleloader.setSource(root.config?.sliderProps?.source,
+        root.config?.sliderProps?.properties,)
+        sld.backgroundloader.setSource(root.config?.sliderProps?.source,
+        root.config?.sliderProps?.properties)
     }
     SliderItem {
         implicitWidth:root.scaleHeightMin*3

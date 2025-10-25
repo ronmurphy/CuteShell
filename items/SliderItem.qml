@@ -22,10 +22,7 @@ Item {
     implicitHeight: 40
 
     property Loader handleloader: handleLoader
-    // property url source: ""
-    // property var props: ({})
     property Loader backgroundloader: backgroundLoader
-    // property Slider slider: sldr
 
     property Component backgroundDecor: Rectangle {
         color:Settings.dark
@@ -56,13 +53,8 @@ Item {
             y: sldr.topPadding + (sldr.vertical ? sldr.visualPosition * (sldr.availableHeight - height) : (sldr.availableHeight - height) / 2)
             width:root.width/3
             height:root.height/2
-            // Component.onCompleted: {
-            //     if (sourceComponent === null) {
-            //         handleLoader.setSource(root.source,root.props)
-            //     }
-            // }
-            sourceComponent: null
-            // sourceComponent: root.handleDecor
+            // sourceComponent: null
+            sourceComponent: root.handleDecor
         }
     }
 }

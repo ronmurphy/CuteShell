@@ -25,16 +25,14 @@ BarElementItem {
         }
     }
     onConfigChanged: {
-        sld.handleloader.setSource(root.config?.listDelegateProps?.source,
-        Object.assign(root.config?.listDelegateProps?.properties,
-        {colors: ["transparent",Settings.colorPick(root.mainColor,root.uniqueIndex)]}))
+        sld.handleloader.setSource(root.config?.sliderProps?.source,
+        root.config?.sliderProps?.properties,)
+        sld.backgroundloader.setSource(root.config?.sliderProps?.source,
+        root.config?.sliderProps?.properties)
     }
     SliderItem {
         implicitWidth:root.scaleHeightMin*3
         implicitHeight:root.scaleHeightMin
-        // source:root.config?.listDelegateProps?.source
-        // props:Object.assign(root.config?.listDelegateProps?.properties,
-        //     {colors: ["transparent",Settings.colorPick(root.mainColor,root.uniqueIndex)]})
         id: sld
         start: 0
         initvalue: 0.3

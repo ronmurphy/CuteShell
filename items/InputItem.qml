@@ -38,10 +38,11 @@ Rectangle {
         sourceComponent: root.decor
     }
 
+    anchors.verticalCenter: parent.verticalCenter
     TextInput {
         echoMode: TextInput.Normal
         id: inp
-        width: root.width*root.scaleInputWidth
+        width: contentLoader.width
         anchors.centerIn: parent
         focus: true
         activeFocusOnPress: true

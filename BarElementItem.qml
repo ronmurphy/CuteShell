@@ -28,7 +28,6 @@ Item {
         for (const [i,v] of root.parent.children.entries()) {
             if (v === root) {
                 sideIndex = i
-                mainColor = Settings.colorPick("black",i)
                 console.log(i)
             }
         }
@@ -37,8 +36,8 @@ Item {
             uniqueIndex:uniqueIndex,
             sideIndex:sideIndex,
             side:root.parent.objectName,
-            mainColor:mainColor,
             scaleHeightMin: scaleHeightMin,
+            firstChildrenWidth: itemsrow.children[0].width,
             popupWidthVariants: [root.parent.parent.width,root.parent.width,root.width,flick.width],
             popupParentVariants: [root.parent.parent,root.parent,root,flick],
             sideLength: root.parent.children.length,
@@ -46,7 +45,7 @@ Item {
         root.parent.gap = config?.gap
     }
 
-    property color mainColor;
+    property color mainColor: config?.props?.mainColor
     property bool isPopupVisible: false
     readonly property real contentWidth: itemsrow.width
 
@@ -67,7 +66,6 @@ Item {
             id: rectDecor
             Component.onCompleted: {
                 rectDecor.setSource(root.config?.source,root.config?.mainDecorProps)
-                // Object.assign({},{"colors": [root.mainColor]},Settings.mainDecorProps[0]));
             }
         }
         implicitHeight: root.scaleHeightMin
@@ -78,20 +76,20 @@ Item {
             ElasticBehavior {}
         }
         color: "transparent"
-        // color: root.mainColor
         clip: true
         Flickable {
             id: flick
             width: contentRect.implicitWidth-(root.config?.props?.subtractRectWidth || 0)
             x: root.config?.props?.flickableX || 0
             // anchors.left: contentRect.left
-            // anchors.centerIn: contentRect
+            anchors.centerIn: contentRect
             height: contentRect.height
             contentWidth: itemsrow.width
             contentHeight: root.scaleHeightMin
             clip: true
             FlexboxLayout {
                 direction: FlexboxLayout.Row 
+                // anchors.verticalCenter: root.verticalCenter
                 id: itemsrow
             }
         }

@@ -62,7 +62,7 @@ Singleton {
             EverforestTriangle: {
                 inverted: options.side === "left" || (options.side === "center" && options.sideIndex === 1) ? true : false,
                 source:decorComponents[0],
-
+                mainColor: Settings.colorPick("black",options?.sideIndex || 0),
                 popupParentItem: options.side === "left" ||  options.side === "right" ? options.popupParentVariants[3]
                     : options.popupParentVariants[1],
 
@@ -79,10 +79,12 @@ Singleton {
                     return {
                         flickableX: this.inverted ? 0 : (options?.scaleHeightMin/2 || 0),   
                         subtractRectWidth: options?.scaleHeightMin/2 || 0, 
-                        defaultWidth: options?.scaleHeightMin*1.5,
+                        defaultWidth: options?.firstChildrenWidth+(options?.scaleHeightMin*0.5),
+                        // defaultWidth: options?.scaleHeightMin*1.5,
                         popupWidth: this.popupWidth ?? null,
                         popupX: options.scaleHeightMin/2,
                         popupParentItem: this.popupParentItem,
+                        mainColor: this.mainColor,
                     }
                 },
                 get mainDecorProps() {
@@ -99,14 +101,27 @@ Singleton {
                         }
                     }
                 },
-                get inputProperties() {
-                    return {}
+                get inputProps() {
+                    return {
+                        source: "../decorations/RectTriangleItem.qml",
+                        properties: {
+                            colors: ["transparent",root.colors_grayscale[0][0]],
+                            // scale: 0.7,
+                            // implicitWidth: options?.scaleHeightMin,
+                            // implicitHeight: options?.scaleHeightMin
+                        }
+                    }
                 },
                 get progressBarProperties() {
                     return {}
                 },
-                get SliderProperties() {
-                    return {}
+                get sliderProps() {
+                    return {
+                        source: "../decorations/RectTriangleItem.qml",
+                        properties: {
+                            colors: ["transparent",root.colors_grayscale[0][0]]
+                        }
+                    }
                 }
             },
             "OnedarkCircle": {
@@ -138,7 +153,7 @@ Singleton {
     function colorPick(excludeColor: string,idx: int): string {
         const rm = idx % colors[0].length
         if (colors[0][rm] === excludeColor) {
-            return "#d699b6"
+            return colors[0][idx+1 % colors[0].length]
         }
         return colors[0][rm]
     }
