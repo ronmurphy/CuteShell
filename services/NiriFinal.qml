@@ -64,35 +64,27 @@ Singleton {
         switch (eventType) {
         case 'WorkspacesChanged':
             handleWorkspacesChanged(event.WorkspacesChanged)
-            console.log("Workspaces changed",root.allWorkspaces[0].id)
             break
         case 'WorkspaceActivated':
-            console.log("Workspace activated")
             handleWorkspaceActivated(event.WorkspaceActivated)
             break
         case 'WorkspaceActiveWindowChanged':
-            console.log("Workspace active window changed")
             handleWorkspaceActiveWindowChanged(event.WorkspaceActiveWindowChanged)
             break
         case 'WorkspaceActiveWindowChanged':
-            console.log("Workspace active window changed")
             handleWorkspaceActiveWindowChanged(event.WorkspaceActiveWindowChanged)
             break
         case 'WindowFocusChanged':
-            console.log("Windows changed")
             currentWindowTitle = windows.find(p => p.id === event.WindowFocusChanged.id).title
             break
         case 'WindowsChanged':
-            console.log("Windows changed")
             windows = sortWindowsByLayout(event.WindowsChanged.windows)
             currentWindowTitle = windows.find(p => p.is_focused).title
             break
         case 'WindowOpenedOrChanged':
-            console.log("Window opened or changed")
             handleWindowOpenedOrChanged(event.WindowOpenedOrChanged)
             break
         case 'WindowClosed':
-            console.log("window closed")
             windows = windows.filter(w => w.id !== event.WindowClosed.id)
             break
         case 'OverviewOpenedOrClosed':

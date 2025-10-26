@@ -138,7 +138,6 @@ Singleton {
                     const lines = text.trim().split('\n');
                     const dataLine = lines[1];
                     const parts = dataLine.split(/\s+/);
-                    console.log(parts,"P A R T S")
                     root.diskPercent = parts[1] || "";
                     root.diskAvail = parts[2] || "";
             }
