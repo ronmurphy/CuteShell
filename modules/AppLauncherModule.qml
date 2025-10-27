@@ -23,7 +23,7 @@ BarModuleItem {
     popupComponent: Rectangle {
         id: rectpop
         anchors.fill:parent
-        color: root.clr
+        color: root.config.props.primaryColor
         clip:true
         ListView {
             // highlightRangeMode: ListView.StrictlyEnforceRange
@@ -36,34 +36,28 @@ BarModuleItem {
         }
     }
     
-    property Component delegateComponent: Item {
+    property Component delegateComponent: Loader {
         id: del
         required property string name;
         required property string icon;
         required property int index
-        implicitWidth: root.contentWidth
-        implicitHeight: root.scaleHeightMin
-        Loader {
-            id: delegateLoader
-            anchors.fill: parent
-            Component.onCompleted: {
-                delegateLoader.setSource(root.config?.listDelegateProps?.source,
-                Object.assign(root.config?.listDelegateProps?.properties,
-                {colors: ["transparent",Settings.colorPick(root.config.primaryColor,root.config.bgColors,del.index)]}))
-
-            }
+        width: root.maxWidth
+        height: root.scaleHeightMin
+        Component.onCompleted: {
+            del.setSource(root.config?.listDelegateProps?.source,
+            Object.assign(root.config?.listDelegateProps?.properties,
+            {colors: ["transparent",Settings.colorPick(root.config.props.primaryColor,root.config.props.bgColors,del.index)]}))
         }
         BarContentItem {
             id: barcnt
-            implicitWidth: root.contentWidth
-            implicitHeight: root.scaleHeightMin
-            // scale:1
-            x: delegateLoader.height
+            z:1
+            anchors.fill: del
             contentItem: Item {
                 id:rl
                 width: barcnt.width
                 height: barcnt.height
                 Image {
+                    anchors.leftMargin:rl.height/2
                     anchors.left: parent.left
                     width: rl.height
                     height: rl.height
@@ -71,9 +65,11 @@ BarModuleItem {
                     source:Quickshell.iconPath(del.icon,true)
                 }
                 TextItem {
+                    elide:Text.ElideRight
+                    anchors.rightMargin:rl.height/2
                     color: root.config.props.secondaryColor
                     anchors.right: parent.right
-                    width: rl.width-rl.height
+                    width: rl.width-(rl.height*2)
                     height: rl.height
                     text: del.name
                 }
@@ -121,8 +117,8 @@ BarModuleItem {
             colors: ["transparent",Settings.colorPick(root.config.primaryColor,root.config.bgColors,del.index)]
         }
         visible: root.inputactive
-        implicitWidth:root.scaleHeightMin*5
-        implicitHeight:root.scaleHeightMin
+        implicitWidth:root.scaleHeightMin*4.5
+        implicitHeight:root.scaleHeightMin*0.75
         onTextedited: {
             AppLauncher.matchString = gettext().toLowerCase()
             console.log(AppLauncher.matchString)

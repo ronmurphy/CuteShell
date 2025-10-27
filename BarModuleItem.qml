@@ -84,6 +84,7 @@ Item {
             contentWidth: itemsrow.width
             contentHeight: root.scaleHeightMin
             clip: true
+            // scale:0.8 //////////////////////////////////////////////////////////////////
             FlexboxLayout {
                 direction: FlexboxLayout.Row 
                 alignContent:FlexboxLayout.AlignCenter

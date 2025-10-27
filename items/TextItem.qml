@@ -20,7 +20,4 @@ Text {
     font.pointSize: 72
     minimumPointSize: 10
     antialiasing:true
-    // font.family: "JetBrainsMono NFM ExtraBold,JetBrainsMono NF ExtraBold"
-    // font.family: "JetBrainsMono NF ExtraBold"
-    // color: Settings.colorsGrayscale[0][0]
 }

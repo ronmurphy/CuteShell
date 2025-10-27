@@ -25,7 +25,7 @@ BarModuleItem {
     popupComponent: Rectangle {
         id: rectpop
         anchors.fill:parent
-        color: root.clr
+        color: root.config.props.primaryColor
         clip:true
         ListView {
             // highlightRangeMode: ListView.StrictlyEnforceRange
@@ -38,25 +38,23 @@ BarModuleItem {
         }
     }
 
-    property Component delegateComponent: Item {
+    property Component delegateComponent: Loader {
         id:del
+        scale:0.9
         required property string ssid; required property bool profileExist;
         required property string bars; required property string security;
         required property int index
         property bool inputEnabled: false
-        implicitWidth: root.maxWidth
-        implicitHeight: root.scaleHeightMin
-        Loader {
-            id: delegateLoader
-            anchors.fill: parent
-            Component.onCompleted: {
-                delegateLoader.setSource(root.config?.listDelegateProps?.source,
-                Object.assign(root.config?.listDelegateProps?.properties,
-                {colors: ["transparent",Settings.colorPick(root.config.primaryColor,root.config.bgColors,del.index)]}))
+        width: root.maxWidth
+        height: root.scaleHeightMin
+        Component.onCompleted: {
+            del.setSource(root.config?.listDelegateProps?.source,
+            Object.assign(root.config?.listDelegateProps?.properties,
+            {colors: ["transparent",Settings.colorPick(root.config.props.primaryColor,root.config.props.bgColors,del.index)]}))
 
-            }
         }
         BarContentItem {
+            z:1
             id: netInfo
             visible: !root.inputEnabled || root.selectedConn != index
             anchors.fill: parent
@@ -82,6 +80,7 @@ BarModuleItem {
             }
         }
         Item {
+            z:1
             id: netAction
             visible: root.inputEnabled && root.selectedConn === index
             anchors.fill: parent
@@ -104,7 +103,7 @@ BarModuleItem {
                 height: del.height
                 anchors.horizontalCenter: parent.horizontalCenter
                 decor: RectTriangleItem {
-                    colors: ["transparent",Settings.colorPick(root.config.primaryColor,root.config.bgColors,del.index)]
+                    colors: ["transparent",Settings.colorPick("",root.config.props.fgColors,0)]
                 }
             }
             Item {
@@ -177,7 +176,7 @@ BarModuleItem {
         }
         decor: RectTriangleItem {
             scale: 0.7
-            colors: ["transparent",Settings.colorPick(root.config.primaryColor,root.config.bgColors,del.index)]
+            colors: ["transparent",Settings.colorPick(root.config.props.primaryColor,root.config.props.bgColors,del.index)]
             clip: true
         }
         visible: root.inputactive
