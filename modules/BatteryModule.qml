@@ -11,7 +11,7 @@ import "../decorations"
 import "../items"
 import "../"
 
-BarElementItem {
+BarModuleItem {
     id:root
     Item {
         id:batteryDecor
@@ -19,7 +19,7 @@ BarElementItem {
         implicitHeight:root.scaleHeightMin*0.7
         ProgressBarItem {
             id: progressBar
-            width: parent.width*0.9
+            width: parent.width*0.8
             height:parent.height
             anchors.left: parent.left
             from: 0
@@ -31,6 +31,7 @@ BarElementItem {
         Rectangle {
             anchors.right: parent.right
             anchors.verticalCenter:parent.verticalCenter
+            anchors.rightMargin: parent.width*0.05
             // radius: parent.height*0.1
             topRightRadius:parent.height*0.1
             bottomRightRadius:parent.height*0.1
@@ -43,6 +44,7 @@ BarElementItem {
             anchors.horizontalCenter: parent.horizontalCenter
             contentItem: TextItem {
                 text: Battery.batteryLevel
+                color: root.config.props.secondaryColor
             }
             onBtnclick: {
                 Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
@@ -53,6 +55,7 @@ BarElementItem {
         implicitWidth: root.scaleHeightMin
         implicitHeight:root.scaleHeightMin
         contentItem: TextItem {
+            color: root.config.props.secondaryColor
             text: "󰃟 "
         }
     }

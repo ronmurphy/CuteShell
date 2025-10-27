@@ -7,22 +7,21 @@ import QtQuick.Layouts
 import QtQuick.Shapes
 import QtQml
 import "../services"
+import "../items"
 import "../"
 
-BarItem {
+BarModuleItem {
     id:root
-    defaultWidth: scaleHeightMin*3
     BarContentItem {
-        implicitWidth: root.defaultWidth
+        implicitWidth: root.scaleHeightMin*2
         implicitHeight: root.scaleHeightMin
         contentItem: TextItem {
-            font.pointSize:12
-            elide: Text.ElideRight
-            fontSizeMode: Text.VerticalFit
-            text: Hyprland.activetoplevel.title
+            text: SysInfo2.clockdate
+            color: root.config.props.secondaryColor
+        }
+        onBtnclick: {
+           Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
         }
     }
 }
-
-
 

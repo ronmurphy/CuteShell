@@ -27,6 +27,7 @@ Singleton {
     function changeBarState() {
         barAnchor = isTop ? barAnchors.BOTTOM : barAnchors.TOP
     }
+
     property bool isTop: barAnchor == barAnchors.TOP
     property list<var> colors: [
         ["#d699b6",
@@ -43,14 +44,13 @@ Singleton {
         "#56B6C2", //cyan  
         "#61AFEF",] //blue
     ]
-    property list<var> colors_grayscale: [
+    property list<var> colorsGrayscale: [ // black,gray,white
         ["#424b50",
         "#8a887d",
         "#d3c6aa"],
-
-        ["#ABB2BF", //white  
-        "#282C34", //black  
-        "#3E4452",] //gray
+        ["#282C34",
+        "#3E4452",
+        "#ABB2BF"],
     ]
     property string decorConfigName: "EverforestTriangle"
 
@@ -61,12 +61,9 @@ Singleton {
     function getConfig(options = {}) {
         const configs = {
             EverforestTriangle: {
+
                 inverted: options.side === "left" || (options.side === "center" && options.sideIndex === 1) ? true : false,
                 source:decorComponents[0],
-                
-                mainColor: colorPick("black",options?.sideIndex || 0),
-                grayScaleColors: root.colors_grayscale[0],
-                
                 popupParentItem: options.side === "left" ||  options.side === "right" ? options.popupParentVariants[2]
                     : options.popupParentVariants[1],
 
@@ -77,11 +74,22 @@ Singleton {
 
                 sideLength: options.sideLength,
                 gap: -1,
-                colors: options.side === "center" ? ["transparent","#4c7fbbb3"] :
-                    options.sideIndex === options.sideLength-1 ? ["transparent",colorPick("black",options.sideIndex)] : 
-                    [colorPick("black",options.sideIndex+1),colorPick("black",options.sideIndex)], 
                 popupX: options.side === "left" ? -options.scaleHeightMin/2 :
                     options.side === "right" ? options.scaleHeightMin/2 : options.scaleHeightMin/2,
+
+                get palette() {
+                    return {
+                        bgColors: root.colors[0],
+                        fgColors: root.colorsGrayscale[0]
+                    }
+                },
+                get sideColors() {
+                    return {
+                        colors: options.side === "center" ? ["transparent","#4c7fbbb3"] :
+                            options.sideIndex === options.sideLength-1 ? ["transparent",colorPick("",this.palette.bgColors,options.sideIndex)] : 
+                            [colorPick("",this.palette.bgColors,options.sideIndex+1),colorPick("",this.palette.bgColors,options.sideIndex)],
+                    }
+                },
 
                 get props() {
                     return {
@@ -92,14 +100,16 @@ Singleton {
                         subtractPopupWidth: this.subtractPopupWidth,
                         popupX: this.popupX,
                         popupParentItem: this.popupParentItem,
-                        mainColor: this.mainColor,
-                        grayScaleColor: this.grayScaleColors,
+                        primaryColor: colorPick("",this.palette.bgColors,options?.sideIndex || 0),
+                        secondaryColor: this.palette.fgColors[0],
+                        bgColors: this.palette.bgColors,
+                        fgColors: this.palette.fgColors,
                     }
                 },
                 get mainDecorProps() {
                     return {
                         inverted: this.inverted,
-                        colors: this.colors,
+                        colors: this.sideColors.colors,
                     }
                 },
                 get listDelegateProps() {
@@ -114,10 +124,7 @@ Singleton {
                     return {
                         source: "../decorations/RectTriangleItem.qml",
                         properties: {
-                            colors: ["transparent",this.grayScaleColors[0]],
-                            // scale: 0.7,
-                            // implicitWidth: options?.scaleHeightMin,
-                            // implicitHeight: options?.scaleHeightMin
+                            colors: ["transparent",this.palette.fgColors[0]],
                         }
                     }
                 },
@@ -128,59 +135,37 @@ Singleton {
                             color: "transparent",
                             radius:options.scaleHeightMin*0.2,
                             "border.width": options.scaleHeightMin*0.07,
-                            "border.color": this.grayScaleColors[0],
-                            borderColor: this.grayScaleColors[0],
+                            "border.color": this.palette.fgColors[0],
+                            borderColor: this.palette.fgColors[0],
                         },
                         fgSource: "../decorations/GenericDecorItem.qml",
                         fgProps: {
                             // colors: ["transparent",root.colors_grayscale[0][0]],
-                            color:this.grayScaleColors[2],
+                            color:this.palette.fgColors[2],
                             radius:options.scaleHeightMin*0.3
                         }
                     }
                 },
                 get sliderProps() {
-                    return {
-                        source: "../decorations/RectTriangleItem.qml",
-                        properties: {
-                            colors: ["transparent",this.grayScaleColors[0]]
-                        }
-                    }
+                    return this.inputProps
                 }
             },
-            "OnedarkCircle": {
-                "Settings": {
-                
-                },
-                "BarElement":{
-                
-                },
-                "Input":{
-                    
-                },
-                "ProgressBar":{
-                
-                },
-                "Slider":{
-                
-                }
-            }
         }
         return configs[options.themeName]
     }
 
     property list<string> centerColors: ["#4c7fbbb3","#7fbbb3"]
     
-    property int curridx:-1 // current index for retractable elements
-    property int indexDistribute // indices for retractable elements
+    property int curridx:-1 // current index for module
+    property int indexDistribute // indices for modules
     
-    function colorPick(excludeColor: string,idx: int): string {
-        const rm = idx % colors[0].length
-        const rm2 = idx+1 % colors[0].length
-        if (colors[0][rm] === excludeColor) {
-            return colors[0][rm2]
+    function colorPick(excludeColor,colors,idx) {
+        const rm = idx % colors.length
+        const rm2 = (idx+1) % colors.length
+        if (colors[rm] === excludeColor) {
+            return colors[rm2]
         }
-        return colors[0][rm]
+        return colors[rm]
     }
 
     function distributeUniqueIndex(): int {

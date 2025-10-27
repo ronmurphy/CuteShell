@@ -11,7 +11,7 @@ import "../services"
 import "../items"
 import "../"
 
-BarElementItem {
+BarModuleItem {
     id:root
     BarContentItem {
         id: barContent1
@@ -20,6 +20,7 @@ BarElementItem {
         contentItem: TextItem {
             text: Audio.volume + Audio.icon
             font.pointSize:20
+            color: root.config.props.secondaryColor
         }
         onBtnclick: {
                 Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex

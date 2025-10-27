@@ -10,25 +10,27 @@ import "../services"
 import "../items"
 import "../"
 
-BarElementItem {
+BarModuleItem {
     id:root
     BarContentItem {
+        implicitWidth: root.scaleHeightMin
         implicitHeight: root.scaleHeightMin
-        implicitWidth: root.scaleHeightMin*1.5
         contentItem: TextItem {
             font.pointSize:12
-            text: "  "+SysInfo2.memGb + " GB"
+            color: root.config.props.secondaryColor
+            text: SysInfo2.diskAvail
         }
         onBtnclick: {
            Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
         }
     }
     BarContentItem {
-        implicitHeight: root.scaleHeightMin
         implicitWidth: root.scaleHeightMin
+        implicitHeight: root.scaleHeightMin
         contentItem: TextItem {
-            text: SysInfo2.memPercent + "% "
             font.pointSize:12
+            color: root.config.props.secondaryColor
+            text: SysInfo2.diskPercent
         }
         onBtnclick: {
            Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex

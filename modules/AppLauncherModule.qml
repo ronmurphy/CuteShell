@@ -13,7 +13,7 @@ import "../"
 
 pragma ComponentBehavior: Bound
 
-BarElementItem {
+BarModuleItem {
     id:root
     isPopupVisible: false
     property bool inputactive: false
@@ -49,7 +49,7 @@ BarElementItem {
             Component.onCompleted: {
                 delegateLoader.setSource(root.config?.listDelegateProps?.source,
                 Object.assign(root.config?.listDelegateProps?.properties,
-                {colors: ["transparent",Settings.colorPick(root.mainColor,del.index)]}))
+                {colors: ["transparent",Settings.colorPick(root.config.primaryColor,root.config.bgColors,del.index)]}))
 
             }
         }
@@ -64,7 +64,6 @@ BarElementItem {
                 width: barcnt.width
                 height: barcnt.height
                 Image {
-                    // scale:1
                     anchors.left: parent.left
                     width: rl.height
                     height: rl.height
@@ -72,6 +71,7 @@ BarElementItem {
                     source:Quickshell.iconPath(del.icon,true)
                 }
                 TextItem {
+                    color: root.config.props.secondaryColor
                     anchors.right: parent.right
                     width: rl.width-rl.height
                     height: rl.height
@@ -89,7 +89,7 @@ BarElementItem {
     BarContentItem {
         implicitSize:root.scaleHeightMin
         contentItem: TextItem {
-            // implicitSize: root.scaleHeightMin
+            color: root.config.props.secondaryColor
             text: "󰀻"
         }
         onBtnclick: {
@@ -101,6 +101,7 @@ BarElementItem {
         visible: !root.inputactive
         implicitSize:root.scaleHeightMin
         contentItem: TextItem {
+            color: root.config.props.secondaryColor
             text: ""
         }
         onBtnclick: {
@@ -117,16 +118,12 @@ BarElementItem {
     InputItem {
         id: input
         decor: RectTriangleItem {
-            colors: ["transparent",Settings.colorPick(root.clr,del.index)]
+            colors: ["transparent",Settings.colorPick(root.config.primaryColor,root.config.bgColors,del.index)]
         }
         visible: root.inputactive
         implicitWidth:root.scaleHeightMin*5
         implicitHeight:root.scaleHeightMin
-        // Component.onCompleted: {
-        //     input.loader.setSource(root.config?.BarElement?.source,root.config?.BarElement?.decorProperties)
-        // }
         onTextedited: {
-            
             AppLauncher.matchString = gettext().toLowerCase()
             console.log(AppLauncher.matchString)
         }

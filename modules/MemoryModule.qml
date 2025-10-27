@@ -10,16 +10,15 @@ import "../services"
 import "../items"
 import "../"
 
-BarElementItem {
+BarModuleItem {
     id:root
     BarContentItem {
         implicitHeight: root.scaleHeightMin
         implicitWidth: root.scaleHeightMin*1.5
         contentItem: TextItem {
             font.pointSize:12
-            // elide: Text.ElideRight
-            // fontSizeMode: Text.HorizontalFit
-            text: "  "+SysInfo2.cpuUsage + "% "
+            text: "  "+SysInfo2.memGb + " GB"
+            color: root.config.props.secondaryColor
         }
         onBtnclick: {
            Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
@@ -29,12 +28,14 @@ BarElementItem {
         implicitHeight: root.scaleHeightMin
         implicitWidth: root.scaleHeightMin
         contentItem: TextItem {
+            text: SysInfo2.memPercent + "% "
             font.pointSize:12
-            text: SysInfo2.cpuTemp + "  "
+            color: root.config.props.secondaryColor
         }
         onBtnclick: {
            Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
         }
     }
 }
+
 

@@ -11,7 +11,7 @@ import "../services"
 import "../items"
 import "../"
 
-BarElementItem {
+BarModuleItem {
     id:root
     defaultWidth: scaleHeightMin*3
     isRectractable: false
@@ -19,11 +19,10 @@ BarElementItem {
         implicitWidth: root.defaultWidth
         implicitHeight: root.scaleHeightMin
         contentItem: TextItem {
-            font.bold: true
-            font.weight: Font.ExtraBold
             scale:1.2
             text: Cava.output
             textFormat: Text.StyledText
+            color: root.config.props.secondaryColor
         }
         onBtnclick: {
             root.isPopupVisible = !root.isPopupVisible
@@ -37,6 +36,7 @@ BarElementItem {
             implicitWidth: root.scaleHeightMin
             implicitHeight: root.scaleHeightMin
             contentItem: TextItem {
+                color: root.config.props.secondaryColor
                 text: Mpris.activePlayer && Mpris.activePlayer.canTogglePlaying ? "󰐊" : "󰏤"
                 textFormat: Text.StyledText
             }
@@ -49,6 +49,7 @@ BarElementItem {
             implicitWidth: root.scaleHeightMin
             implicitHeight: root.scaleHeightMin
             contentItem: TextItem {
+                color: root.config.props.secondaryColor
                 text: SysInfo2.clocktime
                 textFormat: Text.StyledText
             }
@@ -62,6 +63,7 @@ BarElementItem {
             implicitWidth: root.scaleHeightMin*5
             implicitHeight: root.scaleHeightMin
             contentItem: TextItem {
+                color: root.config.props.secondaryColor
                 text: Mpris.currentArtist + " " + Mpris.currentTrack
                 textFormat: Text.StyledText
             }

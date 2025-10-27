@@ -14,17 +14,16 @@ import "../"
 
 pragma ComponentBehavior: Bound 
 
-BarElementItem {
+BarModuleItem {
     id:root
-    onImplicitWidthChanged: {
-        textitem.rotation = textitem.rotation === 0 ? 90 :0
-    }
     BarContentItem {
         implicitWidth: root.scaleHeightMin
         implicitHeight: root.scaleHeightMin
         contentItem: TextItem {
             id:textitem
+            anchors.centerIn: parent
             text: " "
+            color: root.config.props.secondaryColor
         }
         onBtnclick: {
             Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
@@ -36,6 +35,7 @@ BarElementItem {
         implicitHeight: root.scaleHeightMin
         contentItem: TextItem {
             text: " "
+            color: root.config.props.secondaryColor
         }
         onBtnclick: {
             Settings.changeBarState()
@@ -46,6 +46,7 @@ BarElementItem {
         implicitHeight: root.scaleHeightMin
         contentItem: TextItem {
             text: " "
+            color: root.config.props.secondaryColor
         }
         onBtnclick: {
             Quickshell.execDetached(["sh" ,"-c","niri msg action screenshot"])

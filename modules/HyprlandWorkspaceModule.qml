@@ -11,7 +11,7 @@ import "../"
 
 pragma ComponentBehavior: Bound
 
-BarElementItem {
+BarModuleItem {
     id:root
     Connections {
         target: Hyprland

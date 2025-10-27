@@ -5,7 +5,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import Quickshell.Widgets
 import Quickshell.Wayland
-import "./elements"
+import "./modules"
 import "./services"
 
 pragma ComponentBehavior: Bound
@@ -31,10 +31,10 @@ Variants {
             color: "transparent"
             width: parent.width
             height: scaleHeight
-            property real minheight: 50
+            property real minheight: 45
             property real scaleFactor: parent.width / Settings.scaleWidth
             property real scaleHeight: scaleFactor*minheight
-            // here you define which bar elements will be positioned
+            // here you define which bar modules will be positioned
             // on the left, center and right side of the bar respectively
             FlexboxLayout {
                 id: left
@@ -42,13 +42,13 @@ Variants {
                 anchors.left: bar.left
                 direction: FlexboxLayout.Row
                 height: bar.scaleHeight
-                MenuElem{}
-                NiriWorkspaceElem{}
-                // HyprlandWorkspaceElem{}
-                CpuElem{}
-                DiskElem{}
-                AppLauncherElem{id: applauncher}
-                MemoryElem{}
+                MenuModule{}
+                NiriWorkspaceModule{}
+                // HyprlandWorkspaceModule{}
+                CpuModule{}
+                DiskModule{}
+                AppLauncherModule{id: applauncher}
+                MemoryModule{}
             }
             FlexboxLayout {
                 id: center
@@ -56,9 +56,9 @@ Variants {
                 anchors.horizontalCenter: bar.horizontalCenter
                 direction: FlexboxLayout.Row
                 height: bar.scaleHeight
-                // HyprlandWindowElem{}
-                NiriWindowElem{}
-                CavaElem{id: cava}
+                // HyprlandWindowModule{}
+                NiriWindowModule{}
+                CavaModule{id: cava}
             }
             FlexboxLayout {
                 id: right
@@ -66,10 +66,10 @@ Variants {
                 anchors.right: bar.right
                 height: bar.scaleHeight
                 direction: FlexboxLayout.RowReverse
-                DateElem{}
-                BatteryElem{}
-                AudioElem{}
-                NetworkElem{id: network}
+                DateModule{}
+                BatteryModule{}
+                AudioModule{}
+                NetworkModule{id: network}
             }
             states: [
                 State {

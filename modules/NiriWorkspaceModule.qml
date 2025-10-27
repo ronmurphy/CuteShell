@@ -13,7 +13,7 @@ import "../"
 pragma ComponentBehavior: Bound
 
 
-BarElementItem {
+BarModuleItem {
     id:root
 
     Connections {
@@ -41,9 +41,10 @@ BarElementItem {
             implicitWidth: root.scaleHeightMin
             implicitHeight: root.scaleHeightMin
             contentItem: TextItem {
+                id:textitem
                 text: idx
-                color: del.index === NiriFinal.focusedWorkspaceIndex ? root.config.grayScaleColors[2]
-                : root.config.grayScaleColors[0]
+                color: del.index === NiriFinal.focusedWorkspaceIndex ? root.config.props.fgColors[2]
+                : root.config.props.fgColors[0]
             }
 
             onBtnclick: {

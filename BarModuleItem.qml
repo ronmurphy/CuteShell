@@ -6,7 +6,7 @@ import QtQuick.Layouts
 import Quickshell.Widgets
 import Quickshell.Wayland
 import QtQuick.Shapes
-import "./elements"
+import "./modules"
 import "./services"
 import "./decorations"
 import "./animations"
@@ -45,7 +45,6 @@ Item {
         root.parent.gap = config?.gap
     }
 
-    property color mainColor: config?.props?.mainColor
     property bool isPopupVisible: false
     readonly property real contentWidth: itemsrow.width
 

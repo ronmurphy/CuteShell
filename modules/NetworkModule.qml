@@ -15,7 +15,7 @@ import "../"
 
 pragma ComponentBehavior: Bound
 
-BarElementItem {
+BarModuleItem {
     id:root
     objectName:"Network"
 
@@ -52,7 +52,7 @@ BarElementItem {
             Component.onCompleted: {
                 delegateLoader.setSource(root.config?.listDelegateProps?.source,
                 Object.assign(root.config?.listDelegateProps?.properties,
-                {colors: ["transparent",Settings.colorPick(root.mainColor,del.index)]}))
+                {colors: ["transparent",Settings.colorPick(root.config.primaryColor,root.config.bgColors,del.index)]}))
 
             }
         }
@@ -65,18 +65,16 @@ BarElementItem {
                 anchors.left: parent.left
                 width: del.width * 0.7
                 height: del.height
-                
+                color: root.config.props.secondaryColor
                 text: (Network.activeWifiConn === del.index ? " " : "") + ssid + (del.profileExist ? " " : "")
-                color: Settings.dark
             }
             TextItem {
                 id: securityType
                 anchors.right: parent.right
                 width: del.width * 0.3
                 height: del.height
-
+                color: root.config.props.secondaryColor
                 text: bars + security.trim().split(/\s+/).pop()
-                color: Settings.dark
             }
             onBtnclick: {
                 root.selectedConn = index
@@ -94,6 +92,7 @@ BarElementItem {
                 height: del.height
                 contentItem: TextItem {
                     text: "back"
+                    color: root.config.props.secondaryColor
                 }
                 onBtnclick: {
                     root.inputEnabled = !root.inputEnabled
@@ -105,7 +104,7 @@ BarElementItem {
                 height: del.height
                 anchors.horizontalCenter: parent.horizontalCenter
                 decor: RectTriangleItem {
-                    colors: ["transparent",Settings.colorPick(root.clr,del.index)]
+                    colors: ["transparent",Settings.colorPick(root.config.primaryColor,root.config.bgColors,del.index)]
                 }
             }
             Item {
@@ -121,6 +120,7 @@ BarElementItem {
                     height: action.height
                     contentItem: TextItem {
                         text: "conn"
+                        color: root.config.props.secondaryColor
                     }
                     onBtnclick: {
                         const inptext = inp.gettext()
@@ -139,6 +139,7 @@ BarElementItem {
                     height: action.height
                     contentItem: TextItem {
                         text: "del"
+                        color: root.config.props.secondaryColor
                     }
                     onBtnclick: {
                         Network.deleteNetwork(del.ssid)
@@ -153,6 +154,7 @@ BarElementItem {
         implicitHeight:root.scaleHeightMin
         contentItem: TextItem {
             text: Network.statusConn[0]
+            color: root.config.props.secondaryColor
         }
         onBtnclick: {
             root.isPopupVisible = !root.isPopupVisible
@@ -175,7 +177,7 @@ BarElementItem {
         }
         decor: RectTriangleItem {
             scale: 0.7
-            colors: ["transparent",Settings.colorPick(root.clr,del.index)]
+            colors: ["transparent",Settings.colorPick(root.config.primaryColor,root.config.bgColors,del.index)]
             clip: true
         }
         visible: root.inputactive

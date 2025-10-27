@@ -12,14 +12,15 @@ import "../"
 
 Text {
     id:root
-    // property real implicitSize: 10
-
+    font.bold: true
+    font.weight: Font.ExtraBold
     fontSizeMode :Text.Fit
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
     font.pointSize: 72
-    minimumPointSize: 1
-    // font "Symbols Nerd Font Mono"
-    font.family: "Symbols Nerd Font Mono,jetBrainsMono NF ExtraBold"
-    color: Settings.colors_grayscale[0][0]
+    minimumPointSize: 10
+    antialiasing:true
+    // font.family: "JetBrainsMono NFM ExtraBold,JetBrainsMono NF ExtraBold"
+    // font.family: "JetBrainsMono NF ExtraBold"
+    // color: Settings.colorsGrayscale[0][0]
 }
