@@ -32,7 +32,6 @@ Item {
             }
         }
         config = Settings.getConfig({
-            themeName: Settings.decorConfigName,
             uniqueIndex:uniqueIndex,
             sideIndex:sideIndex,
             side:root.parent.objectName,
@@ -41,6 +40,9 @@ Item {
             popupWidthVariants: [root.parent.parent.width,root.parent.width,root.width,flick.width],
             popupParentVariants: [root.parent.parent,root.parent,root,flick],
             sideLength: root.parent.children.length,
+        },{
+            configName: Settings.currentConfig.key,
+            themeArgs: Settings.currentConfig.val
         })
         root.parent.gap = config?.gap
     }
@@ -96,7 +98,7 @@ Item {
     }
     Popup {
         id: popup
-        parent: root.config?.props?.popupParentItem
+        parent: root.config?.props?.popupParentItem || root
 
         // parent: flick
         x: root.config?.props?.popupX || 0
