@@ -48,7 +48,7 @@ Rectangle {
         activeFocusOnTab: true
         color: root.textClr
         selectByMouse: true
-        text: "S"
+        text: ""
         font.pixelSize:20
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter

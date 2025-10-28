@@ -21,13 +21,13 @@ BarModuleItem {
         function onWorkspacesChanged() {
             console.log("wripscake change",NiriFinal.focusedWorkspaceIndex)
             // listv.positionViewAtIndex(NiriFinal.findWorkspaceIndexById(NiriFinal.focusedWorkspaceId), ListView.Contain)
-            listv.positionViewAtIndex(NiriFinal.focusedWorkspaceIndex, ListView.Contain)
+            listv.positionViewAtIndex(NiriFinal.focusedWorkspaceIndex, ListView.Center)
         }
     }
     ListView {
         id:listv
         implicitWidth: root.uniqueIndex === Settings.curridx || !root.isExpandable?
-            root.scaleHeightMin*4 : root.scaleHeightMin
+            root.scaleHeightMin*3 : root.scaleHeightMin
         onImplicitWidthChanged: {
             listv.positionViewAtIndex(NiriFinal.focusedWorkspaceIndex, ListView.Center)
         }

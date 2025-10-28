@@ -13,13 +13,11 @@ import "../"
 
 BarModuleItem {
     id:root
-    defaultWidth: scaleHeightMin*3
     isExpandable: false
     BarContentItem {
-        implicitWidth: root.defaultWidth
+        implicitWidth: root.scaleHeightMin*3
         implicitHeight: root.scaleHeightMin
         contentItem: TextItem {
-            scale:1.2
             text: Cava.output
             textFormat: Text.StyledText
             color: root.config.props.secondaryColor
@@ -29,14 +27,17 @@ BarModuleItem {
             Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
         }
     }
-
+    onConfigChanged: {
+        Cava.bars = root.config.props.cavaTextBars
+    }
     popupComponent: Rectangle {
         id: popupRect
+            scale:1.1
         color:"transparent"
         // color:root.config.props.primaryColor
         Loader {
             id: upperLoader
-            // scale:0.8
+            // scale:1.1
             height:root.scaleHeightMin
             Component.onCompleted: {
                 upperLoader.setSource(root.config?.listDelegateProps?.source,

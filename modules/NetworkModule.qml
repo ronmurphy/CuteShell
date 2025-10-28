@@ -2,6 +2,7 @@ import Quickshell // for PanelWindow
 import Quickshell.Io
 import QtQuick // for Text
 import QtQuick.Controls
+import QtQuick.Controls.Fusion
 import Quickshell.Widgets
 import QtQuick.Layouts
 import QtQuick.Shapes
@@ -28,19 +29,16 @@ BarModuleItem {
         color: root.config.props.primaryColor
         clip:true
         ListView {
-            // highlightRangeMode: ListView.StrictlyEnforceRange
             highlightRangeMode: ListView.StrictlyEnforceRange
             anchors.fill: parent
             model: Network.wifinetworks
-            // contentWidth: root.scaleHeightMin
-            // contentHeight: root.height
             delegate: root.delegateComponent
         }
     }
 
     property Component delegateComponent: Loader {
         id:del
-        scale:0.9
+        scale:0.95
         required property string ssid; required property bool profileExist;
         required property string bars; required property string security;
         required property int index
@@ -122,6 +120,7 @@ BarModuleItem {
                         color: root.config.props.secondaryColor
                     }
                     onBtnclick: {
+                        root.inputEnabled = !root.inputEnabled
                         const inptext = inp.gettext()
                         if (inptext.length === 0) {
                             Network.connectToNetwork(del.ssid,"",del.profileExist)
@@ -141,6 +140,7 @@ BarModuleItem {
                         color: root.config.props.secondaryColor
                     }
                     onBtnclick: {
+                        root.inputEnabled = !root.inputEnabled
                         Network.deleteNetwork(del.ssid)
                     }
                 }
@@ -165,8 +165,16 @@ BarModuleItem {
         input.contentLoader.setSource(root.config.inputProps.source,
         root.config.inputProps.properties)
     }
-    BusyIndicator {
-        running: Network.isConnecting
+    BusyIndicatorItem {
+        running: Network.isConnecting || Network.isSearching
+        color:root.config.props.secondaryColor
+        implicitWidth: root.scaleHeightMin
+        implicitHeight: root.scaleHeightMin
+    }
+    SwitchItem {
+        id: swtch
+        implicitWidth:root.scaleHeightMin*1.5
+        implicitHeight:root.scaleHeightMin*0.6
     }
     InputItem {
         id: input
@@ -180,8 +188,10 @@ BarModuleItem {
             clip: true
         }
         visible: root.inputactive
-        // anchors.verticalCenter: root.verticalCenter
-        implicitWidth:root.scaleHeightMin*3
+        onTextedited: {
+            Network.matchString = gettext().toLowerCase()
+        }
+        implicitWidth:root.scaleHeightMin*2
         implicitHeight:root.scaleHeightMin*0.6
     }
 }

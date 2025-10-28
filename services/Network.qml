@@ -8,7 +8,7 @@ Singleton {
     id: root
     readonly property list<var> networkTypes: [["wifi"," "], ["ethernet"," "]]
     property bool isConnecting: connectProc.running
-    // property string statusConn: "󰈂 "
+    property bool isSearching: getNetworks.running
     property list<string> statusConn: []
 
     property int activeWifiConn: -1 //index in wifinetworks 
@@ -33,31 +33,24 @@ Singleton {
         connectProc.exec(["nmcli", "connection", "delete", ssid]);
     }
 
-    // function disconnectFromNetwork(): void {
-    //     if (active) {
-    //         disconnectProc.exec(["nmcli", "connection", "down", active.ssid]);
-    //     }
-    // }
+    function disconnectFromNetwork(ssid: string): void {
+        connectProc.exec(["nmcli", "connection", "down", ssid]);
+    }
+
     Process {
         id: connectProc
         onExited: (exitCode,exitStatus) => {
-            console.log(exitCode,"hmm",exitStatus)
+            getNetworks.running = true
         }
     }
     Process {
         property list<string> cmnd: ["nmcli","-t","-f","TYPE,STATE,CONNECTION","device"]
         id: checkConnections
-        onRunningChanged: {
-            if (checkConnections.running) {
-                root.activeWifiConn = -1
-            }
-        }
         running: false
         command: cmnd
         stdout: StdioCollector {
             onStreamFinished: {
                 const data = root.splitterse(text)
-                // console.log(data)
                 root.statusConn = ["󰈂 ","No conn."]
                 outer: for (const col of data) {
                     for (const type of root.networkTypes) {
@@ -81,7 +74,7 @@ Singleton {
         command: [ "dbus-monitor" , "--system", "type='signal',interface='org.freedesktop.NetworkManager',member='StateChanged'"]
         stdout: SplitParser {
             onRead: data => {
-                // console.log(data)
+                root.activeWifiConn = -1
                 checkConnections.exec(checkConnections.cmnd)
             }
         }
@@ -108,12 +101,10 @@ Singleton {
         stdout: StdioCollector {
             onStreamFinished: {
                 root.wifinetworks = []
-                // console.log(text)
                 const data = root.splitterse(text)
                 var activeconn = {}
                 data.forEach((net,i) => {
                     if (net[0].length > 0) {
-                        // console.log(net)
                         const cn = {
                             ssid: net[0],
                             active: net[1] === "yes",
@@ -140,12 +131,3 @@ Singleton {
         return res
     }
 }
-// const Days = Object.freeze({
-//     SUNDAY: 0,
-//     MONDAY: 1,
-//     TUESDAY: 2,
-//     WEDNESDAY: 3,
-//     THURSDAY: 4,
-//     FRIDAY: 5,
-//     SATURDAY: 6
-// });

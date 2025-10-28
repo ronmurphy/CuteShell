@@ -36,6 +36,7 @@ BarModuleItem {
     
     property Component delegateComponent: Loader {
         id: del
+        scale:0.95
         required property string name;
         required property string icon;
         required property string workingDirectory;
@@ -92,19 +93,7 @@ BarModuleItem {
         }
         onBtnclick: {
             Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
-        }
-    }
-
-    BarContentItem {
-        visible: !root.inputactive
-        implicitSize:root.scaleHeightMin
-        contentItem: TextItem {
-            color: root.config.props.secondaryColor
-            text: ""
-        }
-        onBtnclick: {
             root.isPopupVisible = true
-            root.inputactive = true
         }
     }
 
@@ -118,12 +107,10 @@ BarModuleItem {
         decor: RectTriangleItem {
             colors: ["transparent",Settings.colorPick(root.config.primaryColor,root.config.bgColors,del.index)]
         }
-        visible: root.inputactive
         implicitWidth:root.scaleHeightMin*4.5
         implicitHeight:root.scaleHeightMin*0.75
         onTextedited: {
             AppLauncher.matchString = gettext().toLowerCase()
-            console.log(AppLauncher.matchString)
         }
     }
 

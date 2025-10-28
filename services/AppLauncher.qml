@@ -10,7 +10,7 @@ import QtQml.Models
 
 Singleton {
     id:root
-    property string matchString: "btop"
+    property string matchString: ""
 
     readonly property list<DesktopEntry> allDesktopEntries: DesktopEntries.applications.values
 

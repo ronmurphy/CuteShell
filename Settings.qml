@@ -53,12 +53,6 @@ Singleton {
         "#ABB2BF"],
     ]
 
-    property list<string> decorComponents: ["./decorations/DirectedRectTriangle.qml",
-        "./decorations/GenericDecorItem.qml",
-        "./decorations/RectTriangleItem.qml"]
-    
-    property list<string> centerColors: ["#4c7fbbb3","#7fbbb3"]
-    
     property int curridx:-1 // current index for module
     property int indexDistribute // indices for modules
     
@@ -91,7 +85,7 @@ Singleton {
         return configs.next().value
     }
 
-    function* generateConfigsIterator() {
+    function * generateConfigsIterator() {
         const entries = Object.entries(configsAndThemes);
         let index = 0;
 
@@ -114,7 +108,6 @@ Singleton {
         }
     }
 
-
     function getConfig(args = {},specialArgs = {}) {
         const configs = {
             get Powerline() {
@@ -123,7 +116,7 @@ Singleton {
                     source:"./decorations/DirectedRectTriangle.qml",
                     popupParentItem: args.side === "left" ||  args.side === "right" ? args.popupParentVariants[2]
                         : args.popupParentVariants[1],
-
+                    cavaTextBars: ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"],
                     sideLength: args.sideLength,
                     gap: -1,
                     popupX: args.side === "left" ? -args.scaleHeightMin/2 :
@@ -158,6 +151,7 @@ Singleton {
                             secondaryColor: args.side != "center" ? this.palette.fgColors[0] : this.palette.fgColors[2],
                             bgColors: this.palette.bgColors,
                             fgColors: this.palette.fgColors,
+                            cavaTextBars: this.cavaTextBars
                         }
                     },
                     get mainDecorProps() {
