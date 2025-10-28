@@ -51,7 +51,7 @@ Item {
             id: handleLoader
             x: sldr.leftPadding + (sldr.horizontal ? sldr.visualPosition * (sldr.availableWidth - width) : (sldr.availableWidth - width) / 2)
             y: sldr.topPadding + (sldr.vertical ? sldr.visualPosition * (sldr.availableHeight - height) : (sldr.availableHeight - height) / 2)
-            width:root.width/3
+            width:root.width/4
             height:root.height/2
             // sourceComponent: null
             sourceComponent: root.handleDecor

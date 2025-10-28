@@ -31,44 +31,45 @@ BarModuleItem {
     }
     popupComponent: Rectangle {
         id: popupRect
-        BarContentItem {
-            anchors.left: popupRect.left
-            implicitWidth: root.scaleHeightMin
-            implicitHeight: root.scaleHeightMin
-            contentItem: TextItem {
-                color: root.config.props.secondaryColor
-                text: Mpris.activePlayer && Mpris.activePlayer.canTogglePlaying ? "󰐊" : "󰏤"
-                textFormat: Text.StyledText
+        color:root.config.props.primaryColor
+        Loader {
+            id: upperLoader
+            scale:0.8
+            Component.onCompleted: {
+                upperLoader.setSource(root.config?.listDelegateProps?.source,
+                Object.assign(root.config?.listDelegateProps?.properties,
+                {colors: ["transparent",root.config.props.bgColors[6]]}))
             }
-            onBtnclick: {
-                Mpris.playPause();
-            }
-        }
-        BarContentItem {
+            anchors.top: popupRect.top
             anchors.right: popupRect.right
-            implicitWidth: root.scaleHeightMin
-            implicitHeight: root.scaleHeightMin
-            contentItem: TextItem {
-                color: root.config.props.secondaryColor
-                text: SysInfo2.clocktime
-                textFormat: Text.StyledText
+            anchors.left: popupRect.left
+            BarContentItem {
+                z:1
+                anchors.left: upperLoader.left
+                implicitWidth: root.scaleHeightMin
+                implicitHeight: root.scaleHeightMin
+                contentItem: TextItem {
+                    color: root.config.props.secondaryColor
+                    text: Mpris.activePlayer && Mpris.activePlayer.canTogglePlaying ? "󰐊" : "󰏤"
+                    textFormat: Text.StyledText
+
+                }
+                onBtnclick: {
+                    Mpris.playPause();
+                }
             }
-            onBtnclick: {
-                Mpris.playPause();
-            }
-        }
-        BarContentItem {
-            anchors.centerIn: popupRect.center
-            anchors.horizontalCenter: popupRect.horizontalCenter
-            implicitWidth: root.scaleHeightMin*5
-            implicitHeight: root.scaleHeightMin
-            contentItem: TextItem {
-                color: root.config.props.secondaryColor
-                text: Mpris.currentArtist + " " + Mpris.currentTrack
-                textFormat: Text.StyledText
-            }
-            onBtnclick: {
-                Mpris.playPause();
+            BarContentItem {
+                z:1
+                anchors.right: upperLoader.right
+                // anchors.horizontalCenter: popupRect.horizontalCenter
+                implicitWidth: root.scaleHeightMin*5
+                implicitHeight: root.scaleHeightMin
+                contentItem: TextItem {
+                    color: root.config.props.secondaryColor
+                    text: Mpris.currentArtist + " " + Mpris.currentTrack
+                    textFormat: Text.StyledText
+                        elide:Text.ElideRight
+                }
             }
         }
     }

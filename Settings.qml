@@ -125,12 +125,11 @@ Singleton {
                         : args.popupParentVariants[1],
 
                     popupWidth: args.side === "center" ? args.popupWidthVariants[1] : 0,
-                    subtractPopupWidth: 0,
-
                     sideLength: args.sideLength,
                     gap: -1,
                     popupX: args.side === "left" ? -args.scaleHeightMin/2 :
                         args.side === "right" ? args.scaleHeightMin/2 : args.scaleHeightMin/2,
+                    subtractPopupWidth: args.side === "center" ? args.scaleHeightMin : 0,
 
                     get palette() {
                         return {
@@ -155,8 +154,9 @@ Singleton {
                             subtractPopupWidth: this.subtractPopupWidth,
                             popupX: this.popupX,
                             popupParentItem: this.popupParentItem,
-                            primaryColor: colorPick("",this.palette.bgColors,args?.sideIndex || 0),
-                            secondaryColor: this.palette.fgColors[0],
+                            primaryColor: args.side != "center" ? colorPick("",this.palette.bgColors,args?.sideIndex || 0):
+                                "#4c7fbbb3",
+                            secondaryColor: args.side != "center" ? this.palette.fgColors[0] : this.palette.fgColors[2],
                             bgColors: this.palette.bgColors,
                             fgColors: this.palette.fgColors,
                         }

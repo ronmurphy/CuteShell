@@ -20,9 +20,40 @@ Item {
     property real defaultWidth: config?.props?.defaultWidth || scaleHeightMin
     property int uniqueIndex: -1
     property int sideIndex: -1
-    property var config: null
-    property bool isRectractable: true
     
+    property var config: Settings.getConfig({
+        uniqueIndex:uniqueIndex,
+        sideIndex:sideIndex,
+        side:root.parent.objectName,
+        scaleHeightMin: scaleHeightMin,
+        firstChildrenWidth: itemsrow.children[0].width,
+        popupWidthVariants: [root.parent.parent.width,root.parent.width,root.width,flick.width],
+        popupParentVariants: [root.parent.parent,root.parent,root,flick],
+        sideLength: root.parent.children.length,
+    },{
+        configName: Settings.currentConfig.key,
+        themeArgs: Settings.currentConfig.val
+    })
+
+    property bool isRectractable: true
+    property bool isPopupVisible: false
+    
+    // number of first visible module elements after being expanded (childrens of itemsrow id)
+    property int visibleExpandedElements: 0
+    
+    readonly property real visibleExpandedWidth: {
+        if (visibleExpandedElements <= 0) {
+            return itemsrow.width
+        }
+        var wdth = 0
+        for (const [i,v] of itemsrow.children.entries()) {
+            if (root.visibleExpandedElements > i) {
+                wdth += v.width
+            }
+        }
+        return wdth
+    }
+
     Component.onCompleted: {
         uniqueIndex = Settings.distributeUniqueIndex(uniqueIndex)
         for (const [i,v] of root.parent.children.entries()) {
@@ -31,24 +62,8 @@ Item {
                 console.log(i)
             }
         }
-        config = Settings.getConfig({
-            uniqueIndex:uniqueIndex,
-            sideIndex:sideIndex,
-            side:root.parent.objectName,
-            scaleHeightMin: scaleHeightMin,
-            firstChildrenWidth: itemsrow.children[0].width,
-            popupWidthVariants: [root.parent.parent.width,root.parent.width,root.width,flick.width],
-            popupParentVariants: [root.parent.parent,root.parent,root,flick],
-            sideLength: root.parent.children.length,
-        },{
-            configName: Settings.currentConfig.key,
-            themeArgs: Settings.currentConfig.val
-        })
         root.parent.gap = config?.gap
     }
-
-    property bool isPopupVisible: false
-    readonly property real contentWidth: itemsrow.width
 
     property Loader popupItem: popuploader
     property Popup popup: popup
@@ -58,7 +73,9 @@ Item {
 
     implicitHeight: root.scaleHeightMin
     implicitWidth: contentRect.implicitWidth
-    readonly property real maxWidth: itemsrow.width+(root.config?.props?.subtractRectWidth || 0)
+    readonly property real maxWidth: visibleExpandedWidth+(root.config?.props?.subtractRectWidth || 0)
+        + (itemsrow.gap*itemsrow.children.length)
+
     Rectangle {
         id: contentRect
         Loader {
@@ -88,9 +105,11 @@ Item {
             clip: true
             // scale:0.8 //////////////////////////////////////////////////////////////////
             FlexboxLayout {
+                
                 direction: FlexboxLayout.Row 
                 alignContent:FlexboxLayout.AlignCenter
                 alignItems:FlexboxLayout.AlignCenter
+                gap:root.scaleHeightMin*0.1
                 // anchors.verticalCenter: root.verticalCenter
                 id: itemsrow
             }
@@ -107,11 +126,10 @@ Item {
         bottomMargin: Settings.isTop ? 0 : root.scaleHeightMin
         // y: Settings.barAnchor == Settings.barAnchor.TOP ? root.scaleHeightMin : root.scaleHeightMin * 2
         height:0
-        width: root.config?.props?.popupWidth ||
-            contentRect.width - root.config?.props?.subtractPopupWidth
-        // Behavior on height { 
-        //     ElasticBehavior  {} 
-        // }
+        width: root.config?.props?.popupWidth - root.config?.props?.subtractPopupWidth || contentRect.width
+        Behavior on height { 
+            ElasticBehavior  {} 
+        }
         onAboutToShow: {
             // Settings.popupChanged()
         }
