@@ -6,7 +6,6 @@ import Quickshell.Io
   
 Singleton {
     id: root
-    //  
     // Public values
     property real cpuUsage: 0
     property real cpuTemp: 0

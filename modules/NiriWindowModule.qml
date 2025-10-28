@@ -13,7 +13,7 @@ import "../"
 BarModuleItem {
     id:root
     defaultWidth: scaleHeightMin*3
-    isRectractable: false
+    isExpandable: false
     BarContentItem {
         implicitWidth: root.defaultWidth
         implicitHeight: root.scaleHeightMin

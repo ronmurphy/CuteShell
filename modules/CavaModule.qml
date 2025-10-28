@@ -14,7 +14,7 @@ import "../"
 BarModuleItem {
     id:root
     defaultWidth: scaleHeightMin*3
-    isRectractable: false
+    isExpandable: false
     BarContentItem {
         implicitWidth: root.defaultWidth
         implicitHeight: root.scaleHeightMin
@@ -25,16 +25,18 @@ BarModuleItem {
             color: root.config.props.secondaryColor
         }
         onBtnclick: {
-            root.isPopupVisible = !root.isPopupVisible
+            root.isPopupVisible = true
             Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
         }
     }
+
     popupComponent: Rectangle {
         id: popupRect
-        color:root.config.props.primaryColor
+        color:"transparent"
+        // color:root.config.props.primaryColor
         Loader {
             id: upperLoader
-            scale:1
+            // scale:0.8
             height:root.scaleHeightMin
             Component.onCompleted: {
                 upperLoader.setSource(root.config?.listDelegateProps?.source,
@@ -46,7 +48,7 @@ BarModuleItem {
                 z:1
                 anchors.left: parent.left
                 anchors.horizontalCenter: popupRect.horizontalCenter
-                implicitWidth: root.scaleHeightMin*5
+                implicitWidth: parent.width*0.7
                 implicitHeight: root.scaleHeightMin
                 contentItem: TextItem {
                     color: root.config.props.fgColors[0]
@@ -59,7 +61,7 @@ BarModuleItem {
                 z:1
                 anchors.right: parent.right
                 anchors.horizontalCenter: popupRect.horizontalCenter
-                implicitWidth: root.scaleHeightMin
+                implicitWidth: parent.width*0.3
                 implicitHeight: root.scaleHeightMin
                 BarContentItem {
                     anchors.left: parent.left

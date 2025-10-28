@@ -156,7 +156,7 @@ BarModuleItem {
             color: root.config.props.secondaryColor
         }
         onBtnclick: {
-            root.isPopupVisible = !root.isPopupVisible
+            root.isPopupVisible = true
             Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
             Network.getNetworks = true
         }

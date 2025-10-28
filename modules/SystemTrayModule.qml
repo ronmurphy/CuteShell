@@ -15,8 +15,9 @@ pragma ComponentBehavior: Bound
 
 BarModuleItem {
     id:root
-    visibleExpandedElements:2
-    defaultWidth: visibleExpandedWidth
+    visibleExpandedElements:0
+    isExpandable:false
+    // defaultWidth: visibleExpandedWidth
     BarContentItem {
         implicitWidth: root.scaleHeightMin
         implicitHeight: root.scaleHeightMin
@@ -25,7 +26,8 @@ BarModuleItem {
             color: root.config.props.secondaryColor
         }
         onBtnclick: {
-            Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
+            root.isExpandable = !root.isExpandable
+            // Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
         }
     }
     ListView {
@@ -59,6 +61,4 @@ BarModuleItem {
         }
     }
 }
-
-
 

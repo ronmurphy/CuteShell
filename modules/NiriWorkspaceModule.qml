@@ -15,7 +15,7 @@ pragma ComponentBehavior: Bound
 
 BarModuleItem {
     id:root
-
+    visibleExpandedElements:1
     Connections {
         target: NiriFinal
         function onWorkspacesChanged() {
@@ -26,10 +26,13 @@ BarModuleItem {
     }
     ListView {
         id:listv
-        implicitWidth: root.uniqueIndex == Settings.curridx ? root.scaleHeightMin*3 : root.scaleHeightMin
+        implicitWidth: root.uniqueIndex === Settings.curridx || !root.isExpandable?
+            root.scaleHeightMin*4 : root.scaleHeightMin
         onImplicitWidthChanged: {
-            listv.positionViewAtIndex(NiriFinal.focusedWorkspaceIndex, ListView.Contain)
+            listv.positionViewAtIndex(NiriFinal.focusedWorkspaceIndex, ListView.Center)
         }
+        boundsBehavior: Flickable.StopAtBounds
+        clip:true
         implicitHeight: root.scaleHeightMin
         layoutDirection: Qt.LeftToRight
         orientation: Qt.Horizontal
@@ -51,6 +54,17 @@ BarModuleItem {
                 NiriFinal.switchToWorkspace(del.idx)
                 Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
             }
+        }
+    }
+    BarContentItem {
+        implicitWidth: root.scaleHeightMin
+        implicitHeight: root.scaleHeightMin
+        contentItem: TextItem {
+            text: root.isExpandable ? " " : " "
+            color: root.config.props.secondaryColor
+        }
+        onBtnclick: {
+            root.isExpandable = !root.isExpandable
         }
     }
 }

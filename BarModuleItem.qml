@@ -34,7 +34,10 @@ Item {
         themeArgs: Settings.currentConfig.val
     })
 
-    property bool isRectractable: true
+    // If false, the module will have a maximum width and
+    // will not collapse/expand when interacting
+    property bool isExpandable: true
+
     property bool isPopupVisible: false
     
     // number of first visible module elements after being expanded (childrens of itemsrow id)
@@ -84,10 +87,11 @@ Item {
             Component.onCompleted: {
                 rectDecor.setSource(root.config?.source,root.config?.mainDecorProps)
             }
+            
         }
         implicitHeight: root.scaleHeightMin
         implicitWidth: Settings.curridx == root.uniqueIndex ? root.maxWidth
-            : root.isRectractable ? root.defaultWidth : root.maxWidth
+            : root.isExpandable ? root.defaultWidth : root.maxWidth
         Behavior on implicitWidth {
             enabled:true
             ElasticBehavior {}
@@ -102,14 +106,11 @@ Item {
             contentWidth: itemsrow.width
             contentHeight: root.scaleHeightMin
             clip: true
-            // scale:0.8 //////////////////////////////////////////////////////////////////
             FlexboxLayout {
-                
                 direction: FlexboxLayout.Row 
                 alignContent:FlexboxLayout.AlignCenter
                 alignItems:FlexboxLayout.AlignCenter
                 gap:root.scaleHeightMin*0.1
-                // anchors.verticalCenter: root.verticalCenter
                 id: itemsrow
             }
         }
@@ -117,13 +118,9 @@ Item {
     Popup {
         id: popup
         parent: root.config?.props?.popupParentItem || root
-
-        // parent: flick
         x: root.config?.props?.popupX || 0
-        // x: root.isPopupEmbedded ? 0 : root.parent.x
         y: root.scaleHeightMin
         bottomMargin: Settings.isTop ? 0 : root.scaleHeightMin
-        // y: Settings.barAnchor == Settings.barAnchor.TOP ? root.scaleHeightMin : root.scaleHeightMin * 2
         height:0
         width: parent.width - root.config?.props?.subtractPopupWidth || parent.width
         Behavior on height { 

@@ -103,7 +103,7 @@ BarModuleItem {
             text: ""
         }
         onBtnclick: {
-            root.isPopupVisible = !root.isPopupVisible
+            root.isPopupVisible = true
             root.inputactive = true
         }
     }

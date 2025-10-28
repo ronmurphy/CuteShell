@@ -13,10 +13,10 @@ Singleton {
 
     property MprisPlayer activePlayer: availablePlayers.find(p => p.isPlaying) ?? availablePlayers.find(p => p.canControl && p.canPlay) ?? null
     
-    readonly property string currentArtist: activePlayer.trackArtist || "Unknown Artist"
-    readonly property string currentTrack: activePlayer.trackTitle || "Unknown Title"
-    property string currentPlayerState: activePlayer.playbackState === MprisPlaybackState.Playing ? "󰏤" :
-        activePlayer.playbackState === MprisPlaybackState.Paused ? "󰐊" : "󰓛"
+    readonly property string currentArtist: activePlayer?.trackArtist || "Unknown Artist"
+    readonly property string currentTrack: activePlayer?.trackTitle || "Unknown Title"
+    property string currentPlayerState: activePlayer?.playbackState === MprisPlaybackState.Playing ? "󰏤" :
+        activePlayer?.playbackState === MprisPlaybackState.Paused ? "󰐊" : "󰓛"
     
     function list(): string {
         return availablePlayers.map(p => p.identity).join("\n")
