@@ -16,6 +16,7 @@ pragma ComponentBehavior: Bound
 
 BarModuleItem {
     id:root
+    visibleExpandedElements:0
     BarContentItem {
         implicitWidth: root.scaleHeightMin
         implicitHeight: root.scaleHeightMin
@@ -50,27 +51,6 @@ BarModuleItem {
         }
         onBtnclick: {
             Quickshell.execDetached(["sh" ,"-c","niri msg action screenshot"])
-        }
-    }
-    ListView {
-        id:listv
-        implicitWidth: root.uniqueIndex == Settings.curridx ? root.scaleHeightMin*3 : root.scaleHeightMin
-        implicitHeight: root.scaleHeightMin
-        model: SysTray.systrayItems
-        layoutDirection: Qt.LeftToRight
-        orientation: Qt.Horizontal
-        delegate: BarContentItem {
-            id: del
-            required property int index
-            implicitWidth: root.scaleHeightMin
-            implicitHeight: root.scaleHeightMin
-            
-            contentItem: Image {
-                source: SysTray.systrayItems[index].icon
-            }
-
-            onBtnclick: {
-            }
         }
     }
 }

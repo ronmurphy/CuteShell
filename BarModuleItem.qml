@@ -27,7 +27,6 @@ Item {
         side:root.parent.objectName,
         scaleHeightMin: scaleHeightMin,
         firstChildrenWidth: itemsrow.children[0].width,
-        popupWidthVariants: [root.parent.parent.width,root.parent.width,root.width,flick.width],
         popupParentVariants: [root.parent.parent,root.parent,root,flick],
         sideLength: root.parent.children.length,
     },{
@@ -126,16 +125,17 @@ Item {
         bottomMargin: Settings.isTop ? 0 : root.scaleHeightMin
         // y: Settings.barAnchor == Settings.barAnchor.TOP ? root.scaleHeightMin : root.scaleHeightMin * 2
         height:0
-        width: root.config?.props?.popupWidth - root.config?.props?.subtractPopupWidth || contentRect.width
+        width: parent.width - root.config?.props?.subtractPopupWidth || parent.width
         Behavior on height { 
             ElasticBehavior  {} 
         }
         onAboutToShow: {
             // Settings.popupChanged()
+            // popup.height = root.config?.props?.popupHeight || root.scaleHeightMin*3
         }
         onOpened: {
             // Settings.popupChanged()
-            popup.height = root.scaleHeightMin*3
+            popup.height = root.config?.props?.popupHeight || root.scaleHeightMin*3
         }
         background: null
         contentItem: null

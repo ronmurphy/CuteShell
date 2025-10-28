@@ -34,41 +34,74 @@ BarModuleItem {
         color:root.config.props.primaryColor
         Loader {
             id: upperLoader
-            scale:0.8
+            scale:1
+            height:root.scaleHeightMin
             Component.onCompleted: {
                 upperLoader.setSource(root.config?.listDelegateProps?.source,
                 Object.assign(root.config?.listDelegateProps?.properties,
-                {colors: ["transparent",root.config.props.bgColors[6]]}))
+                {colors: ["transparent",Settings.colorPick("",root.config.props.bgColors,0)]}))
             }
-            anchors.top: popupRect.top
-            anchors.right: popupRect.right
-            anchors.left: popupRect.left
+            anchors.fill: parent
             BarContentItem {
                 z:1
-                anchors.left: upperLoader.left
-                implicitWidth: root.scaleHeightMin
-                implicitHeight: root.scaleHeightMin
-                contentItem: TextItem {
-                    color: root.config.props.secondaryColor
-                    text: Mpris.activePlayer && Mpris.activePlayer.canTogglePlaying ? "󰐊" : "󰏤"
-                    textFormat: Text.StyledText
-
-                }
-                onBtnclick: {
-                    Mpris.playPause();
-                }
-            }
-            BarContentItem {
-                z:1
-                anchors.right: upperLoader.right
-                // anchors.horizontalCenter: popupRect.horizontalCenter
+                anchors.left: parent.left
+                anchors.horizontalCenter: popupRect.horizontalCenter
                 implicitWidth: root.scaleHeightMin*5
                 implicitHeight: root.scaleHeightMin
                 contentItem: TextItem {
-                    color: root.config.props.secondaryColor
+                    color: root.config.props.fgColors[0]
                     text: Mpris.currentArtist + " " + Mpris.currentTrack
                     textFormat: Text.StyledText
-                        elide:Text.ElideRight
+                    elide:Text.ElideRight
+                }
+            }
+            Item {
+                z:1
+                anchors.right: parent.right
+                anchors.horizontalCenter: popupRect.horizontalCenter
+                implicitWidth: root.scaleHeightMin
+                implicitHeight: root.scaleHeightMin
+                BarContentItem {
+                    anchors.left: parent.left
+                    width: parent.width/3
+                    implicitHeight: root.scaleHeightMin
+                    contentItem: TextItem {
+                        color: root.config.props.fgColors[0]
+                        text: "󰒮"
+                        textFormat: Text.StyledText
+
+                    }
+                    onBtnclick: {
+                        Mpris.previous();
+                    }
+                }
+                BarContentItem {
+                    width: parent.width/3
+                    implicitHeight: root.scaleHeightMin
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    contentItem: TextItem {
+                        color: root.config.props.fgColors[0]
+                        text: Mpris.currentPlayerState
+                        textFormat: Text.StyledText
+
+                    }
+                    onBtnclick: {
+                        Mpris.playPause();
+                    }
+                }
+                BarContentItem {
+                    anchors.right: parent.right
+                    width: parent.width/3
+                    implicitHeight: root.scaleHeightMin
+                    contentItem: TextItem {
+                        color: root.config.props.fgColors[0]
+                        text: "󰒭"
+                        textFormat: Text.StyledText
+
+                    }
+                    onBtnclick: {
+                        Mpris.next();
+                    }
                 }
             }
         }

@@ -124,7 +124,6 @@ Singleton {
                     popupParentItem: args.side === "left" ||  args.side === "right" ? args.popupParentVariants[2]
                         : args.popupParentVariants[1],
 
-                    popupWidth: args.side === "center" ? args.popupWidthVariants[1] : 0,
                     sideLength: args.sideLength,
                     gap: -1,
                     popupX: args.side === "left" ? -args.scaleHeightMin/2 :
@@ -150,7 +149,7 @@ Singleton {
                             flickableX: this.inverted ? 0 : (args?.scaleHeightMin/2 || 0),   
                             subtractRectWidth: args?.scaleHeightMin/2 || 0, 
                             defaultWidth: args?.firstChildrenWidth+(args?.scaleHeightMin*0.5),
-                            popupWidth: this.popupWidth,
+                            popupHeight: args.side != "center" ? args.scaleHeightMin*4 : args.scaleHeightMin,
                             subtractPopupWidth: this.subtractPopupWidth,
                             popupX: this.popupX,
                             popupParentItem: this.popupParentItem,
@@ -212,7 +211,6 @@ Singleton {
                     popupParentItem: args.side === "left" ||  args.side === "right" ? args.popupParentVariants[2]
                         : args.popupParentVariants[1],
 
-                    popupWidth: args.side === "center" ? args.popupWidthVariants[1] : 0,
                     subtractPopupWidth: 0,
                     addPopupWidth: args.side === "left" ? 0 :
                         args.side === "right" ? args.scaleHeightMin/2: 0,
@@ -238,7 +236,6 @@ Singleton {
                         return {
                             subtractRectWidth: args?.scaleHeightMin/2 || 0, 
                             defaultWidth: args?.firstChildrenWidth+(args?.scaleHeightMin*0.5),
-                            popupWidth: this.popupWidth,
                             subtractPopupWidth: this.subtractPopupWidth,
                             popupX: this.popupX,
                             popupParentItem: this.popupParentItem,

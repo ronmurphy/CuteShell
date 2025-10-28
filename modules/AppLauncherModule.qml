@@ -18,8 +18,6 @@ BarModuleItem {
     isPopupVisible: false
     property bool inputactive: false
     
-    // popupParent: root
-    
     popupComponent: Rectangle {
         id: rectpop
         anchors.fill:parent
@@ -40,6 +38,9 @@ BarModuleItem {
         id: del
         required property string name;
         required property string icon;
+        required property string workingDirectory;
+        required property list <string> command;
+        required property bool runInTerminal;
         required property int index
         width: root.maxWidth
         height: root.scaleHeightMin
@@ -67,17 +68,18 @@ BarModuleItem {
                 TextItem {
                     elide:Text.ElideRight
                     anchors.rightMargin:rl.height/2
-                    color: root.config.props.secondaryColor
                     anchors.right: parent.right
+                    color: root.config.props.secondaryColor
                     width: rl.width-(rl.height*2)
                     height: rl.height
                     text: del.name
                 }
             }
             onBtnclick: {
-                AppLauncher.pathname = del.sectxt
-                console.log(AppLauncher.pathname)
-                AppLauncher.isexec = true;
+                Quickshell.execDetached({
+                    command: del.command,
+                    workingDirectory: del.workingDirectory,
+                });
             }
         }
     }

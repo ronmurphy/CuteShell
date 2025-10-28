@@ -15,6 +15,8 @@ Singleton {
     
     readonly property string currentArtist: activePlayer.trackArtist || "Unknown Artist"
     readonly property string currentTrack: activePlayer.trackTitle || "Unknown Title"
+    property string currentPlayerState: activePlayer.playbackState === MprisPlaybackState.Playing ? "󰏤" :
+        activePlayer.playbackState === MprisPlaybackState.Paused ? "󰐊" : "󰓛"
     
     function list(): string {
         return availablePlayers.map(p => p.identity).join("\n")
@@ -23,6 +25,7 @@ Singleton {
     function play(): void {
         if (activePlayer && activePlayer.canPlay) {
             activePlayer.play()
+            
         }
     }
 

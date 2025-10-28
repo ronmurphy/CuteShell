@@ -70,6 +70,7 @@ Variants {
                 BatteryModule{}
                 AudioModule{}
                 NetworkModule{id: network}
+                SystemTrayModule{}
             }
             states: [
                 State {

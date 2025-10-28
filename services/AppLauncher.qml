@@ -15,7 +15,7 @@ Singleton {
     readonly property list<DesktopEntry> allDesktopEntries: DesktopEntries.applications.values
 
     property list<DesktopEntry> desktopEntries: allDesktopEntries.filter(
-        entry => entry?.name?.toLowerCase().includes(matchString) || false
+        entry => entry?.name?.toLowerCase().includes(matchString) && entry?.runInTerminal === false || false
     );
     
     function appIconByAppId(id: string): string {
