@@ -20,10 +20,10 @@ BarModuleItem {
     id:root
     objectName:"Network"
 
-    property bool inputEnabled: false
+    property bool inputEnabled: true
     property int selectedConn: -1
-    property bool hideSSID: false
-    isPopupVisible:true
+    property bool hideSSID: true
+    isPopupVisible: Network.wifiEnabled
 
     popupComponent: Rectangle {
         id: rectpop
@@ -32,6 +32,7 @@ BarModuleItem {
         clip:true
         ListView {
             highlightRangeMode: ListView.StrictlyEnforceRange
+            spacing:root.scaleHeightMin/10
             anchors.fill: parent
             model: Network.wifinetworks
             delegate: root.delegateComponent
@@ -43,8 +44,7 @@ BarModuleItem {
         scale:1
         required property string ssid; required property bool profileExist;
         required property string signal; required property string security;
-        required property int index
-        property bool inputEnabled: false
+        required property bool active; required property int index;
         property string networkName: root.hideSSID ? "Network " + index : ssid
 
         width: root.maxWidth
@@ -70,7 +70,7 @@ BarModuleItem {
                 elide: Text.ElideRight
                 font.pointSize:12
                 horizontalAlignment: Text.AlignLeft
-                text: (Network.activeWifiConn === del.index ? " " : "") + del.networkName
+                text: (del.active ? " " : "") + del.networkName
             }
             TextItem {
                 id: securityType
@@ -96,10 +96,11 @@ BarModuleItem {
             BarContentItem {
                 id: backButton
                 anchors.left: parent.left
+                anchors.leftMargin: root.scaleHeightMin/2
                 width: del.width * 0.2
                 height: del.height
                 contentItem: TextItem {
-                    text: "back"
+                    text: "󱞳"
                     color: root.config.props.secondaryColor
                 }
                 onBtnclick: {
@@ -108,51 +109,57 @@ BarModuleItem {
             }
             InputItem {
                 id: inp
-                width: del.width * 0.5
-                height: del.height
-                anchors.horizontalCenter: parent.horizontalCenter
-                decor: RectTriangleItem {
-                    colors: ["transparent",Settings.colorPick("",root.config.props.fgColors,0)]
+                visible: del.profileExist ? false : true
+                width: del.width * 0.4
+                height: del.height*0.7
+                anchors.centerIn: parent
+                Component.onCompleted: {
+                    inp.contentLoader.setSource(root.config?.inputProps?.source,
+                    root.config?.inputProps?.properties)
                 }
             }
             Item {
                 id: action
                 anchors.right: parent.right
-
-                width: del.width * 0.3
+                anchors.rightMargin: root.scaleHeightMin/2
+                width: del.width * 0.2
                 height: del.height
                 BarContentItem {
-                    id: connectAction
+                    id: deleteAction
                     anchors.left: parent.left
                     width: action.width * 0.5
                     height: action.height
                     contentItem: TextItem {
-                        text: "conn"
-                        color: root.config.props.secondaryColor
-                    }
-                    onBtnclick: {
-                        root.inputEnabled = !root.inputEnabled
-                        const inptext = inp.gettext()
-                        if (inptext.length === 0) {
-                            Network.connectToNetwork(del.ssid,"",del.profileExist)
-                            return
-                        }
-                        Network.connectToNetwork(del.ssid,inptext,false)
-                    }
-                }
-
-                BarContentItem {
-                    id: deleteAction
-                    anchors.right: parent.right
-                    width: action.width * 0.5
-                    height: action.height
-                    contentItem: TextItem {
-                        text: "del"
+                        text: " "
                         color: root.config.props.secondaryColor
                     }
                     onBtnclick: {
                         root.inputEnabled = !root.inputEnabled
                         Network.deleteNetwork(del.ssid)
+                    }
+                }
+                BarContentItem {
+                    id: connectAction
+                    anchors.right: parent.right
+                    width: action.width * 0.5
+                    height: action.height
+                    contentItem: TextItem {
+                        text: (del.active ? " " : " ")
+                        horizontalAlignment: Text.AlignRight
+                        color: root.config.props.secondaryColor
+                    }
+                    onBtnclick: {
+                        root.inputEnabled = !root.inputEnabled
+                        const inptext = inp.gettext()
+                        if (del.active) {
+                            Network.disconnectFromNetwork(del.ssid)
+                        } else {
+                            if (inptext.length === 0) {
+                            Network.connectToNetwork(del.ssid,"",del.profileExist)
+                                return
+                            }
+                            Network.connectToNetwork(del.ssid,inptext,false)
+                        }
                     }
                 }
             }
@@ -163,18 +170,17 @@ BarModuleItem {
         implicitWidth:root.scaleHeightMin
         implicitHeight:root.scaleHeightMin
         contentItem: TextItem {
-            text: Network.statusConn[0]
+            text: Network.statusConn
             color: root.config.props.secondaryColor
         }
         onBtnclick: {
             Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
-            Network.getNetworks = true
         }
     }
     onConfigChanged: {
-        swtch.backgroundloader.setSource(root.config.inputProps.source,
-        Object.assign(root.config.inputProps.properties,
-        {colors: ["transparent","blue"]}))
+        // swtch.backgroundloader.setSource(root.config.inputProps.source,
+        // Object.assign(root.config.inputProps.properties,
+        // {colors: ["transparent","blue"]}))
     }
     BusyIndicatorItem {
         running: Network.isConnecting || Network.isSearching
@@ -204,9 +210,30 @@ BarModuleItem {
             root.hideSSID = !root.hideSSID
         }
     }
-    SwitchItem {
+    BarContentItem {
         id: swtch
+        checked: Network.wifiEnabled
         implicitWidth:root.scaleHeightMin*1.5
-        implicitHeight:root.scaleHeightMin*0.6
+        implicitHeight:root.scaleHeightMin
+        contentItem: TextItem {
+            text: swtch.checked ? "󰨚 " : "󰨙 "
+            // font.pointSize: 24
+            fontSizeMode :Text.HorizontalFit
+            color: root.config.props.secondaryColor
+        }
+        onBtnclick: {
+            Network.wifiEnabled = !Network.wifiEnabled
+        }
     }
+    // SwitchItem {
+    //     id: swtch
+    //     // checkable:true
+    //     checked: Network.wifiEnabled
+    //     onClicked: {
+    //         Network.wifiEnabled = !Network.wifiEnabled
+    //     }
+            
+    //     implicitWidth:root.scaleHeightMin*1.5
+    //     implicitHeight:root.scaleHeightMin*0.6
+    // }
 }

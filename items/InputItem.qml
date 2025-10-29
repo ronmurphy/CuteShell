@@ -10,7 +10,7 @@ import "../"
 
 Rectangle {
     id:root
-    property color textClr: Settings.white
+    property color textClr: "grey"
     property Component decor: null
     property Loader loader: loader
     property real scaleInputWidth: 0.75

@@ -4,25 +4,28 @@ import Quickshell
 import Quickshell.Io
 import QtQuick
 
+pragma ComponentBehavior: Bound
+
 Singleton {
     id: root
-    readonly property list<var> networkTypes: [["wifi"," "], ["ethernet"," "]]
+    readonly property list<var> networkTypes: ["wifi","ethernet"]
+    readonly property list<var> statusIcons: [" "," "]
     readonly property list<string> wifiStrength: ["󰤟 ","󰤢 ","󰤥 ","󰤨 "]
     property bool isConnecting: connectProc.running
     property bool isSearching: getNetworks.running
-    property list<string> statusConn: []
-
-    property int activeWifiConn: -1 //index in wifinetworks 
     property bool wifiEnabled: true
+    Component.onCompleted: {}
+    property string statusConn:""
+
     property list<var> wifinetworks: []
 
-    function toggleWifi(): void {
-        const cmd = wifiEnabled ? "off" : "on";
-        enableWifiProc.exec(["nmcli", "radio", "wifi", cmd]);
+    onWifiEnabledChanged: {
+        root.wifinetworks = []
+        const cmd = wifiEnabled ? "on" : "off";
+        connectProc.exec(["nmcli", "radio", "wifi", cmd]);
     }
 
     function connectToNetwork(ssid: string, password: string,profExist: bool): void {
-        console.log(ssid,password,profExist)
         if (!profExist) {
             connectProc.exec(["nmcli", "device", "wifi", "connect", ssid, "password", password]);
             return
@@ -39,9 +42,20 @@ Singleton {
     }
 
     Process {
+        id: checkWifiEnabled
+        command: [ "nmcli", "radio", "wifi"]
+        running: true
+        stdout: StdioCollector {
+            onStreamFinished: {
+                console.log(text)
+                root.wifiEnabled = text.trim() === "enabled" ? true : false
+            }
+        }
+    }
+    Process {
         id: connectProc
         onExited: (exitCode,exitStatus) => {
-            getNetworks.running = true
+            getNetworks.running = root.wifiEnabled ? true : false
         }
     }
     Process {
@@ -51,21 +65,34 @@ Singleton {
         command: cmnd
         stdout: StdioCollector {
             onStreamFinished: {
-                const data = root.splitterse(text)
-                root.statusConn = ["󰈂 ","No conn."]
-                outer: for (const col of data) {
-                    for (const type of root.networkTypes) {
-                        if (col[0] === type[0] && col[1] === "connected") {
-                            root.statusConn = [type[1],col[2]]
-                            break outer
-                        }
+                root.statusConn = "󰈂 "
+                let activeconn = {}
+                let wifiSSID = null
+                let wifiInUse = false
+                
+                text.split('\n').map(line => {
+                    const net = line.split(':');
+                    const cn = {
+                        networkTypeIndex: root.networkTypes.indexOf(net[0]), //wifi
+                        isConnected: net[1] === "connected",
+                        connName: net[2]
+                    };
+                    if (cn.networkTypeIndex >= 0 && cn.isConnected) {
+                        root.statusConn = root.statusIcons[cn.networkTypeIndex]
+                        if (cn.networkTypeIndex === 0) wifiSSID = cn.connName
+                        console.log(JSON.stringify(cn),"ADDED!!!")
                     }
-                }
+                })
+
                 for (const [i,network] of root.wifinetworks.entries()) {
-                    if (network.ssid === root.statusConn[1] && " " === root.statusConn[0]) {
-                        root.activeWifiConn = i
+                    if (network.ssid === wifiSSID) {
+                        network.active = true
+                        activeconn = network
+                        wifiInUse = true
+                        root.wifinetworks.splice(i,1)
                     }
                 }
+                if (wifiInUse) root.wifinetworks.unshift(activeconn)
             }
         }
     }
@@ -75,7 +102,6 @@ Singleton {
         command: [ "dbus-monitor" , "--system", "type='signal',interface='org.freedesktop.NetworkManager',member='StateChanged'"]
         stdout: SplitParser {
             onRead: data => {
-                root.activeWifiConn = -1
                 checkConnections.exec(checkConnections.cmnd)
             }
         }
@@ -89,12 +115,12 @@ Singleton {
         id: getNetworks
         running: true
         command: ["sh","-c",`
-            nmcli -t -f SSID,ACTIVE,SIGNAL,SECURITY device wifi list \
-            --rescan yes | while IFS=: read -r ssid active signal sec; do
+            nmcli -t -f SSID,IN-USE,SIGNAL,SECURITY device wifi list \
+            --rescan yes | while IFS=: read -r ssid inuse signal sec; do
                 if nmcli -t -f NAME connection show | grep -Fxq "$ssid"; then
-                    echo "$ssid:$active:$signal:$sec:true"
+                    echo "$ssid:$inuse:$signal:$sec:true"
                 else
-                    echo "$ssid:$active:$signal:$sec:false"
+                    echo "$ssid:$inuse:$signal:$sec:false"
                 fi
             done
         `]
@@ -104,34 +130,38 @@ Singleton {
         })
         stdout: StdioCollector {
             onStreamFinished: {
+                console.log(text.trim(),"NM IS GARBAGE")
+                if (text.trim() === "" && root.wifiEnabled) {
+                    getNetworks.running = true
+                    return
+                }
                 root.wifinetworks = []
-                const data = root.splitterse(text)
-                var activeconn = {}
-                data.forEach((net,i) => {
-                    if (net[0].length > 0) {
-                        const cn = {
-                            ssid: net[0],
-                            active: net[1] === "yes",
-                            signal: root.wifiStrength[Math.ceil((net[2]/100)*4)-1],
-                            security: net[3] ,
-                            profileExist: net[4] === "true",
-                        }
-                        if (net[1] === "yes") {
-                            activeconn = cn
-                            root.activeWifiConn = 0
-                            return
-                        }
-                        root.wifinetworks.push(cn)
+                let activeconn = {}
+                let inUseExist = false
+                text.split('\n').map(line => {
+                    const net = line.split(':');
+                    if (net[0] === "") {
+                        return
                     }
+                    const cn = {
+                        ssid: net[0],
+                        active: net[1] === "*",
+                        signal: root.wifiStrength[Math.ceil((net[2]/100)*4)-1],
+                        security: net[3],
+                        profileExist: net[4] === "true",
+                    };
+
+                    if (net[1] === "*") {
+                        console.log(net[1],"NM IS LITERALLY HOT GARBAGE")
+                        activeconn = cn
+                        inUseExist = true
+                        return
+                    }
+                    root.wifinetworks.push(cn)
                 })
-                root.wifinetworks.unshift(activeconn)
+                console.log(JSON.stringify(root.wifinetworks),"NM IS GARBAGE2")
+                if (inUseExist) root.wifinetworks.unshift(activeconn)
             }
         }
-    }
-    function splitterse(text) {
-        const res = text.trim().split("\n").map(t => {
-            return t.replace(new RegExp("\\\\:", "g"), "").split(":")
-        })
-        return res
     }
 }

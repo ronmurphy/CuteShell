@@ -3,13 +3,11 @@ import QtQuick.Controls.Basic
 
 import "../decorations"
 
-SwitchDelegate {
+Switch {
     id: root
-    checked: true
     property Loader handleloader: handleLoader
     property Loader backgroundloader: backgroundLoader
     property Loader backgroundloaderon: backgroundLoaderOn
-
     property Component backgroundDecor: RectTriangleItem {
         colors: ["transparent","grey"]
     }
