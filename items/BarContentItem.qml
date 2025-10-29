@@ -19,8 +19,5 @@ Button {
         opacity: root.opac
         color: root.clr
     }
-    onClicked: btnclick()
-    // onReleased: btnclick()
-    // onPressed: btnclick()
 }
 

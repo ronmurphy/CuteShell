@@ -25,7 +25,7 @@ BarModuleItem {
             text: ""
             color: root.config.props.secondaryColor
         }
-        onBtnclick: {
+        onClicked: {
             root.isExpandable = !root.isExpandable
             // Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
         }
@@ -55,7 +55,7 @@ BarModuleItem {
                 source: SysTray.systrayItems[index].icon
             }
 
-            onBtnclick: {
+            onClicked: {
                 SysTray.systrayItems[index].activate()
             }
         }

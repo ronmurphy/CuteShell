@@ -25,7 +25,7 @@ BarModuleItem {
                 text: SysInfo2.clockdate
                 color: root.config.props.secondaryColor
             }
-            onBtnclick: {
+            onClicked: {
                Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
             }
         }
@@ -39,7 +39,7 @@ BarModuleItem {
                 text: SysInfo2.clocktime
                 textFormat: Text.StyledText
             }
-            onBtnclick: {
+            onClicked: {
                 Mpris.playPause();
             }
         }

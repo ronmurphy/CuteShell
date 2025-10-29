@@ -46,7 +46,7 @@ BarModuleItem {
                 text: Battery.batteryLevel
                 color: root.config.props.secondaryColor
             }
-            onBtnclick: {
+            onClicked: {
                 Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
             }
         }

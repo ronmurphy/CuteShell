@@ -83,7 +83,7 @@ BarModuleItem {
                 horizontalAlignment: Text.AlignRight
                 text: signal + (security != "" ? " " : " ") + (del.profileExist ? " " : "")
             }
-            onBtnclick: {
+            onClicked: {
                 root.selectedConn = del.index
                 root.inputEnabled = !root.inputEnabled
             }
@@ -103,7 +103,7 @@ BarModuleItem {
                     text: "󱞳"
                     color: root.config.props.secondaryColor
                 }
-                onBtnclick: {
+                onClicked: {
                     root.inputEnabled = !root.inputEnabled
                 }
             }
@@ -133,7 +133,7 @@ BarModuleItem {
                         text: " "
                         color: root.config.props.secondaryColor
                     }
-                    onBtnclick: {
+                    onClicked: {
                         root.inputEnabled = !root.inputEnabled
                         Network.deleteNetwork(del.ssid)
                     }
@@ -148,7 +148,7 @@ BarModuleItem {
                         horizontalAlignment: Text.AlignRight
                         color: root.config.props.secondaryColor
                     }
-                    onBtnclick: {
+                    onClicked: {
                         root.inputEnabled = !root.inputEnabled
                         const inptext = inp.gettext()
                         if (del.active) {
@@ -173,7 +173,7 @@ BarModuleItem {
             text: Network.statusConn
             color: root.config.props.secondaryColor
         }
-        onBtnclick: {
+        onClicked: {
             Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
         }
     }
@@ -195,7 +195,7 @@ BarModuleItem {
             text: " "
             color: root.config.props.secondaryColor
         }
-        onBtnclick: {
+        onClicked: {
             Network.getNetworks()
         }
     }
@@ -206,7 +206,7 @@ BarModuleItem {
             text: root.hideSSID ? " " : " "
             color: root.config.props.secondaryColor
         }
-        onBtnclick: {
+        onClicked: {
             root.hideSSID = !root.hideSSID
         }
     }
@@ -221,19 +221,8 @@ BarModuleItem {
             fontSizeMode :Text.HorizontalFit
             color: root.config.props.secondaryColor
         }
-        onBtnclick: {
+        onClicked: {
             Network.wifiEnabled = !Network.wifiEnabled
         }
     }
-    // SwitchItem {
-    //     id: swtch
-    //     // checkable:true
-    //     checked: Network.wifiEnabled
-    //     onClicked: {
-    //         Network.wifiEnabled = !Network.wifiEnabled
-    //     }
-            
-    //     implicitWidth:root.scaleHeightMin*1.5
-    //     implicitHeight:root.scaleHeightMin*0.6
-    // }
 }

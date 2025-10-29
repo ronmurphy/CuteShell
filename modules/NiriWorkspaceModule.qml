@@ -50,7 +50,7 @@ BarModuleItem {
                 : root.config.props.fgColors[0]
             }
 
-            onBtnclick: {
+            onClicked: {
                 NiriFinal.switchToWorkspace(del.idx)
                 Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
             }
@@ -63,7 +63,7 @@ BarModuleItem {
             text: root.isExpandable ? " " : " "
             color: root.config.props.secondaryColor
         }
-        onBtnclick: {
+        onClicked: {
             root.isExpandable = !root.isExpandable
         }
     }

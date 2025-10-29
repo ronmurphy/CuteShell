@@ -46,7 +46,7 @@ BarModuleItem {
                 color: Settings.dark
             }
 
-            onBtnclick: {
+            onClicked: {
                 Hyprland.activateWorkspaceById(id)
                 Settings.curridx = root.indx == Settings.curridx ? -1 : root.indx
             }

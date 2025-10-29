@@ -26,7 +26,7 @@ BarModuleItem {
             text: " "
             color: root.config.props.secondaryColor
         }
-        onBtnclick: {
+        onClicked: {
             Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
             SysTray.systraydo()
         }
@@ -38,7 +38,7 @@ BarModuleItem {
             text: " "
             color: root.config.props.secondaryColor
         }
-        onBtnclick: {
+        onClicked: {
             Settings.changeBarState()
         }
     }
@@ -49,7 +49,7 @@ BarModuleItem {
             text: " "
             color: root.config.props.secondaryColor
         }
-        onBtnclick: {
+        onClicked: {
             Quickshell.execDetached(["sh" ,"-c","niri msg action screenshot"])
         }
     }

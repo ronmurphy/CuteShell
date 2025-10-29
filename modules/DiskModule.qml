@@ -20,7 +20,7 @@ BarModuleItem {
             color: root.config.props.secondaryColor
             text: SysInfo2.diskAvail
         }
-        onBtnclick: {
+        onClicked: {
            Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
         }
     }
@@ -32,7 +32,7 @@ BarModuleItem {
             color: root.config.props.secondaryColor
             text: SysInfo2.diskPercent
         }
-        onBtnclick: {
+        onClicked: {
            Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
         }
     }

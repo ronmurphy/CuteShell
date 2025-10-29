@@ -22,8 +22,8 @@ BarModuleItem {
             font.pointSize:20
             color: root.config.props.secondaryColor
         }
-        onBtnclick: {
-                Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
+        onClicked: {
+            Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
         }
     }
     onConfigChanged: {

@@ -22,7 +22,7 @@ BarModuleItem {
             textFormat: Text.StyledText
             color: root.config.props.secondaryColor
         }
-        onBtnclick: {
+        onClicked: {
             root.isPopupVisible = !root.isPopupVisible
         }
     }
@@ -73,7 +73,7 @@ BarModuleItem {
                         textFormat: Text.StyledText
 
                     }
-                    onBtnclick: {
+                    onClicked: {
                         Mpris.previous();
                     }
                 }
@@ -87,7 +87,7 @@ BarModuleItem {
                         textFormat: Text.StyledText
 
                     }
-                    onBtnclick: {
+                    onClicked: {
                         Mpris.playPause();
                     }
                 }
@@ -101,7 +101,7 @@ BarModuleItem {
                         textFormat: Text.StyledText
 
                     }
-                    onBtnclick: {
+                    onClicked: {
                         Mpris.next();
                     }
                 }

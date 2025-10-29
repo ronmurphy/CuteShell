@@ -20,7 +20,7 @@ BarModuleItem {
             text: "  "+SysInfo2.memGb + " GB"
             color: root.config.props.secondaryColor
         }
-        onBtnclick: {
+        onClicked: {
            Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
         }
     }
@@ -32,7 +32,7 @@ BarModuleItem {
             font.pointSize:12
             color: root.config.props.secondaryColor
         }
-        onBtnclick: {
+        onClicked: {
            Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
         }
     }

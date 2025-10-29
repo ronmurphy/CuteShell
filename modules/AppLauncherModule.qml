@@ -76,7 +76,7 @@ BarModuleItem {
                     text: del.name
                 }
             }
-            onBtnclick: {
+            onClicked: {
                 Quickshell.execDetached({
                     command: del.command,
                     workingDirectory: del.workingDirectory,
@@ -91,7 +91,7 @@ BarModuleItem {
             color: root.config.props.secondaryColor
             text: "󰀻"
         }
-        onBtnclick: {
+        onClicked: {
             Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
         }
     }
