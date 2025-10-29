@@ -75,7 +75,7 @@ Item {
 
     implicitHeight: root.scaleHeightMin
     implicitWidth: contentRect.implicitWidth
-    readonly property real maxWidth: visibleExpandedWidth+(root.config?.props?.subtractRectWidth || 0)
+    readonly property real maxWidth: visibleExpandedWidth+(root.config?.props?.subtractContRectWidth || 0)
         + (itemsrow.gap*itemsrow.children.length)
 
     Rectangle {
@@ -100,7 +100,7 @@ Item {
         clip: true
         Flickable {
             id: flick
-            width: contentRect.implicitWidth-(root.config?.props?.subtractRectWidth || 0)
+            width: contentRect.implicitWidth-(root.config?.props?.subtractContRectWidth || 0)
             x: root.config?.props?.flickableX || 0
             height: contentRect.height
             contentWidth: itemsrow.width
@@ -124,7 +124,7 @@ Item {
         height:0
         width: parent.width - root.config?.props?.subtractPopupWidth || parent.width
         Behavior on height { 
-            ElasticBehavior  {} 
+            ElasticBehavior  {}
         }
         onAboutToShow: {
             // Settings.popupChanged()
@@ -141,7 +141,9 @@ Item {
         }
         focus: true
         modal: false
-        visible: Settings.curridx == root.uniqueIndex && root.isPopupVisible
+        // visible: Settings.curridx == root.uniqueIndex || !root.isExpandable
+        // visible: Settings.curridx == root.uniqueIndex || (!root.isExpandable && root.isPopupVisible)
+        visible: (Settings.curridx == root.uniqueIndex || !root.isExpandable) && root.isPopupVisible
         closePolicy: Popup.NoAutoClose
         margins:0
         padding:0

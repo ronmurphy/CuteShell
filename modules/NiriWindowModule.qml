@@ -12,10 +12,9 @@ import "../"
 
 BarModuleItem {
     id:root
-    defaultWidth: scaleHeightMin*3
     isExpandable: false
     BarContentItem {
-        implicitWidth: root.defaultWidth
+        implicitWidth: root.scaleHeightMin*3
         implicitHeight: root.scaleHeightMin
         contentItem: TextItem {
             font.pointSize:12
@@ -23,10 +22,6 @@ BarModuleItem {
             fontSizeMode: Text.VerticalFit
             text: NiriFinal.currentWindowTitle
             color: root.config.props.secondaryColor
-        }
-        onBtnclick: {
-            Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
-            root.isPopupVisible = false
         }
     }
 }

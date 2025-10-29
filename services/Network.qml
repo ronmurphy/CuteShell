@@ -7,6 +7,7 @@ import QtQuick
 Singleton {
     id: root
     readonly property list<var> networkTypes: [["wifi"," "], ["ethernet"," "]]
+    readonly property list<string> wifiStrength: ["󰤟 ","󰤢 ","󰤥 ","󰤨 "]
     property bool isConnecting: connectProc.running
     property bool isSearching: getNetworks.running
     property list<string> statusConn: []
@@ -80,17 +81,20 @@ Singleton {
         }
     }
 
+    function getNetworks() {
+        getNetworks.running = true
+    }
 
     Process {
         id: getNetworks
         running: true
         command: ["sh","-c",`
-            nmcli -t -f SSID,ACTIVE,BARS,SECURITY device wifi list \
-            --rescan yes | while IFS=: read -r ssid active bars sec; do
+            nmcli -t -f SSID,ACTIVE,SIGNAL,SECURITY device wifi list \
+            --rescan yes | while IFS=: read -r ssid active signal sec; do
                 if nmcli -t -f NAME connection show | grep -Fxq "$ssid"; then
-                    echo "$ssid:$active:$bars:$sec:true"
+                    echo "$ssid:$active:$signal:$sec:true"
                 else
-                    echo "$ssid:$active:$bars:$sec:false"
+                    echo "$ssid:$active:$signal:$sec:false"
                 fi
             done
         `]
@@ -108,8 +112,8 @@ Singleton {
                         const cn = {
                             ssid: net[0],
                             active: net[1] === "yes",
-                            bars: net[2],
-                            security: net[3] || "--",
+                            signal: root.wifiStrength[Math.ceil((net[2]/100)*4)-1],
+                            security: net[3] ,
                             profileExist: net[4] === "true",
                         }
                         if (net[1] === "yes") {

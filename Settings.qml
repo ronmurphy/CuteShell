@@ -140,7 +140,7 @@ Singleton {
                     get props() {
                         return {
                             flickableX: this.inverted ? 0 : (args?.scaleHeightMin/2 || 0),   
-                            subtractRectWidth: args?.scaleHeightMin/2 || 0, 
+                            subtractContRectWidth: args?.scaleHeightMin/2 || 0, 
                             defaultWidth: args?.firstChildrenWidth+(args?.scaleHeightMin*0.5),
                             popupHeight: args.side != "center" ? args.scaleHeightMin*4 : args.scaleHeightMin,
                             subtractPopupWidth: this.subtractPopupWidth,
@@ -228,7 +228,7 @@ Singleton {
 
                     get props() {
                         return {
-                            subtractRectWidth: args?.scaleHeightMin/2 || 0, 
+                            subtractContRectWidth: args?.scaleHeightMin/2 || 0, 
                             defaultWidth: args?.firstChildrenWidth+(args?.scaleHeightMin*0.5),
                             subtractPopupWidth: this.subtractPopupWidth,
                             popupX: this.popupX,

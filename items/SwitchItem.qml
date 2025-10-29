@@ -6,9 +6,9 @@ import "../decorations"
 SwitchDelegate {
     id: root
     checked: true
-
     property Loader handleloader: handleLoader
     property Loader backgroundloader: backgroundLoader
+    property Loader backgroundloaderon: backgroundLoaderOn
 
     property Component backgroundDecor: RectTriangleItem {
         colors: ["transparent","grey"]
@@ -16,16 +16,26 @@ SwitchDelegate {
     property Component handleDecor: RectTriangleItem {
         colors: ["transparent","green"]
     }
+    property Component backgroundDecorOn: RectTriangleItem {
+        colors: ["transparent","yellow"]
+    }
     implicitWidth: 80
     implicitHeight: 40
     indicator: Rectangle {
         width:root.width
         height: root.height
-        color:"transparent"
+        color: "transparent"
+
         Loader {
             id: backgroundLoader
             anchors.fill: parent
             sourceComponent: root.backgroundDecor
+        }
+        Loader {
+            visible: root.checked
+            id: backgroundLoaderOn
+            anchors.fill: parent
+            sourceComponent: root.backgroundDecorOn
         }
 
         Rectangle {

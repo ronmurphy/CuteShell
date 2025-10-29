@@ -15,7 +15,7 @@ pragma ComponentBehavior: Bound
 
 BarModuleItem {
     id:root
-    isPopupVisible: false
+    isPopupVisible: true
     property bool inputactive: false
     
     popupComponent: Rectangle {
@@ -93,7 +93,6 @@ BarModuleItem {
         }
         onBtnclick: {
             Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
-            root.isPopupVisible = true
         }
     }
 

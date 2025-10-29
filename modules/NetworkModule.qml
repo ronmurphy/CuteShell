@@ -22,6 +22,8 @@ BarModuleItem {
 
     property bool inputEnabled: false
     property int selectedConn: -1
+    property bool hideSSID: false
+    isPopupVisible:true
 
     popupComponent: Rectangle {
         id: rectpop
@@ -38,11 +40,13 @@ BarModuleItem {
 
     property Component delegateComponent: Loader {
         id:del
-        scale:0.95
+        scale:1
         required property string ssid; required property bool profileExist;
-        required property string bars; required property string security;
+        required property string signal; required property string security;
         required property int index
         property bool inputEnabled: false
+        property string networkName: root.hideSSID ? "Network " + index : ssid
+
         width: root.maxWidth
         height: root.scaleHeightMin
         Component.onCompleted: {
@@ -58,22 +62,29 @@ BarModuleItem {
             anchors.fill: parent
             TextItem {
                 id: name
+                anchors.leftMargin: root.scaleHeightMin/2
                 anchors.left: parent.left
-                width: del.width * 0.7
+                width: del.width * 0.5
                 height: del.height
                 color: root.config.props.secondaryColor
-                text: (Network.activeWifiConn === del.index ? " " : "") + ssid + (del.profileExist ? " " : "")
+                elide: Text.ElideRight
+                font.pointSize:12
+                horizontalAlignment: Text.AlignLeft
+                text: (Network.activeWifiConn === del.index ? " " : "") + del.networkName
             }
             TextItem {
                 id: securityType
                 anchors.right: parent.right
+                anchors.rightMargin: root.scaleHeightMin/2
                 width: del.width * 0.3
                 height: del.height
                 color: root.config.props.secondaryColor
-                text: bars + security.trim().split(/\s+/).pop()
+                font.pointSize:16
+                horizontalAlignment: Text.AlignRight
+                text: signal + (security != "" ? " " : " ") + (del.profileExist ? " " : "")
             }
             onBtnclick: {
-                root.selectedConn = index
+                root.selectedConn = del.index
                 root.inputEnabled = !root.inputEnabled
             }
         }
@@ -156,14 +167,14 @@ BarModuleItem {
             color: root.config.props.secondaryColor
         }
         onBtnclick: {
-            root.isPopupVisible = true
             Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
             Network.getNetworks = true
         }
     }
     onConfigChanged: {
-        input.contentLoader.setSource(root.config.inputProps.source,
-        root.config.inputProps.properties)
+        swtch.backgroundloader.setSource(root.config.inputProps.source,
+        Object.assign(root.config.inputProps.properties,
+        {colors: ["transparent","blue"]}))
     }
     BusyIndicatorItem {
         running: Network.isConnecting || Network.isSearching
@@ -171,27 +182,31 @@ BarModuleItem {
         implicitWidth: root.scaleHeightMin
         implicitHeight: root.scaleHeightMin
     }
+    BarContentItem {
+        implicitWidth:root.scaleHeightMin
+        implicitHeight:root.scaleHeightMin
+        contentItem: TextItem {
+            text: " "
+            color: root.config.props.secondaryColor
+        }
+        onBtnclick: {
+            Network.getNetworks()
+        }
+    }
+    BarContentItem {
+        implicitWidth:root.scaleHeightMin
+        implicitHeight:root.scaleHeightMin
+        contentItem: TextItem {
+            text: root.hideSSID ? " " : " "
+            color: root.config.props.secondaryColor
+        }
+        onBtnclick: {
+            root.hideSSID = !root.hideSSID
+        }
+    }
     SwitchItem {
         id: swtch
         implicitWidth:root.scaleHeightMin*1.5
-        implicitHeight:root.scaleHeightMin*0.6
-    }
-    InputItem {
-        id: input
-        scale: visible ? 1.0 : 0.1
-        Behavior on scale { 
-            ElasticBehavior  {} 
-        }
-        decor: RectTriangleItem {
-            scale: 0.7
-            colors: ["transparent",Settings.colorPick(root.config.props.primaryColor,root.config.props.bgColors,del.index)]
-            clip: true
-        }
-        visible: root.inputactive
-        onTextedited: {
-            Network.matchString = gettext().toLowerCase()
-        }
-        implicitWidth:root.scaleHeightMin*2
         implicitHeight:root.scaleHeightMin*0.6
     }
 }

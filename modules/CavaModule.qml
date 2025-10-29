@@ -23,8 +23,7 @@ BarModuleItem {
             color: root.config.props.secondaryColor
         }
         onBtnclick: {
-            root.isPopupVisible = true
-            Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
+            root.isPopupVisible = !root.isPopupVisible
         }
     }
     onConfigChanged: {
