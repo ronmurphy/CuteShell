@@ -43,17 +43,16 @@ BarModuleItem {
         id:del
         scale:1
         required property string ssid; required property bool profileExist;
-        required property string signal; required property string security;
+        required property int signal; required property string security;
         required property bool active; required property int index;
         property string networkName: root.hideSSID ? "Network " + index : ssid
 
         width: root.maxWidth
         height: root.scaleHeightMin
-        Component.onCompleted: {
-            del.setSource(root.config?.listDelegateProps?.source,
-            Object.assign(root.config?.listDelegateProps?.properties,
-            {colors: ["transparent",Settings.colorPick(root.config.props.primaryColor,root.config.props.bgColors,del.index)]}))
-
+        property var delProps: [root.config?.listDelegateProps?.source,Object.assign(root.config?.listDelegateProps?.properties,
+            {colors: ["transparent",Settings.colorPick(root.config.props.primaryColor,root.config.props.bgColors,del.index)]})]
+        onDelPropsChanged: {
+            del.setSource(delProps[0],delProps[1])
         }
         BarContentItem {
             z:1
@@ -81,7 +80,7 @@ BarModuleItem {
                 color: root.config.props.secondaryColor
                 font.pointSize:16
                 horizontalAlignment: Text.AlignRight
-                text: signal + (security != "" ? " " : " ") + (del.profileExist ? " " : "")
+                text: Network.wifiStrength[Math.ceil((del.signal/100)*4)-1] + (security != "" ? " " : " ") + (del.profileExist ? " " : "")
             }
             onClicked: {
                 root.selectedConn = del.index
@@ -111,11 +110,11 @@ BarModuleItem {
                 id: inp
                 visible: del.profileExist ? false : true
                 width: del.width * 0.4
-                height: del.height*0.7
+                height: del.height * 0.7
                 anchors.centerIn: parent
-                Component.onCompleted: {
-                    inp.contentLoader.setSource(root.config?.inputProps?.source,
-                    root.config?.inputProps?.properties)
+                property var inpProps: [root.config?.inputProps?.source,root.config?.inputProps?.properties]
+                onInpPropsChanged: {
+                    inp.contentLoader.setSource(inpProps[0],inpProps[1])
                 }
             }
             Item {

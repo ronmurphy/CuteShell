@@ -44,10 +44,11 @@ BarModuleItem {
         required property int index
         width: root.maxWidth
         height: root.scaleHeightMin
-        Component.onCompleted: {
-            del.setSource(root.config?.listDelegateProps?.source,
-            Object.assign(root.config?.listDelegateProps?.properties,
-            {colors: ["transparent",Settings.colorPick(root.config.props.primaryColor,root.config.props.bgColors,del.index)]}))
+        property var listProps: [root.config?.listDelegateProps?.source,Object.assign(root.config?.listDelegateProps?.properties,
+            {colors: ["transparent",Settings.colorPick(root.config.props.primaryColor,root.config.props.bgColors,del.index)]})]
+
+        onListPropsChanged: {
+            del.setSource(listProps[0],listProps[1])
         }
         BarContentItem {
             id: barcnt

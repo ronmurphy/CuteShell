@@ -72,6 +72,8 @@ Singleton {
     property var currentConfig: configs.next().value
     
     property var configsAndThemes: ({
+        Powerline: {
+        },
         DefaultSized: {
             OnedarkCircled:{
                 get moduleAnimProps() {
@@ -91,8 +93,6 @@ Singleton {
                 },
             },
             // EverforestRectangled:{a2:30}
-        },
-        Powerline: {
         },
     })
 
@@ -140,7 +140,7 @@ Singleton {
                         return {
                             flickableX: 0,   
                             subtractContRectWidth: 0, 
-                            defaultWidth: args?.firstChildrenWidth+(args?.scaleHeightMin*0.5),
+                            defaultWidth: args?.firstChildrenWidth,
                             popupHeight: args.side != "center" ? args.scaleHeightMin*4 : args.scaleHeightMin,
                             subtractPopupWidth: 0,
                             popupX: 0,
@@ -243,7 +243,7 @@ Singleton {
                         return {
                             flickableX: this.common.inverted ? 0 : (args?.scaleHeightMin/2 || 0),   
                             subtractContRectWidth: args?.scaleHeightMin/2 || 0, 
-                            defaultWidth: args?.firstChildrenWidth+(args?.scaleHeightMin*0.5),
+                            defaultWidth: args?.firstChildrenWidth+(args?.scaleHeightMin/2),
                             popupHeight: args.side != "center" ? args.scaleHeightMin*4 : args.scaleHeightMin,
                             subtractPopupWidth: args.side === "center" ? args.scaleHeightMin : 0,
                             popupX: args.side === "left" ? -args.scaleHeightMin/2 :

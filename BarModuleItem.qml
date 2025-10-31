@@ -23,23 +23,7 @@ Item {
     
     property var config: ({})
 
-    property var currConfig: Settings.currentConfig
-// Component.onCompleted: {
-//         config = Settings.getConfig({
-//             uniqueIndex:uniqueIndex,
-//             sideIndex:sideIndex,
-//             side:root.parent.objectName,
-//             scaleHeightMin: scaleHeightMin,
-//             firstChildrenWidth: itemsrow.children[0].width,
-//             popupParentVariants: [root.parent.parent,root.parent,root,flick],
-//             sideLength: root.parent.children.length,
-//         },{
-//             configName: currConfig.key,
-//             themeArgs: currConfig.val
-//         })
-    
-// }
-    onCurrConfigChanged: {
+    function setConfig() {
         config = Settings.getConfig({
             uniqueIndex:uniqueIndex,
             sideIndex:sideIndex,
@@ -52,15 +36,24 @@ Item {
             configName: currConfig.key,
             themeArgs: currConfig.val
         })
-        // uniqueIndex = Settings.distributeUniqueIndex(uniqueIndex)
-        // for (const [i,v] of root.parent.children.entries()) {
-        //     if (v === root) {
-        //         sideIndex = i
-        //         console.log(i)
-        //     }
-        // }
+
         root.parent.gap = config?.props.gap
         rectDecor.setSource(root.config?.common?.mainRectSource,root.config?.mainRectProps)
+    }
+    property var currConfig: Settings.currentConfig
+
+    Component.onCompleted: {
+        uniqueIndex = Settings.distributeUniqueIndex(uniqueIndex)
+        for (const [i,v] of root.parent.children.entries()) {
+            if (v === root) {
+                sideIndex = i
+                console.log(i)
+            }
+        }
+        setConfig()
+    }
+    onCurrConfigChanged: {
+        setConfig()
     }
     // If false, the module will have a maximum width and
     // will not collapse/expand on interacting
@@ -82,16 +75,6 @@ Item {
             }
         }
         return wdth
-    }
-
-    Component.onCompleted: {
-        uniqueIndex = Settings.distributeUniqueIndex(uniqueIndex)
-        for (const [i,v] of root.parent.children.entries()) {
-            if (v === root) {
-                sideIndex = i
-                console.log(i)
-            }
-        }
     }
 
     property Loader popupItem: popuploader

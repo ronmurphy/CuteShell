@@ -17,20 +17,18 @@ Singleton {
     property bool wifiEnabled: true
     property string statusConn:""
 
-    onWifiSSIDInUseChanged: {
-        let activeconn = {}
-        let activeConnIndex = -1
+    onWifiSSIDInUseChanged:{
         for (const [i,network] of root.wifinetworks.entries()) {
-            // console.log(network.ssid,network.active,wifiSSIDInUse,"trace 1")
-            if (network.ssid === wifiSSIDInUse) {
-                // console.log("trace 2")
-                network.active = true
-                activeconn = network
-                activeConnIndex = i
-            }
+            root.wifinetworks[i].active = false
+            if (network.ssid === wifiSSIDInUse) root.wifinetworks[i].active = true
         }
-        if (activeConnIndex >= 0) root.wifinetworks.unshift(root.wifinetworks.splice(activeConnIndex, 1)[0])
+        wifinetworks.sort((a,b) => { 
+            const activeSaved = (b.active || b.profileExist) - (a.active || a.profileExist);
+            const signal = b.signal - a.signal;
+            return activeSaved || signal;
+        });
     }
+
     property list<var> wifinetworks: []
 
     onWifiEnabledChanged: {
@@ -71,6 +69,7 @@ Singleton {
             getNetworks.running = root.wifiEnabled ? true : false
         }
     }
+
     Process {
         property list<string> cmnd: ["nmcli","-t","-f","TYPE,STATE,CONNECTION","device"]
         id: checkConnections
@@ -79,6 +78,7 @@ Singleton {
         stdout: StdioCollector {
             onStreamFinished: {
                 root.statusConn = "󰈂 "
+                root.wifiSSIDInUse = ""
                 text.split('\n').map(line => {
                     const net = line.split(':');
                     const cn = {
@@ -132,7 +132,6 @@ Singleton {
         stdout: StdioCollector {
             onStreamFinished: {
                 root.wifinetworks = []
-                // var wifinets = []
                 if (text.trim() === "" && root.wifiEnabled) {
                     getNetworks.running = true
                     return
@@ -143,16 +142,14 @@ Singleton {
                     const cn = {
                         ssid: net[0],
                         active: net[1] === "*",
-                        signal: root.wifiStrength[Math.ceil((net[2]/100)*4)-1],
+                        signal: Number(net[2]),
                         security: net[3],
                         profileExist: net[4] === "true",
                     };
                     console.log(JSON.stringify(cn))
                     if (net[1] === "*") root.wifiSSIDInUse = net[0]
-                    // wifinets.push(cn)
                     root.wifinetworks.push(cn)
                 })
-                // root.wifinetworks = wifinets
                 root.wifiSSIDInUseChanged()
             }
         }
