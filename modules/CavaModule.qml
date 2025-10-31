@@ -19,6 +19,8 @@ BarModuleItem {
         implicitHeight: root.scaleHeightMin
         contentItem: TextItem {
             text: Cava.output
+            height:root.scaleHeightMin
+            fontSizeMode :Text.HorizontalFit
             textFormat: Text.StyledText
             color: root.config.props.secondaryColor
         }
@@ -28,10 +30,11 @@ BarModuleItem {
     }
     onConfigChanged: {
         Cava.bars = root.config.props.cavaTextBars
+        Cava.colors = root.config.props.cavaColors
     }
     popupComponent: Rectangle {
         id: popupRect
-            scale:1.1
+        scale:1
         color:"transparent"
         // color:root.config.props.primaryColor
         Loader {
@@ -47,8 +50,9 @@ BarModuleItem {
             BarContentItem {
                 z:1
                 anchors.left: parent.left
+                anchors.leftMargin: root.scaleHeightMin/2
                 anchors.horizontalCenter: popupRect.horizontalCenter
-                implicitWidth: parent.width*0.7
+                implicitWidth: parent.width*0.5
                 implicitHeight: root.scaleHeightMin
                 contentItem: TextItem {
                     color: root.config.props.fgColors[0]
@@ -60,6 +64,7 @@ BarModuleItem {
             Item {
                 z:1
                 anchors.right: parent.right
+                anchors.rightMargin: root.scaleHeightMin/2
                 anchors.horizontalCenter: popupRect.horizontalCenter
                 implicitWidth: parent.width*0.3
                 implicitHeight: root.scaleHeightMin

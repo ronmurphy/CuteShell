@@ -21,21 +21,49 @@ Item {
     property int uniqueIndex: -1
     property int sideIndex: -1
     
-    property var config: Settings.getConfig({
-        uniqueIndex:uniqueIndex,
-        sideIndex:sideIndex,
-        side:root.parent.objectName,
-        scaleHeightMin: scaleHeightMin,
-        firstChildrenWidth: itemsrow.children[0].width,
-        popupParentVariants: [root.parent.parent,root.parent,root,flick],
-        sideLength: root.parent.children.length,
-    },{
-        configName: Settings.currentConfig.key,
-        themeArgs: Settings.currentConfig.val
-    })
+    property var config: ({})
 
+    property var currConfig: Settings.currentConfig
+// Component.onCompleted: {
+//         config = Settings.getConfig({
+//             uniqueIndex:uniqueIndex,
+//             sideIndex:sideIndex,
+//             side:root.parent.objectName,
+//             scaleHeightMin: scaleHeightMin,
+//             firstChildrenWidth: itemsrow.children[0].width,
+//             popupParentVariants: [root.parent.parent,root.parent,root,flick],
+//             sideLength: root.parent.children.length,
+//         },{
+//             configName: currConfig.key,
+//             themeArgs: currConfig.val
+//         })
+    
+// }
+    onCurrConfigChanged: {
+        config = Settings.getConfig({
+            uniqueIndex:uniqueIndex,
+            sideIndex:sideIndex,
+            side:root.parent.objectName,
+            scaleHeightMin: scaleHeightMin,
+            firstChildrenWidth: itemsrow.children[0].width,
+            popupParentVariants: [root.parent.parent,root.parent,root,flick],
+            sideLength: root.parent.children.length,
+        },{
+            configName: currConfig.key,
+            themeArgs: currConfig.val
+        })
+        // uniqueIndex = Settings.distributeUniqueIndex(uniqueIndex)
+        // for (const [i,v] of root.parent.children.entries()) {
+        //     if (v === root) {
+        //         sideIndex = i
+        //         console.log(i)
+        //     }
+        // }
+        root.parent.gap = config?.props.gap
+        rectDecor.setSource(root.config?.common?.mainRectSource,root.config?.mainRectProps)
+    }
     // If false, the module will have a maximum width and
-    // will not collapse/expand when interacting
+    // will not collapse/expand on interacting
     property bool isExpandable: true
 
     property bool isPopupVisible: false
@@ -64,7 +92,6 @@ Item {
                 console.log(i)
             }
         }
-        root.parent.gap = config?.gap
     }
 
     property Loader popupItem: popuploader
@@ -84,18 +111,25 @@ Item {
             anchors.fill : parent
             anchors.centerIn: parent
             id: rectDecor
-            Component.onCompleted: {
-                rectDecor.setSource(root.config?.source,root.config?.mainDecorProps)
-            }
+            // Component.onCompleted: {
+            //     rectDecor.setSource(root.config?.common?.mainRectSource,root.config?.mainRectProps)
+            // }
             
         }
         implicitHeight: root.scaleHeightMin
         implicitWidth: Settings.curridx == root.uniqueIndex ? root.maxWidth
             : root.isExpandable ? root.defaultWidth : root.maxWidth
+            
         Behavior on implicitWidth {
-            enabled:true
-            ElasticBehavior {}
+            enabled: root.config?.props?.moduleAnimProps || false
+            PropertyAnimation {
+                duration: root.config?.props.moduleAnimProps.duration
+                easing.type: root.config?.props.moduleAnimProps.easingType
+                easing.amplitude: root.config?.props.moduleAnimProps.easingAmplitude
+                easing.period: root.config?.props.moduleAnimProps.easingPeriod
+            }
         }
+
         color: "transparent"
         clip: true
         Flickable {
@@ -115,23 +149,27 @@ Item {
             }
         }
     }
+    // here you define popup behavior,
+    // but content of popup in 
     Popup {
         id: popup
         parent: root.config?.props?.popupParentItem || root
         x: root.config?.props?.popupX || 0
-        y: root.scaleHeightMin
+        y: root.config?.props?.popupY || root.scaleHeightMin
         bottomMargin: Settings.isTop ? 0 : root.scaleHeightMin
         height:0
         width: parent.width - root.config?.props?.subtractPopupWidth || parent.width
-        Behavior on height { 
-            ElasticBehavior  {}
-        }
-        onAboutToShow: {
-            // Settings.popupChanged()
-            // popup.height = root.config?.props?.popupHeight || root.scaleHeightMin*3
+
+        Behavior on height {
+            enabled: root.config?.props?.popupAnimProps || false
+            PropertyAnimation {
+                duration: root.config?.props.popupAnimProps.duration
+                easing.type: root.config?.props.popupAnimProps.easingType
+                easing.amplitude: root.config?.props.popupAnimProps.easingAmplitude
+                easing.period: root.config?.props.popupAnimProps.easingPeriod
+            }
         }
         onOpened: {
-            // Settings.popupChanged()
             popup.height = root.config?.props?.popupHeight || root.scaleHeightMin*3
         }
         background: null
@@ -141,8 +179,6 @@ Item {
         }
         focus: true
         modal: false
-        // visible: Settings.curridx == root.uniqueIndex || !root.isExpandable
-        // visible: Settings.curridx == root.uniqueIndex || (!root.isExpandable && root.isPopupVisible)
         visible: (Settings.curridx == root.uniqueIndex || !root.isExpandable) && root.isPopupVisible
         closePolicy: Popup.NoAutoClose
         margins:0

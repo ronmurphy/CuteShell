@@ -69,23 +69,40 @@ Singleton {
         indexDistribute +=1
         return indexDistribute
     }
-    property var currentConfig: nextConfig()
+    property var currentConfig: configs.next().value
     
     property var configsAndThemes: ({
-      Powerline: {},
-      DefaultSized: {
-        OnedarkCircled:{a1:20},
-        EverforestRectangled:{a2:30}
-      },
+        DefaultSized: {
+            OnedarkCircled:{
+                get moduleAnimProps() {
+                    return {
+                        duration: 200,
+                        easingType: 30,
+                        easingAmplitude: 1.3,
+                        easingPeriod: 1,
+                    }
+                },
+                cavaTextBars: ["⠁","⠁","⠃","⠇","⡇"],
+                get palette() {
+                    return {
+                        bgColors: root.colorsGrayscale[1],
+                        fgColors: root.colors[1]
+                    }
+                },
+            },
+            // EverforestRectangled:{a2:30}
+        },
+        Powerline: {
+        },
     })
 
     property var configs: generateConfigsIterator()
 
     function nextConfig() {
-        return configs.next().value
+        currentConfig = configs.next().value
     }
 
-    function * generateConfigsIterator() {
+    function* generateConfigsIterator() {
         const entries = Object.entries(configsAndThemes);
         let index = 0;
 
@@ -110,19 +127,165 @@ Singleton {
 
     function getConfig(args = {},specialArgs = {}) {
         const configs = {
+            get DefaultSized() {
+                return {
+                    get common() {
+                        return {
+                            mainRectSource:"./decorations/GenericDecorItem.qml",
+                            sideLength: args.sideLength,
+                        }
+                    },
+
+                    get props() {
+                        return {
+                            flickableX: 0,   
+                            subtractContRectWidth: 0, 
+                            defaultWidth: args?.firstChildrenWidth+(args?.scaleHeightMin*0.5),
+                            popupHeight: args.side != "center" ? args.scaleHeightMin*4 : args.scaleHeightMin,
+                            subtractPopupWidth: 0,
+                            popupX: 0,
+                            popupY: args.side === "center" ? args.scaleHeightMin*1.2 : args.scaleHeightMin,
+                            popupParentItem: args.side === "left" ||  args.side === "right" ? args.popupParentVariants[2]
+                                : args.popupParentVariants[1],
+                            primaryColor: this.palette.bgColors[2],
+                            secondaryColor: colorPick("",this.palette.bgColors,args?.sideIndex || 0),
+                            bgColors: this.palette.bgColors,
+                            fgColors: this.palette.fgColors,
+                            cavaTextBars: specialArgs.themeArgs.cavaTextBars,
+                            cavaColors: this.palette.fgColors.reverse(),
+                            moduleAnimProps: this.moduleAnimProps,
+                            popupAnimProps: args.side != "center" ? null : this.popupAnimProps,
+                            gap: -1,
+
+                        }
+                    },
+                    get mainRectProps() {
+                        return {
+                            color: this.props.primaryColor,
+                            radius:args.scaleHeightMin*0.3,
+                            "border.width": args.scaleHeightMin*0.1,
+                            "border.color": colorPick("",this.palette.bgColors,args.sideIndex),
+                        }
+                    },
+                    get popupAnimProps() {
+                        return {
+                            duration: 300,
+                            easingType: 30,
+                            easingAmplitude: 1.3,
+                            easingPeriod: 1,
+                        }
+                    },
+                    get moduleAnimProps() {
+                        return {
+                            duration: 150,
+                            easingType: 30,
+                            easingAmplitude: 1.3,
+                            easingPeriod: 1,
+                        }
+                    },
+                    get palette() {
+                        return {
+                            bgColors: specialArgs.themeArgs.palette.bgColors,
+                            fgColors: specialArgs.themeArgs.palette.fgColors
+                        }
+                    },
+
+                    get listDelegateProps() {
+                        return {
+                            source: "../decorations/RectTriangleItem.qml",
+                            properties: {
+                        
+                            }
+                        }
+                    },
+                    get inputProps() {
+                        return {
+                            source: "../decorations/RectTriangleItem.qml",
+                            properties: {
+                                colors: ["transparent",this.palette.fgColors[0]],
+                            }
+                        }
+                    },
+                    get progressBarProps() {
+                        return {
+                            bgSource: "../decorations/GenericDecorItem.qml",
+                            bgProps: {
+                                color: "transparent",
+                                radius:args.scaleHeightMin*0.2,
+                                "border.width": args.scaleHeightMin*0.07,
+                                "border.color": this.palette.fgColors[0],
+                                borderColor: this.palette.fgColors[0],
+                            },
+                            fgSource: "../decorations/GenericDecorItem.qml",
+                            fgProps: {
+                                color:this.palette.fgColors[2],
+                                radius:args.scaleHeightMin*0.3
+                            }
+                        }
+                    },
+                    get sliderProps() {
+                        return this.inputProps
+                    }
+                }
+            },
             get Powerline() {
                 return {
-                    inverted: args.side === "left" || (args.side === "center" && args.sideIndex === 1) ? true : false,
-                    source:"./decorations/DirectedRectTriangle.qml",
-                    popupParentItem: args.side === "left" ||  args.side === "right" ? args.popupParentVariants[2]
-                        : args.popupParentVariants[1],
-                    cavaTextBars: ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"],
-                    sideLength: args.sideLength,
-                    gap: -1,
-                    popupX: args.side === "left" ? -args.scaleHeightMin/2 :
-                        args.side === "right" ? args.scaleHeightMin/2 : args.scaleHeightMin/2,
-                    subtractPopupWidth: args.side === "center" ? args.scaleHeightMin : 0,
 
+                    get common() {
+                        return {
+                            inverted: args.side === "left" || (args.side === "center" && args.sideIndex === 1) ? true : false,
+                            mainRectSource:"./decorations/DirectedRectTriangle.qml",
+                            sideLength: args.sideLength,
+                        }
+                    },
+
+                    get props() {
+                        return {
+                            flickableX: this.common.inverted ? 0 : (args?.scaleHeightMin/2 || 0),   
+                            subtractContRectWidth: args?.scaleHeightMin/2 || 0, 
+                            defaultWidth: args?.firstChildrenWidth+(args?.scaleHeightMin*0.5),
+                            popupHeight: args.side != "center" ? args.scaleHeightMin*4 : args.scaleHeightMin,
+                            subtractPopupWidth: args.side === "center" ? args.scaleHeightMin : 0,
+                            popupX: args.side === "left" ? -args.scaleHeightMin/2 :
+                                args.side === "right" ? args.scaleHeightMin/2 : args.scaleHeightMin/2,
+                            popupY: args.side === "center" ? args.scaleHeightMin*1.2 : args.scaleHeightMin,
+                            popupParentItem: args.side === "left" ||  args.side === "right" ? args.popupParentVariants[2]
+                                : args.popupParentVariants[1],
+                            primaryColor: args.side != "center" ? colorPick("",this.palette.bgColors,args?.sideIndex || 0):
+                                "#4c7fbbb3",
+                            secondaryColor: args.side != "center" ? this.palette.fgColors[0] : this.palette.fgColors[2],
+                            bgColors: this.palette.bgColors,
+                            fgColors: this.palette.fgColors,
+                            cavaTextBars: ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"],
+                            cavaColors: this.palette.bgColors.reverse(),
+                            moduleAnimProps: this.moduleAnimProps,
+                            popupAnimProps: args.side != "center" ? null : this.popupAnimProps,
+                            gap: -1,
+
+                        }
+                    },
+                    get mainRectProps() {
+                        return {
+                            inverted: this.common.inverted,
+                            colors: this.sideColors.colors,
+                        }
+                    },
+                    get popupAnimProps() {
+                        return {
+                            duration: 300,
+                            easingType: 30,
+                            easingAmplitude: 1.3,
+                            easingPeriod: 1,
+                        }
+                    },
+                    get moduleAnimProps() {
+                        return {
+                            duration: 150,
+                            easingType: 30,
+                            easingAmplitude: 1.3,
+                            easingPeriod: 1,
+                        }
+                    },
                     get palette() {
                         return {
                             bgColors: root.colors[0],
@@ -137,29 +300,6 @@ Singleton {
                         }
                     },
 
-                    get props() {
-                        return {
-                            flickableX: this.inverted ? 0 : (args?.scaleHeightMin/2 || 0),   
-                            subtractContRectWidth: args?.scaleHeightMin/2 || 0, 
-                            defaultWidth: args?.firstChildrenWidth+(args?.scaleHeightMin*0.5),
-                            popupHeight: args.side != "center" ? args.scaleHeightMin*4 : args.scaleHeightMin,
-                            subtractPopupWidth: this.subtractPopupWidth,
-                            popupX: this.popupX,
-                            popupParentItem: this.popupParentItem,
-                            primaryColor: args.side != "center" ? colorPick("",this.palette.bgColors,args?.sideIndex || 0):
-                                "#4c7fbbb3",
-                            secondaryColor: args.side != "center" ? this.palette.fgColors[0] : this.palette.fgColors[2],
-                            bgColors: this.palette.bgColors,
-                            fgColors: this.palette.fgColors,
-                            cavaTextBars: this.cavaTextBars
-                        }
-                    },
-                    get mainDecorProps() {
-                        return {
-                            inverted: this.inverted,
-                            colors: this.sideColors.colors,
-                        }
-                    },
                     get listDelegateProps() {
                         return {
                             source: "../decorations/RectTriangleItem.qml",
@@ -184,95 +324,10 @@ Singleton {
                                 radius:args.scaleHeightMin*0.2,
                                 "border.width": args.scaleHeightMin*0.07,
                                 "border.color": this.palette.fgColors[0],
-                                borderColor: this.palette.fgColors[0],
                             },
+                            borderColor: this.palette.fgColors[0],
                             fgSource: "../decorations/GenericDecorItem.qml",
                             fgProps: {
-                                // colors: ["transparent",root.colors_grayscale[0][0]],
-                                color:this.palette.fgColors[2],
-                                radius:args.scaleHeightMin*0.3
-                            }
-                        }
-                    },
-                    get sliderProps() {
-                        return this.inputProps
-                    }
-                }
-            },
-            get DefaultSized() {
-                return {
-                    source:"./decorations/GenericDecorItem.qml",
-                    popupParentItem: args.side === "left" ||  args.side === "right" ? args.popupParentVariants[2]
-                        : args.popupParentVariants[1],
-
-                    subtractPopupWidth: 0,
-                    addPopupWidth: args.side === "left" ? 0 :
-                        args.side === "right" ? args.scaleHeightMin/2: 0,
-
-                    sideLength: args.sideLength,
-                    gap: 5,
-
-                    get palette() {
-                        return {
-                            bgColors: root.colors[1],
-                            fgColors: root.colorsGrayscale[1]
-                        }
-                    },
-                    get sideColors() {
-                        return {
-                            colors: args.side === "center" ? ["transparent","#4c7fbbb3"] :
-                                args.sideIndex === args.sideLength-1 ? ["transparent",colorPick("",this.palette.bgColors,args.sideIndex)] : 
-                                [colorPick("",this.palette.bgColors,args.sideIndex+1),colorPick("",this.palette.bgColors,args.sideIndex)],
-                        }
-                    },
-
-                    get props() {
-                        return {
-                            subtractContRectWidth: args?.scaleHeightMin/2 || 0, 
-                            defaultWidth: args?.firstChildrenWidth+(args?.scaleHeightMin*0.5),
-                            subtractPopupWidth: this.subtractPopupWidth,
-                            popupX: this.popupX,
-                            popupParentItem: this.popupParentItem,
-                            secondaryColor: colorPick("",this.palette.bgColors,args?.sideIndex || 0),
-                            primaryColor: this.palette.fgColors[0],
-                            bgColors: this.palette.bgColors,
-                            fgColors: this.palette.fgColors,
-                        }
-                    },
-                    get mainDecorProps() {
-                        return {
-                            colors: this.sideColors.colors,
-                        }
-                    },
-                    get listDelegateProps() {
-                        return {
-                            source: "../decorations/RectTriangleItem.qml",
-                            properties: {
-                        
-                            }
-                        }
-                    },
-                    get inputProps() {
-                        return {
-                            source: "../decorations/RectTriangleItem.qml",
-                            properties: {
-                                colors: ["transparent",this.palette.fgColors[0]],
-                            }
-                        }
-                    },
-                    get progressBarProps() {
-                        return {
-                            bgSource: "../decorations/GenericDecorItem.qml",
-                            bgProps: {
-                                color: "transparent",
-                                radius:args.scaleHeightMin*0.2,
-                                "border.width": args.scaleHeightMin*0.07,
-                                "border.color": this.palette.fgColors[0],
-                                borderColor: this.palette.fgColors[0],
-                            },
-                            fgSource: "../decorations/GenericDecorItem.qml",
-                            fgProps: {
-                                // colors: ["transparent",root.colors_grayscale[0][0]],
                                 color:this.palette.fgColors[2],
                                 radius:args.scaleHeightMin*0.3
                             }

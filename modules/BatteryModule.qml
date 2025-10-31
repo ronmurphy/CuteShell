@@ -37,7 +37,7 @@ BarModuleItem {
             bottomRightRadius:parent.height*0.1
             width: parent.width*0.1
             height:parent.height/2
-            color: root.config?.progressBarProps?.bgProps.borderColor
+            color: root.config?.progressBarProps?.borderColor
         }
         BarContentItem {
             anchors.fill: progressBar

@@ -6,7 +6,6 @@ import Quickshell.Io
   
 Singleton {
     id: root
-    // Public values
     property real cpuUsage: 0
     property real cpuTemp: 0
     property real memGb: 0
@@ -59,7 +58,7 @@ Singleton {
     Timer {
         id: memInfoTimer
         triggeredOnStart: true
-        interval: root.intervals[0]*1000
+        interval: root.memInfoInterval*1000
         repeat: true
         running: interval > 0
         onTriggered: {
@@ -69,7 +68,7 @@ Singleton {
     Timer {
         id: cpuStatTimer
         triggeredOnStart: true
-        interval: root.intervals[1]*1000
+        interval: root.cpuStatInterval*1000
         repeat: true
         running: interval > 0
         onTriggered: {
@@ -79,7 +78,7 @@ Singleton {
     Timer {
         id: netDevTimer
         triggeredOnStart: true
-        interval: root.intervals[2]*1000
+        interval: root.netDevInterval*1000
         repeat: true
         running: interval > 0
         onTriggered: {
@@ -89,7 +88,7 @@ Singleton {
     Timer {
         id: cpuTempTimer
         triggeredOnStart: true
-        interval: root.intervals[3]*1000
+        interval: root.cpuTempInterval*1000
         repeat: true
         running: interval > 0
         onTriggered: {
@@ -99,7 +98,7 @@ Singleton {
     Timer {
         id: diskInfoTimer
         triggeredOnStart: true
-        interval: root.intervals[4]*1000
+        interval: root.diskInfoInterval*1000
         repeat: true
         running: interval > 0
         onTriggered: {
@@ -134,11 +133,11 @@ Singleton {
         running: false
         stdout: StdioCollector {
             onStreamFinished: {
-                    const lines = text.trim().split('\n');
-                    const dataLine = lines[1];
-                    const parts = dataLine.split(/\s+/);
-                    root.diskPercent = parts[1] || "";
-                    root.diskAvail = parts[2] || "";
+                const lines = text.trim().split('\n');
+                const dataLine = lines[1];
+                const parts = dataLine.split(/\s+/);
+                root.diskPercent = parts[1] || "";
+                root.diskAvail = parts[2] || "";
             }
         }
     }
@@ -232,7 +231,7 @@ Singleton {
 
         if (memTotal > 0) {
             const usageKb = memTotal - memAvailable
-            root.memGb = (usageKb / 1000000).toFixed(1)
+            root.memGb = (usageKb / (1024*1024)).toFixed(1)
             root.memPercent = Math.round((usageKb / memTotal) * 100)
         }
     }

@@ -41,7 +41,6 @@ BarModuleItem {
         required property string icon;
         required property string workingDirectory;
         required property list <string> command;
-        required property bool runInTerminal;
         required property int index
         width: root.maxWidth
         height: root.scaleHeightMin

@@ -53,6 +53,17 @@ BarModuleItem {
             Quickshell.execDetached(["sh" ,"-c","niri msg action screenshot"])
         }
     }
+    BarContentItem {
+        implicitWidth: root.scaleHeightMin
+        implicitHeight: root.scaleHeightMin
+        contentItem: TextItem {
+            text: " "
+            color: root.config.props.secondaryColor
+        }
+        onClicked: {
+            Settings.nextConfig()
+        }
+    }
 }
 
 

@@ -12,6 +12,7 @@ import "../"
 
 BarModuleItem {
     id:root
+    isExpandable:false
     Item {
         id: dateclock
         implicitWidth: root.scaleHeightMin*2
@@ -38,9 +39,6 @@ BarModuleItem {
                 color: root.config.props.secondaryColor
                 text: SysInfo2.clocktime
                 textFormat: Text.StyledText
-            }
-            onClicked: {
-                Mpris.playPause();
             }
         }
     }

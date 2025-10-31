@@ -13,10 +13,24 @@ Singleton {
     readonly property list<string> wifiStrength: ["󰤟 ","󰤢 ","󰤥 ","󰤨 "]
     property bool isConnecting: connectProc.running
     property bool isSearching: getNetworks.running
+    property string wifiSSIDInUse: ""
     property bool wifiEnabled: true
-    Component.onCompleted: {}
     property string statusConn:""
 
+    onWifiSSIDInUseChanged: {
+        let activeconn = {}
+        let activeConnIndex = -1
+        for (const [i,network] of root.wifinetworks.entries()) {
+            // console.log(network.ssid,network.active,wifiSSIDInUse,"trace 1")
+            if (network.ssid === wifiSSIDInUse) {
+                // console.log("trace 2")
+                network.active = true
+                activeconn = network
+                activeConnIndex = i
+            }
+        }
+        if (activeConnIndex >= 0) root.wifinetworks.unshift(root.wifinetworks.splice(activeConnIndex, 1)[0])
+    }
     property list<var> wifinetworks: []
 
     onWifiEnabledChanged: {
@@ -47,7 +61,6 @@ Singleton {
         running: true
         stdout: StdioCollector {
             onStreamFinished: {
-                console.log(text)
                 root.wifiEnabled = text.trim() === "enabled" ? true : false
             }
         }
@@ -66,33 +79,21 @@ Singleton {
         stdout: StdioCollector {
             onStreamFinished: {
                 root.statusConn = "󰈂 "
-                let activeconn = {}
-                let wifiSSID = null
-                let wifiInUse = false
-                
                 text.split('\n').map(line => {
                     const net = line.split(':');
                     const cn = {
-                        networkTypeIndex: root.networkTypes.indexOf(net[0]), //wifi
+                        networkTypeIndex: root.networkTypes.indexOf(net[0]),
                         isConnected: net[1] === "connected",
                         connName: net[2]
                     };
                     if (cn.networkTypeIndex >= 0 && cn.isConnected) {
                         root.statusConn = root.statusIcons[cn.networkTypeIndex]
-                        if (cn.networkTypeIndex === 0) wifiSSID = cn.connName
-                        console.log(JSON.stringify(cn),"ADDED!!!")
+                        if (cn.networkTypeIndex === 0) { // if network is wifi
+                            root.wifiSSIDInUse = cn.connName
+                            root.wifiSSIDInUseChanged()
+                        }
                     }
                 })
-
-                for (const [i,network] of root.wifinetworks.entries()) {
-                    if (network.ssid === wifiSSID) {
-                        network.active = true
-                        activeconn = network
-                        wifiInUse = true
-                        root.wifinetworks.splice(i,1)
-                    }
-                }
-                if (wifiInUse) root.wifinetworks.unshift(activeconn)
             }
         }
     }
@@ -130,19 +131,15 @@ Singleton {
         })
         stdout: StdioCollector {
             onStreamFinished: {
-                console.log(text.trim(),"NM IS GARBAGE")
+                root.wifinetworks = []
+                // var wifinets = []
                 if (text.trim() === "" && root.wifiEnabled) {
                     getNetworks.running = true
                     return
                 }
-                root.wifinetworks = []
-                let activeconn = {}
-                let inUseExist = false
                 text.split('\n').map(line => {
                     const net = line.split(':');
-                    if (net[0] === "") {
-                        return
-                    }
+                    if (net[0] === "") return
                     const cn = {
                         ssid: net[0],
                         active: net[1] === "*",
@@ -150,17 +147,13 @@ Singleton {
                         security: net[3],
                         profileExist: net[4] === "true",
                     };
-
-                    if (net[1] === "*") {
-                        console.log(net[1],"NM IS LITERALLY HOT GARBAGE")
-                        activeconn = cn
-                        inUseExist = true
-                        return
-                    }
+                    console.log(JSON.stringify(cn))
+                    if (net[1] === "*") root.wifiSSIDInUse = net[0]
+                    // wifinets.push(cn)
                     root.wifinetworks.push(cn)
                 })
-                console.log(JSON.stringify(root.wifinetworks),"NM IS GARBAGE2")
-                if (inUseExist) root.wifinetworks.unshift(activeconn)
+                // root.wifinetworks = wifinets
+                root.wifiSSIDInUseChanged()
             }
         }
     }
