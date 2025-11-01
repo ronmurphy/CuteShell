@@ -23,9 +23,10 @@ Singleton {
             if (network.ssid === wifiSSIDInUse) root.wifinetworks[i].active = true
         }
         wifinetworks.sort((a,b) => { 
-            const activeSaved = (b.active || b.profileExist) - (a.active || a.profileExist);
+            const active = b.active - a.active;
+            const saved = b.profileExist - a.profileExist;
             const signal = b.signal - a.signal;
-            return activeSaved || signal;
+            return active || saved || signal;
         });
     }
 

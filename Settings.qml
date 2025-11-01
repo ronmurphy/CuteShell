@@ -87,8 +87,8 @@ Singleton {
                 cavaTextBars: ["⠁","⠁","⠃","⠇","⡇"],
                 get palette() {
                     return {
-                        bgColors: root.colorsGrayscale[1],
-                        fgColors: root.colors[1]
+                        bgColors: root.colors[1],
+                        fgColors: root.colorsGrayscale[1]
                     }
                 },
             },
@@ -102,7 +102,7 @@ Singleton {
         currentConfig = configs.next().value
     }
 
-    function* generateConfigsIterator() {
+    function * generateConfigsIterator() {
         const entries = Object.entries(configsAndThemes);
         let index = 0;
 
@@ -114,14 +114,10 @@ Singleton {
                 for (const [k,val] of Object.entries(value)) {
                     yield { key, val };
                 }
-            } else {
-                yield { key, value}      
-            }
+            } else yield { key, value}
 
             index++;
-            if (index >= entries.length) {
-              index = 0;
-            }
+            if (index >= entries.length) index = 0
         }
     }
 
@@ -147,24 +143,25 @@ Singleton {
                             popupY: args.side === "center" ? args.scaleHeightMin*1.2 : args.scaleHeightMin,
                             popupParentItem: args.side === "left" ||  args.side === "right" ? args.popupParentVariants[2]
                                 : args.popupParentVariants[1],
-                            primaryColor: this.palette.bgColors[2],
+                            primaryColor: this.palette.fgColors[1],
                             secondaryColor: colorPick("",this.palette.bgColors,args?.sideIndex || 0),
                             bgColors: this.palette.bgColors,
                             fgColors: this.palette.fgColors,
                             cavaTextBars: specialArgs.themeArgs.cavaTextBars,
-                            cavaColors: this.palette.fgColors.reverse(),
+                            cavaColors: this.palette.bgColors.reverse(),
                             moduleAnimProps: this.moduleAnimProps,
                             popupAnimProps: args.side != "center" ? null : this.popupAnimProps,
-                            gap: -1,
+                            gap: args.scaleHeightMin/10,
 
                         }
                     },
                     get mainRectProps() {
                         return {
                             color: this.props.primaryColor,
-                            radius:args.scaleHeightMin*0.3,
-                            "border.width": args.scaleHeightMin*0.1,
-                            "border.color": colorPick("",this.palette.bgColors,args.sideIndex),
+                            radius:args.scaleHeightMin*0.5,
+                            // "border.width": args.scaleHeightMin*0.1,
+                            // "border.color": "#4c7fbbb3",
+                            // "border.color": colorPick("",this.palette.bgColors,args.sideIndex),
                         }
                     },
                     get popupAnimProps() {
@@ -192,6 +189,9 @@ Singleton {
 
                     get listDelegateProps() {
                         return {
+                            workspaceColor1: this.palette.bgColors[1],workspaceColor2: this.palette.bgColors[5],
+                            bgColors: this.palette.bgColors,
+                            fgColors: this.palette.fgColors,
                             source: "../decorations/RectTriangleItem.qml",
                             properties: {
                         
@@ -214,8 +214,8 @@ Singleton {
                                 radius:args.scaleHeightMin*0.2,
                                 "border.width": args.scaleHeightMin*0.07,
                                 "border.color": this.palette.fgColors[0],
-                                borderColor: this.palette.fgColors[0],
                             },
+                            borderColor:this.palette.fgColors[0],
                             fgSource: "../decorations/GenericDecorItem.qml",
                             fgProps: {
                                 color:this.palette.fgColors[2],
@@ -302,6 +302,9 @@ Singleton {
 
                     get listDelegateProps() {
                         return {
+                            workspaceColor1: this.palette.fgColors[2],workspaceColor2: this.palette.fgColors[0],
+                            bgColors: this.palette.bgColors,
+                            fgColors: this.palette.fgColors,
                             source: "../decorations/RectTriangleItem.qml",
                             properties: {
                         

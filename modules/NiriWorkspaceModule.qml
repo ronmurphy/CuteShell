@@ -46,8 +46,8 @@ BarModuleItem {
             contentItem: TextItem {
                 id:textitem
                 text: idx
-                color: del.index === NiriFinal.focusedWorkspaceIndex ? root.config.props.fgColors[2]
-                : root.config.props.fgColors[0]
+                color: del.index === NiriFinal.focusedWorkspaceIndex ?
+                root.config.listDelegateProps.workspaceColor1: root.config.listDelegateProps.workspaceColor2
             }
 
             onClicked: {

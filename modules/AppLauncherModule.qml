@@ -45,11 +45,14 @@ BarModuleItem {
         width: root.maxWidth
         height: root.scaleHeightMin
         property var listProps: [root.config?.listDelegateProps?.source,Object.assign(root.config?.listDelegateProps?.properties,
-            {colors: ["transparent",Settings.colorPick(root.config.props.primaryColor,root.config.props.bgColors,del.index)]})]
+            {colors: ["transparent",Settings.colorPick(root.config.props.primaryColor,
+            root.config.listDelegateProps.bgColors,del.index)]})]
 
         onListPropsChanged: {
             del.setSource(listProps[0],listProps[1])
         }
+        property color fgColor: Settings.colorPick(root.config.props.primaryColor,
+                        root.config.listDelegateProps.fgColors,del.index)
         BarContentItem {
             id: barcnt
             z:1
@@ -70,7 +73,7 @@ BarModuleItem {
                     elide:Text.ElideRight
                     anchors.rightMargin:rl.height/2
                     anchors.right: parent.right
-                    color: root.config.props.secondaryColor
+                    color: del.fgColor
                     width: rl.width-(rl.height*2)
                     height: rl.height
                     text: del.name

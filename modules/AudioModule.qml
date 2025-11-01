@@ -36,12 +36,20 @@ BarModuleItem {
         implicitWidth:root.scaleHeightMin*3
         implicitHeight:root.scaleHeightMin
         id: sld
-        start: 0
-        initvalue: 0.3
-        end: 1
-        onSlidermoved: {
-            Audio.setVolume(sld.val)
+        from: 0
+        value: Audio.volumeRaw
+        to: 1
+
+        Connections {
+            target: Audio
+            function onVolumeRawChanged() {
+                sld.value = Audio.volumeRaw
+            }
         }
+        onMoved: {
+            Audio.setVolume(sld.value)
+        }
+
     }
 }
 

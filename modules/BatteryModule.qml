@@ -25,8 +25,6 @@ BarModuleItem {
             from: 0
             value: Battery.batteryLevel
             to: 100
-            implicitWidth:root.scaleHeightMin*2
-            implicitHeight:root.scaleHeightMin
         }
         Rectangle {
             anchors.right: parent.right
@@ -44,7 +42,7 @@ BarModuleItem {
             anchors.horizontalCenter: parent.horizontalCenter
             contentItem: TextItem {
                 text: Battery.batteryLevel
-                color: root.config.props.secondaryColor
+                color: root.config?.progressBarProps?.borderColor
             }
             onClicked: {
                 Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
@@ -71,14 +69,20 @@ BarModuleItem {
         root.config?.sliderProps?.properties)
     }
     SliderItem {
+        id: sld
         implicitWidth:root.scaleHeightMin*3
         implicitHeight:root.scaleHeightMin
-        id: sld
-        start: 1
-        initvalue: 50
-        end: 255
-        onSlidermoved: {
-            Battery.brightness = sld.val
+        from: 1
+        value:Battery.brightness
+        to: 255
+        Connections {
+            target: Battery
+            function onBrightnessChanged() {
+                sld.value = Battery.brightness
+            }
+        }
+        onMoved: {
+            Battery.brightness = sld.value
             Battery.changeBrightness = true
         }
     }

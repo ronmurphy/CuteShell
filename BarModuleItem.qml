@@ -16,7 +16,7 @@ pragma ComponentBehavior: Bound
 Item {
     id: root
     default property alias content: itemsrow.data
-    property real scaleHeightMin: parent.parent.scaleHeight
+    property real scaleHeightMin: parent.parent.height
     property real defaultWidth: config?.props?.defaultWidth || scaleHeightMin
     property int uniqueIndex: -1
     property int sideIndex: -1
@@ -36,8 +36,11 @@ Item {
             configName: currConfig.key,
             themeArgs: currConfig.val
         })
-
+        console.log(currConfig.key)
         root.parent.gap = config?.props.gap
+        root.parent.parent.parent.minheight = 45
+        root.parent.parent.heightScale= 1
+        root.parent.parent.widthScale = 1
         rectDecor.setSource(root.config?.common?.mainRectSource,root.config?.mainRectProps)
     }
     property var currConfig: Settings.currentConfig
@@ -94,10 +97,6 @@ Item {
             anchors.fill : parent
             anchors.centerIn: parent
             id: rectDecor
-            // Component.onCompleted: {
-            //     rectDecor.setSource(root.config?.common?.mainRectSource,root.config?.mainRectProps)
-            // }
-            
         }
         implicitHeight: root.scaleHeightMin
         implicitWidth: Settings.curridx == root.uniqueIndex ? root.maxWidth
@@ -142,7 +141,6 @@ Item {
         bottomMargin: Settings.isTop ? 0 : root.scaleHeightMin
         height:0
         width: parent.width - root.config?.props?.subtractPopupWidth || parent.width
-
         Behavior on height {
             enabled: root.config?.props?.popupAnimProps || false
             PropertyAnimation {

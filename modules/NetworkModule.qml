@@ -45,15 +45,17 @@ BarModuleItem {
         required property string ssid; required property bool profileExist;
         required property int signal; required property string security;
         required property bool active; required property int index;
-        property string networkName: root.hideSSID ? "Network " + index : ssid
+        property string networkName: root.hideSSID ? "Network " + (index+1) : ssid
 
         width: root.maxWidth
         height: root.scaleHeightMin
         property var delProps: [root.config?.listDelegateProps?.source,Object.assign(root.config?.listDelegateProps?.properties,
-            {colors: ["transparent",Settings.colorPick(root.config.props.primaryColor,root.config.props.bgColors,del.index)]})]
+            {colors: ["transparent",Settings.colorPick(root.config.props.primaryColor,root.config.listDelegateProps.bgColors,del.index)]})]
         onDelPropsChanged: {
             del.setSource(delProps[0],delProps[1])
         }
+        property color fgColor: Settings.colorPick(root.config.props.primaryColor,
+                        root.config.listDelegateProps.fgColors,del.index)
         BarContentItem {
             z:1
             id: netInfo
@@ -65,7 +67,7 @@ BarModuleItem {
                 anchors.left: parent.left
                 width: del.width * 0.5
                 height: del.height
-                color: root.config.props.secondaryColor
+                color: del.fgColor
                 elide: Text.ElideRight
                 font.pointSize:12
                 horizontalAlignment: Text.AlignLeft
@@ -77,10 +79,11 @@ BarModuleItem {
                 anchors.rightMargin: root.scaleHeightMin/2
                 width: del.width * 0.3
                 height: del.height
-                color: root.config.props.secondaryColor
+                color: del.fgColor
                 font.pointSize:16
                 horizontalAlignment: Text.AlignRight
-                text: Network.wifiStrength[Math.ceil((del.signal/100)*4)-1] + (security != "" ? " " : " ") + (del.profileExist ? " " : "")
+                text: Network.wifiStrength[Math.ceil((del.signal/100)*4)-1] +
+                    (security != "" ? " " : " ") + (del.profileExist ? " " : "")
             }
             onClicked: {
                 root.selectedConn = del.index
@@ -100,7 +103,7 @@ BarModuleItem {
                 height: del.height
                 contentItem: TextItem {
                     text: "󱞳"
-                    color: root.config.props.secondaryColor
+                    color: del.fgColor
                 }
                 onClicked: {
                     root.inputEnabled = !root.inputEnabled
@@ -130,7 +133,7 @@ BarModuleItem {
                     height: action.height
                     contentItem: TextItem {
                         text: " "
-                        color: root.config.props.secondaryColor
+                        color: del.fgColor
                     }
                     onClicked: {
                         root.inputEnabled = !root.inputEnabled
@@ -145,7 +148,7 @@ BarModuleItem {
                     contentItem: TextItem {
                         text: (del.active ? " " : " ")
                         horizontalAlignment: Text.AlignRight
-                        color: root.config.props.secondaryColor
+                        color: del.fgColor
                     }
                     onClicked: {
                         root.inputEnabled = !root.inputEnabled
@@ -175,11 +178,6 @@ BarModuleItem {
         onClicked: {
             Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
         }
-    }
-    onConfigChanged: {
-        // swtch.backgroundloader.setSource(root.config.inputProps.source,
-        // Object.assign(root.config.inputProps.properties,
-        // {colors: ["transparent","blue"]}))
     }
     BusyIndicatorItem {
         running: Network.isConnecting || Network.isSearching

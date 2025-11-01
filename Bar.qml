@@ -18,71 +18,87 @@ Variants {
         screen: modelData
         property real scalefW: width/Settings.scaleWidth
         property real scalefH: height/Settings.scaleHeight
-        height: modelData.height
-        width: modelData.width
+        implicitHeight: modelData.height
+        implicitWidth: modelData.width
         WlrLayershell.layer: WlrLayer.Top
         visible: true
         color: "transparent"
         exclusionMode: ExclusionMode.Normal
-        exclusiveZone: bar.scaleHeight
+        exclusiveZone: barContainer.actualHeight
         focusable:true
-        Rectangle {
-            id: bar
-            color: "transparent"
-            width: parent.width
-            height: scaleHeight
+        Item {
+            id: barContainer
+            width: root.width
+            height: actualHeight
+            property real scaleFactor: root.width / Settings.scaleWidth
+            property real actualHeight: scaleFactor*minheight
             property real minheight: 45
-            property real scaleFactor: parent.width / Settings.scaleWidth
-            property real scaleHeight: scaleFactor*minheight
-            // here you define which bar modules will be positioned
-            // on the left, center and right side of the bar respectively
-            FlexboxLayout {
-                id: left
-                objectName: "left"
-                anchors.left: bar.left
-                direction: FlexboxLayout.Row
-                height: bar.scaleHeight
-                MenuModule{}
-                NiriWorkspaceModule{}
-                // HyprlandWorkspaceModule{}
-                CpuModule{}
-                DiskModule{}
-                AppLauncherModule{id: applauncher}
-                MemoryModule{}
-            }
-            FlexboxLayout {
-                id: center
-                objectName: "center"
-                anchors.horizontalCenter: bar.horizontalCenter
-                direction: FlexboxLayout.Row
-                height: bar.scaleHeight
-                // HyprlandWindowModule{}
-                NiriWindowModule{}
-                CavaModule{id: cava}
-            }
-            FlexboxLayout {
-                id: right
-                objectName: "right"
-                anchors.right: bar.right
-                height: bar.scaleHeight
-                direction: FlexboxLayout.RowReverse
-                DateModule{}
-                BatteryModule{}
-                AudioModule{}
-                NetworkModule{id: network}
-                SystemTrayModule{}
+            Item {
+                id: bar
+                property real widthScale: 0.8
+                property real heightScale: 0.8
+                width: parent.width*widthScale
+                height: parent.height*heightScale
+                anchors.centerIn: parent
+                // scale:1.2
+                Rectangle {
+                    z:1
+                    anchors.fill:parent
+                    border.width:bar.innerWidth
+                    border.color:"red"
+                    color:"transparent"
+                }
+                property real innerWidth:1
+                // here you define which bar modules will be positioned
+                // on the left, center and right side of the bar respectively
+                FlexboxLayout {
+                    id: left
+                    z:1
+                    objectName: "left"
+                    anchors.left: barContainer.left;
+                    direction: FlexboxLayout.Row
+                    MenuModule{}
+                    NiriWorkspaceModule{}
+                    // HyprlandWorkspaceModule{}
+                    CpuModule{}
+                    DiskModule{}
+                    AppLauncherModule{id: applauncher}
+                    MemoryModule{}
+                }
+                FlexboxLayout {
+                    id: center
+                    objectName: "center"
+                    anchors.horizontalCenter: bar.horizontalCenter
+                    direction: FlexboxLayout.Row
+                    height: bar.height
+                    // HyprlandWindowModule{}
+                    NiriWindowModule{}
+                    CavaModule{id: cava}
+                }
+                FlexboxLayout {
+                    id: right
+                    objectName: "right"
+                    anchors.right: bar.right
+                    height: bar.height
+                    direction: FlexboxLayout.RowReverse
+                    DateModule{}
+                    BatteryModule{}
+                    AudioModule{}
+                    NetworkModule{id: network}
+                    SystemTrayModule{}
+                }
             }
             states: [
                 State {
                     name: "top"
                     AnchorChanges {
-                        target: bar; anchors.top: itemwindow.top
+                        target: barContainer; anchors.top: itemwindow.top
                     }
                 },
                 State {
                     name: "bottom"
                     AnchorChanges {
-                        target: bar; anchors.bottom: itemwindow.bottom
+                        target: barContainer; anchors.bottom: itemwindow.bottom
                     }
                 }
             ]
@@ -92,7 +108,7 @@ Variants {
         // rgn.regions list is still empty after Qt.createComponent and myComponent.createObject
         // i tried every workaround and it's still empty, but maybe it's a skill issue.
         mask: Region {
-            item: bar
+            item: barContainer
             id: rgn
             Region {
                 item: applauncher.popupItem
@@ -121,7 +137,7 @@ Variants {
         Connections {
             target: Settings
             function onBarAnchorChanged() {
-                bar.state = Settings.isTop ? "top" : "bottom"
+                barContainer.state = Settings.isTop ? "top" : "bottom"
             }
         }
         anchors {
