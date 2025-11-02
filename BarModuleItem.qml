@@ -36,11 +36,12 @@ Item {
             configName: currConfig.key,
             themeArgs: currConfig.val
         })
-        console.log(currConfig.key)
         root.parent.gap = config?.props.gap
         root.parent.parent.parent.minheight = 45
-        root.parent.parent.heightScale= 1
+        root.parent.parent.heightScale = 1
         root.parent.parent.widthScale = 1
+        root.parent.parent.children[0].setSource(root.config.barProps.source,
+            root.config.barProps.properties)
         rectDecor.setSource(root.config?.common?.mainRectSource,root.config?.mainRectProps)
     }
     property var currConfig: Settings.currentConfig
@@ -140,7 +141,11 @@ Item {
         y: root.config?.props?.popupY || root.scaleHeightMin
         bottomMargin: Settings.isTop ? 0 : root.scaleHeightMin
         height:0
-        width: parent.width - root.config?.props?.subtractPopupWidth || parent.width
+        width: maxWidth
+        property real maxWidth: root.config?.props?.popupWidth ||
+            parent.width - root.config?.props?.subtractPopupWidth ||
+            parent.width + root.config?.props?.addPopupWidth || root.width
+
         Behavior on height {
             enabled: root.config?.props?.popupAnimProps || false
             PropertyAnimation {
@@ -152,16 +157,19 @@ Item {
         }
         onOpened: {
             popup.height = root.config?.props?.popupHeight || root.scaleHeightMin*3
+            // popup.width = maxWidth
         }
         background: null
         contentItem: null
         onAboutToHide: {
             popup.height = 0
+            // popup.width = 0
         }
         focus: true
         modal: false
         visible: (Settings.curridx == root.uniqueIndex || !root.isExpandable) && root.isPopupVisible
         closePolicy: Popup.NoAutoClose
+        popupType: Popup.Item
         margins:0
         padding:0
         Loader {

@@ -27,7 +27,7 @@ BarModuleItem {
 
     popupComponent: Rectangle {
         id: rectpop
-        anchors.fill:parent
+        // anchors.fill:parent
         color: root.config.props.primaryColor
         clip:true
         ListView {
@@ -41,21 +41,23 @@ BarModuleItem {
 
     property Component delegateComponent: Loader {
         id:del
-        scale:1
         required property string ssid; required property bool profileExist;
         required property int signal; required property string security;
         required property bool active; required property int index;
         property string networkName: root.hideSSID ? "Network " + (index+1) : ssid
-
         width: root.maxWidth
+        // anchors.left:parent.left
+        // anchors.right:parent.right
         height: root.scaleHeightMin
         property var delProps: [root.config?.listDelegateProps?.source,Object.assign(root.config?.listDelegateProps?.properties,
             {colors: ["transparent",Settings.colorPick(root.config.props.primaryColor,root.config.listDelegateProps.bgColors,del.index)]})]
+            
         onDelPropsChanged: {
             del.setSource(delProps[0],delProps[1])
         }
         property color fgColor: Settings.colorPick(root.config.props.primaryColor,
-                        root.config.listDelegateProps.fgColors,del.index)
+            root.config.listDelegateProps.fgColors,del.index)
+            
         BarContentItem {
             z:1
             id: netInfo

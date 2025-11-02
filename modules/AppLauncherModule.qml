@@ -20,9 +20,13 @@ BarModuleItem {
     
     popupComponent: Rectangle {
         id: rectpop
-        anchors.fill:parent
+        // anchors.fill:parent
         color: root.config.props.primaryColor
         clip:true
+        // width: root.maxWidth
+        // anchors.left:parent.left
+        // anchors.right:parent.right
+        // height: root.scaleHeightMin
         ListView {
             // highlightRangeMode: ListView.StrictlyEnforceRange
             highlightRangeMode: ListView.StrictlyEnforceRange
@@ -36,13 +40,15 @@ BarModuleItem {
     
     property Component delegateComponent: Loader {
         id: del
-        scale:0.95
+        scale:1
         required property string name;
         required property string icon;
         required property string workingDirectory;
         required property list <string> command;
         required property int index
         width: root.maxWidth
+        // anchors.left:parent.left
+        // anchors.right:parent.right
         height: root.scaleHeightMin
         property var listProps: [root.config?.listDelegateProps?.source,Object.assign(root.config?.listDelegateProps?.properties,
             {colors: ["transparent",Settings.colorPick(root.config.props.primaryColor,
@@ -109,7 +115,7 @@ BarModuleItem {
         decor: RectTriangleItem {
             colors: ["transparent",Settings.colorPick(root.config.primaryColor,root.config.bgColors,del.index)]
         }
-        implicitWidth:root.scaleHeightMin*4.5
+        implicitWidth:root.scaleHeightMin*3.5
         implicitHeight:root.scaleHeightMin*0.75
         onTextedited: {
             AppLauncher.matchString = gettext().toLowerCase()

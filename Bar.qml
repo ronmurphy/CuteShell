@@ -41,12 +41,9 @@ Variants {
                 height: parent.height*heightScale
                 anchors.centerIn: parent
                 // scale:1.2
-                Rectangle {
-                    z:1
-                    anchors.fill:parent
-                    border.width:bar.innerWidth
-                    border.color:"red"
-                    color:"transparent"
+                Loader {
+                    anchors.fill: bar
+                    // z:1
                 }
                 property real innerWidth:1
                 // here you define which bar modules will be positioned

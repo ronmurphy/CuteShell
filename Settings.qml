@@ -78,7 +78,7 @@ Singleton {
             OnedarkCircled:{
                 get moduleAnimProps() {
                     return {
-                        duration: 200,
+                        duration:100,
                         easingType: 30,
                         easingAmplitude: 1.3,
                         easingPeriod: 1,
@@ -114,7 +114,7 @@ Singleton {
                 for (const [k,val] of Object.entries(value)) {
                     yield { key, val };
                 }
-            } else yield { key, value}
+            } else yield { key, value }
 
             index++;
             if (index >= entries.length) index = 0
@@ -131,15 +131,17 @@ Singleton {
                             sideLength: args.sideLength,
                         }
                     },
-
                     get props() {
                         return {
                             flickableX: 0,   
                             subtractContRectWidth: 0, 
                             defaultWidth: args?.firstChildrenWidth,
                             popupHeight: args.side != "center" ? args.scaleHeightMin*4 : args.scaleHeightMin,
-                            subtractPopupWidth: 0,
-                            popupX: 0,
+                            // subtractPopupWidth:  root.scaleWidth-(root.scaleWidth/6),
+                            addPopupWidth:  args.scaleHeightMin*3,
+                            // popupWidth: root.scaleWidth/6,
+                            popupX: args.side === "left" ? -(args.scaleHeightMin*3)/2 :
+                                args.side === "right" ? -(args.scaleHeightMin*3)/2 : 0,
                             popupY: args.side === "center" ? args.scaleHeightMin*1.2 : args.scaleHeightMin,
                             popupParentItem: args.side === "left" ||  args.side === "right" ? args.popupParentVariants[2]
                                 : args.popupParentVariants[1],
@@ -150,9 +152,21 @@ Singleton {
                             cavaTextBars: specialArgs.themeArgs.cavaTextBars,
                             cavaColors: this.palette.bgColors.reverse(),
                             moduleAnimProps: this.moduleAnimProps,
-                            popupAnimProps: args.side != "center" ? null : this.popupAnimProps,
+                            // popupAnimProps: this.popupAnimProps,
+                            // popupAnimProps: args.side != "center" ? null : this.popupAnimProps,
                             gap: args.scaleHeightMin/10,
 
+                        }
+                    },
+                    get barProps() {
+                        return {
+                            source: "./decorations/GenericDecorItem.qml",
+                            properties: {
+                                // z:1,
+                                "border.width":args.scaleHeightMin*0.1,
+                                "border.color":"red",
+                                color:"transparent",
+                            }
                         }
                     },
                     get mainRectProps() {
@@ -166,7 +180,7 @@ Singleton {
                     },
                     get popupAnimProps() {
                         return {
-                            duration: 300,
+                            duration: 150,
                             easingType: 30,
                             easingAmplitude: 1.3,
                             easingPeriod: 1,
@@ -175,7 +189,7 @@ Singleton {
                     get moduleAnimProps() {
                         return {
                             duration: 150,
-                            easingType: 30,
+                            easingType: 1,
                             easingAmplitude: 1.3,
                             easingPeriod: 1,
                         }
