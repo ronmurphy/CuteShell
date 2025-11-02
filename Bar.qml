@@ -40,12 +40,9 @@ Variants {
                 width: parent.width*widthScale
                 height: parent.height*heightScale
                 anchors.centerIn: parent
-                // scale:1.2
                 Loader {
                     anchors.fill: bar
-                    // z:1
                 }
-                property real innerWidth:1
                 // here you define which bar modules will be positioned
                 // on the left, center and right side of the bar respectively
                 FlexboxLayout {
@@ -54,6 +51,7 @@ Variants {
                     objectName: "left"
                     anchors.left: barContainer.left;
                     direction: FlexboxLayout.Row
+                    // anchors.leftMargin: barContainer.actualHeight/2
                     MenuModule{}
                     NiriWorkspaceModule{}
                     // HyprlandWorkspaceModule{}
@@ -78,6 +76,7 @@ Variants {
                     anchors.right: bar.right
                     height: bar.height
                     direction: FlexboxLayout.RowReverse
+                    // anchors.rightMargin: barContainer.actualHeight/2
                     DateModule{}
                     BatteryModule{}
                     AudioModule{}

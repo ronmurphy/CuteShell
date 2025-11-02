@@ -37,11 +37,13 @@ Item {
             themeArgs: currConfig.val
         })
         root.parent.gap = config?.props.gap
-        root.parent.parent.parent.minheight = 45
-        root.parent.parent.heightScale = 1
-        root.parent.parent.widthScale = 1
-        root.parent.parent.children[0].setSource(root.config.barProps.source,
+        root.parent.parent.parent.minheight = config?.props?.minHeight || 45
+        root.parent.parent.heightScale = config?.props?.heightScale || 1
+        root.parent.parent.widthScale = config?.props?.widthScale || 1
+        if (root.config?.barProps?.source && root.config.barProps.properties) {
+            root.parent.parent.children[0].setSource(root.config.barProps.source,
             root.config.barProps.properties)
+        }
         rectDecor.setSource(root.config?.common?.mainRectSource,root.config?.mainRectProps)
     }
     property var currConfig: Settings.currentConfig
@@ -89,8 +91,9 @@ Item {
 
     implicitHeight: root.scaleHeightMin
     implicitWidth: contentRect.implicitWidth
-    readonly property real maxWidth: visibleExpandedWidth+(root.config?.props?.subtractContRectWidth || 0)
-        + (itemsrow.gap*itemsrow.children.length)
+    readonly property real maxWidth: visibleExpandedWidth
+        + (root.config?.props?.subtractContRectWidth || 0)
+        + ((root.config?.props?.itemsRowGap || 0)*itemsrow.children.length)
 
     Rectangle {
         id: contentRect
@@ -99,7 +102,8 @@ Item {
             anchors.centerIn: parent
             id: rectDecor
         }
-        implicitHeight: root.scaleHeightMin
+        anchors.verticalCenter: parent.verticalCenter
+        implicitHeight: root.scaleHeightMin-(root.config?.props?.subtractContRectHeight || 0)
         implicitWidth: Settings.curridx == root.uniqueIndex ? root.maxWidth
             : root.isExpandable ? root.defaultWidth : root.maxWidth
             
@@ -117,23 +121,28 @@ Item {
         clip: true
         Flickable {
             id: flick
-            width: contentRect.implicitWidth-(root.config?.props?.subtractContRectWidth || 0)
+            // anchors.verticalCenter: parent.verticalCenter
+            width: contentRect.width-(root.config?.props?.subtractContRectWidth || 0)
             x: root.config?.props?.flickableX || 0
-            height: contentRect.height
+            height: parent.height
             contentWidth: itemsrow.width
-            contentHeight: root.scaleHeightMin
+            contentHeight: parent.height
             clip: true
             FlexboxLayout {
+                height: parent.height
                 direction: FlexboxLayout.Row 
                 alignContent:FlexboxLayout.AlignCenter
                 alignItems:FlexboxLayout.AlignCenter
-                gap:root.scaleHeightMin*0.1
+                gap:root.config?.props?.itemsRowGap || 0
                 id: itemsrow
             }
         }
     }
     // here you define popup behavior,
     // but content of popup in 
+    // property real maxPopupWidth: root.config?.props?.popupWidth ||
+    //     popup.parent.width - root.config?.props?.subtractPopupWidth ||
+    //     popup.parent.width + root.config?.props?.addPopupWidth || root.width
     Popup {
         id: popup
         parent: root.config?.props?.popupParentItem || root

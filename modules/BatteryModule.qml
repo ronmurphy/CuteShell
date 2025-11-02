@@ -17,6 +17,7 @@ BarModuleItem {
         id:batteryDecor
         implicitWidth: root.scaleHeightMin*1.3
         implicitHeight:root.scaleHeightMin*0.7
+        scale:0.8
         ProgressBarItem {
             id: progressBar
             width: parent.width*0.8

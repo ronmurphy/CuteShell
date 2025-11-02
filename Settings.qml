@@ -40,7 +40,7 @@ Singleton {
         ["#C678DD", //purple  
         "#E06C75", //red  
         "#E5C07B", //yellow  
-        "#98C379", //green  
+        "#e67e80", //green  
         "#56B6C2", //cyan  
         "#61AFEF",] //blue
     ]
@@ -135,13 +135,15 @@ Singleton {
                         return {
                             flickableX: 0,   
                             subtractContRectWidth: 0, 
+                            subtractContRectHeight: args.scaleHeightMin*0.2, 
                             defaultWidth: args?.firstChildrenWidth,
                             popupHeight: args.side != "center" ? args.scaleHeightMin*4 : args.scaleHeightMin,
                             // subtractPopupWidth:  root.scaleWidth-(root.scaleWidth/6),
-                            addPopupWidth:  args.scaleHeightMin*3,
+                            addPopupWidth:  args.scaleHeightMin,
+                            // contentPopupWidth:
                             // popupWidth: root.scaleWidth/6,
-                            popupX: args.side === "left" ? -(args.scaleHeightMin*3)/2 :
-                                args.side === "right" ? -(args.scaleHeightMin*3)/2 : 0,
+                            popupX: args.side === "left" ? -(args.scaleHeightMin)/2 :
+                                args.side === "right" ? -(args.scaleHeightMin)/2 : 0,
                             popupY: args.side === "center" ? args.scaleHeightMin*1.2 : args.scaleHeightMin,
                             popupParentItem: args.side === "left" ||  args.side === "right" ? args.popupParentVariants[2]
                                 : args.popupParentVariants[1],
@@ -152,9 +154,13 @@ Singleton {
                             cavaTextBars: specialArgs.themeArgs.cavaTextBars,
                             cavaColors: this.palette.bgColors.reverse(),
                             moduleAnimProps: this.moduleAnimProps,
+                            heightScale:1, // bar height scale
+                            widthScale:1, // bar width scale
+                            minHeight:50, // implicit height for bar container
                             // popupAnimProps: this.popupAnimProps,
-                            // popupAnimProps: args.side != "center" ? null : this.popupAnimProps,
+                            popupAnimProps: args.side != "center" ? null : this.popupAnimProps,
                             gap: args.scaleHeightMin/10,
+                            itemsRowGap: args.scaleHeightMin*0.1,
 
                         }
                     },
@@ -164,8 +170,9 @@ Singleton {
                             properties: {
                                 // z:1,
                                 "border.width":args.scaleHeightMin*0.1,
-                                "border.color":"red",
-                                color:"transparent",
+                                "border.color":Qt.darker(this.palette.fgColors[0],1.2),
+                                color:this.palette.fgColors[0],
+                                radius:args.scaleHeightMin*0.5,
                             }
                         }
                     },
@@ -227,9 +234,10 @@ Singleton {
                                 color: "transparent",
                                 radius:args.scaleHeightMin*0.2,
                                 "border.width": args.scaleHeightMin*0.07,
-                                "border.color": this.palette.fgColors[0],
+                                "border.color": this.palette.bgColors[1],
                             },
-                            borderColor:this.palette.fgColors[0],
+                            borderColor:this.palette.bgColors[1],
+                            borderColor:this.palette.bgColors[1],
                             fgSource: "../decorations/GenericDecorItem.qml",
                             fgProps: {
                                 color:this.palette.fgColors[2],
@@ -257,6 +265,7 @@ Singleton {
                         return {
                             flickableX: this.common.inverted ? 0 : (args?.scaleHeightMin/2 || 0),   
                             subtractContRectWidth: args?.scaleHeightMin/2 || 0, 
+                            subtractContRectHeight: 0, 
                             defaultWidth: args?.firstChildrenWidth+(args?.scaleHeightMin/2),
                             popupHeight: args.side != "center" ? args.scaleHeightMin*4 : args.scaleHeightMin,
                             subtractPopupWidth: args.side === "center" ? args.scaleHeightMin : 0,
@@ -275,6 +284,10 @@ Singleton {
                             moduleAnimProps: this.moduleAnimProps,
                             popupAnimProps: args.side != "center" ? null : this.popupAnimProps,
                             gap: -1,
+                            itemsRowGap: args.scaleHeightMin*0.1,
+                            heightScale:1, // bar height scale
+                            widthScale:1, // bar width scale
+                            minHeight:45, // implicit height for bar container
 
                         }
                     },

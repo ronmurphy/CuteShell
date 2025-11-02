@@ -19,8 +19,6 @@ BarModuleItem {
     Connections {
         target: NiriFinal
         function onWorkspacesChanged() {
-            console.log("wripscake change",NiriFinal.focusedWorkspaceIndex)
-            // listv.positionViewAtIndex(NiriFinal.findWorkspaceIndexById(NiriFinal.focusedWorkspaceId), ListView.Contain)
             listv.positionViewAtIndex(NiriFinal.focusedWorkspaceIndex, ListView.Center)
         }
     }

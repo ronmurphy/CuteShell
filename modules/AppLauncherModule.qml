@@ -20,7 +20,8 @@ BarModuleItem {
     
     popupComponent: Rectangle {
         id: rectpop
-        // anchors.fill:parent
+        // anchors.fill:root.popupItem
+        width: root.maxPopupWidth
         color: root.config.props.primaryColor
         clip:true
         // width: root.maxWidth
@@ -46,7 +47,8 @@ BarModuleItem {
         required property string workingDirectory;
         required property list <string> command;
         required property int index
-        width: root.maxWidth
+        width: root.maxWidth-root.config?.props?.subtractPopupWidth ||
+            root.maxWidth+root.config?.props?.addPopupWidth || root.maxWidth
         // anchors.left:parent.left
         // anchors.right:parent.right
         height: root.scaleHeightMin

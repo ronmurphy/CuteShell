@@ -9,7 +9,7 @@ pragma ComponentBehavior: Bound
 Singleton {
     id: root
     readonly property list<var> networkTypes: ["wifi","ethernet"]
-    readonly property list<var> statusIcons: [" "," "]
+    readonly property list<var> statusIcons: ["󰖩 "," "]
     readonly property list<string> wifiStrength: ["󰤟 ","󰤢 ","󰤥 ","󰤨 "]
     property bool isConnecting: connectProc.running
     property bool isSearching: getNetworks.running

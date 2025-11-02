@@ -45,7 +45,8 @@ BarModuleItem {
         required property int signal; required property string security;
         required property bool active; required property int index;
         property string networkName: root.hideSSID ? "Network " + (index+1) : ssid
-        width: root.maxWidth
+        width: root.maxWidth-root.config?.props?.subtractPopupWidth ||
+            root.maxWidth+root.config?.props?.addPopupWidth || root.maxWidth
         // anchors.left:parent.left
         // anchors.right:parent.right
         height: root.scaleHeightMin
