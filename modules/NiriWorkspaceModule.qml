@@ -22,6 +22,10 @@ BarModuleItem {
             listv.positionViewAtIndex(NiriFinal.focusedWorkspaceIndex, ListView.Center)
         }
     }
+    onCurrConfigChanged: {
+        listv.implicitWidthChanged()
+        listv.positionViewAtIndex(NiriFinal.focusedWorkspaceIndex, ListView.Center)
+    }
     ListView {
         id:listv
         implicitWidth: root.uniqueIndex === Settings.curridx || !root.isExpandable?

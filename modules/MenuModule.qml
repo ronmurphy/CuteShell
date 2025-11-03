@@ -28,7 +28,6 @@ BarModuleItem {
         }
         onClicked: {
             Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
-            SysTray.systraydo()
         }
     }
     BarContentItem {

@@ -18,25 +18,26 @@ Variants {
         screen: modelData
         property real scalefW: width/Settings.scaleWidth
         property real scalefH: height/Settings.scaleHeight
-        implicitHeight: modelData.height
-        implicitWidth: modelData.width
+        height: modelData.height
+        width: modelData.width
+        // implicitHeight: modelData.height
+        // implicitWidth: modelData.width
         WlrLayershell.layer: WlrLayer.Top
         visible: true
         color: "transparent"
         exclusionMode: ExclusionMode.Normal
-        exclusiveZone: barContainer.actualHeight
+        exclusiveZone: barContainer.height
         focusable:true
         Item {
             id: barContainer
             width: root.width
-            height: actualHeight
-            property real scaleFactor: root.width / Settings.scaleWidth
-            property real actualHeight: scaleFactor*minheight
-            property real minheight: 45
-            Item {
+            height: 45 // dummy value, will be overwritten by config value
+
+            // property real scaleFactor: root.width / Settings.scaleWidth
+            Item {// root.width / settings.scalewidth * minheight
                 id: bar
-                property real widthScale: 0.8
-                property real heightScale: 0.8
+                property real widthScale: 1
+                property real heightScale: 1
                 width: parent.width*widthScale
                 height: parent.height*heightScale
                 anchors.centerIn: parent

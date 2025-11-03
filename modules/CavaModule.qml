@@ -19,8 +19,6 @@ BarModuleItem {
         implicitHeight: root.scaleHeightMin
         contentItem: TextItem {
             text: Cava.output
-            height:root.scaleHeightMin
-            fontSizeMode :Text.HorizontalFit
             textFormat: Text.StyledText
             color: root.config.props.secondaryColor
         }

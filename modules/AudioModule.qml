@@ -20,7 +20,6 @@ BarModuleItem {
         // scale:0.95
         contentItem: TextItem {
             text: Audio.volume + " " + Audio.icon
-            font.pointSize:20
             color: root.config.props.secondaryColor
             horizontalAlignment: Text.AlignLeft
             rightPadding: root.scaleHeightMin*0.2
@@ -31,7 +30,7 @@ BarModuleItem {
     }
     onConfigChanged: {
         sld.handleloader.setSource(root.config?.sliderProps?.source,
-        root.config?.sliderProps?.properties,)
+        root.config?.sliderProps?.properties)
         sld.backgroundloader.setSource(root.config?.sliderProps?.source,
         root.config?.sliderProps?.properties)
     }

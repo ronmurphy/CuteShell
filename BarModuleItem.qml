@@ -16,8 +16,8 @@ pragma ComponentBehavior: Bound
 Item {
     id: root
     default property alias content: itemsrow.data
-    property real scaleHeightMin: parent.parent.height
-    property real defaultWidth: config?.props?.defaultWidth || scaleHeightMin
+    property real scaleHeightMin: root.parent.parent.parent.height
+    property real defaultWidth: itemsrow.children[0].width + (root.config?.props?.addDefaultWidth || 0)
     property int uniqueIndex: -1
     property int sideIndex: -1
     
@@ -28,22 +28,24 @@ Item {
             uniqueIndex:uniqueIndex,
             sideIndex:sideIndex,
             side:root.parent.objectName,
-            scaleHeightMin: scaleHeightMin,
-            firstChildrenWidth: itemsrow.children[0].width,
+            panelWidth: root.parent.parent.parent.parent.width,
             popupParentVariants: [root.parent.parent,root.parent,root,flick],
             sideLength: root.parent.children.length,
         },{
             configName: currConfig.key,
             themeArgs: currConfig.val
         })
-        root.parent.gap = config?.props.gap
-        root.parent.parent.parent.minheight = config?.props?.minHeight || 45
+        root.parent.parent.parent.height = config?.props?.scaleHeightMin || 45
         root.parent.parent.heightScale = config?.props?.heightScale || 1
         root.parent.parent.widthScale = config?.props?.widthScale || 1
+        root.parent.gap = config?.props.gap
+        
         if (root.config?.barProps?.source && root.config.barProps.properties) {
+            root.parent.parent.children[0].active = true
             root.parent.parent.children[0].setSource(root.config.barProps.source,
             root.config.barProps.properties)
-        }
+        } else root.parent.parent.children[0].active = false
+            
         rectDecor.setSource(root.config?.common?.mainRectSource,root.config?.mainRectProps)
     }
     property var currConfig: Settings.currentConfig
@@ -95,6 +97,10 @@ Item {
         + (root.config?.props?.subtractContRectWidth || 0)
         + ((root.config?.props?.itemsRowGap || 0)*itemsrow.children.length)
 
+    onMaxWidthChanged: {
+        console.log(itemsrow.children[0].width,"MAX WIDTH CHANGED")
+    }
+
     Rectangle {
         id: contentRect
         Loader {
@@ -145,7 +151,7 @@ Item {
     //     popup.parent.width + root.config?.props?.addPopupWidth || root.width
     Popup {
         id: popup
-        parent: root.config?.props?.popupParentItem || root
+        parent: root.config?.props?.popupParentItem || contentRect
         x: root.config?.props?.popupX || 0
         y: root.config?.props?.popupY || root.scaleHeightMin
         bottomMargin: Settings.isTop ? 0 : root.scaleHeightMin
