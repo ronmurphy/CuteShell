@@ -13,23 +13,34 @@ GenericDecorItem {
     implicitHeight: 40
     color: colors[0]
     property bool highlightBottom: false
+    property bool highlightTop: false
     property bool highlightLeft: false
     property bool highlightRight: false
+    property real scaleHeightMin: 45
     Rectangle {
         visible: root.highlightBottom
         id: highlightbtm
         color: root.colors[1]
-        width: root.width*0.8
-        height: root.height/5
+        width: root.width
+        height: root.scaleHeightMin/8
         anchors.bottom: parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+    }
+    Rectangle {
+        visible: root.highlightTop
+        id: highlighttop
+        color: root.colors[1]
+        width: root.width
+        height: root.scaleHeightMin/8
+        anchors.top: parent.top
         anchors.horizontalCenter: parent.horizontalCenter
     }
     Rectangle {
         visible: root.highlightRight
         id: highlightrgt
         color: root.colors[2]
-        width: root.width/5
-        height: root.height*0.8
+        width: root.scaleHeightMin/14
+        height: root.scaleHeightMin*0.5
         anchors.right: parent.right
         anchors.verticalCenter: parent.verticalCenter
     }
@@ -37,8 +48,8 @@ GenericDecorItem {
         visible: root.highlightLeft
         id: highlightlft
         color: root.colors[2]
-        width: root.width/5
-        height: root.height*0.8
+        width: root.scaleHeightMin/14
+        height: root.scaleHeightMin*0.5
         anchors.left: parent.left
         anchors.verticalCenter: parent.verticalCenter
     }

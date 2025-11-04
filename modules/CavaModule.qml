@@ -42,7 +42,7 @@ BarModuleItem {
             Component.onCompleted: {
                 upperLoader.setSource(root.config?.listDelegateProps?.source,
                 Object.assign(root.config?.listDelegateProps?.properties,
-                {colors: ["transparent",Settings.colorPick("",root.config.props.bgColors,0)]}))
+                {colors: ["transparent",Settings.colorPick("",root.config.props.bgColors,0,2)]}))
             }
             anchors.fill: parent
             BarContentItem {

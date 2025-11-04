@@ -53,6 +53,7 @@ BarModuleItem {
         
             contentItem: Image {
                 source: SysTray.systrayItems[index].icon
+                scale:0.9
             }
 
             onClicked: {

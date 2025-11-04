@@ -15,7 +15,7 @@ BarModuleItem {
     id:root
     Item {
         id:batteryDecor
-        implicitWidth: root.scaleHeightMin*1.3
+        implicitWidth: root.scaleHeightMin*1.5
         implicitHeight:root.scaleHeightMin*0.7
         scale:0.8
         ProgressBarItem {
@@ -31,7 +31,6 @@ BarModuleItem {
             anchors.right: parent.right
             anchors.verticalCenter:parent.verticalCenter
             anchors.rightMargin: parent.width*0.05
-            // radius: parent.height*0.1
             topRightRadius:parent.height*0.1
             bottomRightRadius:parent.height*0.1
             width: parent.width*0.1
@@ -42,8 +41,8 @@ BarModuleItem {
             anchors.fill: progressBar
             anchors.horizontalCenter: parent.horizontalCenter
             contentItem: TextItem {
-                text: Battery.batteryLevel
-                color: root.config?.progressBarProps?.borderColor
+                text: Battery.batteryLevel + (Battery.isCharging ? "󱐋" : "") + (Battery.isPluggedIn? "󰚥" : "")
+                color: root.config?.progressBarProps?.textColor
             }
             onClicked: {
                 Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
@@ -75,6 +74,7 @@ BarModuleItem {
         implicitHeight:root.scaleHeightMin
         from: 1
         value:Battery.brightness
+        handleWidthScale: root.config?.sliderProps?.handleWidthScale || 4
         to: 255
         Connections {
             target: Battery

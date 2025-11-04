@@ -37,6 +37,7 @@ BarModuleItem {
     SliderItem {
         implicitWidth:root.scaleHeightMin*3
         implicitHeight:root.scaleHeightMin
+        handleWidthScale: root.config?.sliderProps?.handleWidthScale || 4
         id: sld
         from: 0
         value: Audio.volumeRaw

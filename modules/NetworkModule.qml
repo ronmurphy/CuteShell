@@ -26,16 +26,27 @@ BarModuleItem {
     isPopupVisible: Network.wifiEnabled
 
     popupComponent: Rectangle {
-        id: rectpop
-        // anchors.fill:parent
-        color: root.config.props.primaryColor
-        clip:true
+        color:root.config?.popupProps?.popupColor || "transparent"
+        radius:root.config?.popupProps?.popupRadius || 0
+        Loader {
+            id: popupldr
+            clip:true
+            anchors.fill:parent
+            property var popLoader: [root.config?.popupProps?.source,root.config?.popupProps?.properties]
+            z:root.config.popupProps.loaderZ
+            onPopLoaderChanged: {
+                popupldr.setSource(popLoader[0],popLoader[1])
+            }
+        }
         ListView {
             highlightRangeMode: ListView.StrictlyEnforceRange
-            spacing:root.scaleHeightMin/10
-            anchors.fill: parent
+            anchors.fill:parent
+            anchors.topMargin:root.scaleHeightMin/8
+            anchors.bottomMargin:root.scaleHeightMin/8
+            clip:true
             model: Network.wifinetworks
             delegate: root.delegateComponent
+            spacing:root.scaleHeightMin/6
         }
     }
 
@@ -47,17 +58,16 @@ BarModuleItem {
         property string networkName: root.hideSSID ? "Network " + (index+1) : ssid
         width: root.maxWidth-root.config?.props?.subtractPopupWidth ||
             root.maxWidth+root.config?.props?.addPopupWidth || root.maxWidth
-        // anchors.left:parent.left
-        // anchors.right:parent.right
+        scale:0.9
         height: root.scaleHeightMin
         property var delProps: [root.config?.listDelegateProps?.source,Object.assign(root.config?.listDelegateProps?.properties,
-            {colors: ["transparent",Settings.colorPick(root.config.props.primaryColor,root.config.listDelegateProps.bgColors,del.index)]})]
+            {colors: ["transparent",Settings.colorPick(root.config.props.primaryColor,root.config.listDelegateProps.bgColors,del.index,2)]})]
             
         onDelPropsChanged: {
             del.setSource(delProps[0],delProps[1])
         }
         property color fgColor: Settings.colorPick(root.config.props.primaryColor,
-            root.config.listDelegateProps.fgColors,del.index)
+            root.config.listDelegateProps.fgColors,del.index,2)
             
         BarContentItem {
             z:1
@@ -213,7 +223,7 @@ BarModuleItem {
     BarContentItem {
         id: swtch
         checked: Network.wifiEnabled
-        implicitWidth:root.scaleHeightMin*1.5
+        implicitWidth:root.scaleHeightMin*1.2
         implicitHeight:root.scaleHeightMin
         contentItem: TextItem {
             text: swtch.checked ? "󰨚 " : "󰨙 "

@@ -97,10 +97,6 @@ Item {
         + (root.config?.props?.subtractContRectWidth || 0)
         + ((root.config?.props?.itemsRowGap || 0)*itemsrow.children.length)
 
-    onMaxWidthChanged: {
-        console.log(itemsrow.children[0].width,"MAX WIDTH CHANGED")
-    }
-
     Rectangle {
         id: contentRect
         Loader {
@@ -146,9 +142,6 @@ Item {
     }
     // here you define popup behavior,
     // but content of popup in 
-    // property real maxPopupWidth: root.config?.props?.popupWidth ||
-    //     popup.parent.width - root.config?.props?.subtractPopupWidth ||
-    //     popup.parent.width + root.config?.props?.addPopupWidth || root.width
     Popup {
         id: popup
         parent: root.config?.props?.popupParentItem || contentRect

@@ -18,30 +18,30 @@ BarModuleItem {
     isPopupVisible: true
     property bool inputactive: false
     
-    popupComponent: Rectangle {
-        id: rectpop
-        // anchors.fill:root.popupItem
-        width: root.maxPopupWidth
-        color: root.config.props.primaryColor
+    popupComponent: Loader {
+        id: popupldr
         clip:true
-        // width: root.maxWidth
-        // anchors.left:parent.left
-        // anchors.right:parent.right
-        // height: root.scaleHeightMin
+        property var popLoader: [root.config?.popupProps?.source,root.config?.popupProps?.properties]
+        onPopLoaderChanged: {
+            popupldr.setSource(popLoader[0],popLoader[1])
+        }
+
         ListView {
-            // highlightRangeMode: ListView.StrictlyEnforceRange
+            id:lstv
             highlightRangeMode: ListView.StrictlyEnforceRange
-            anchors.fill: parent
+            anchors.fill:parent
+            anchors.topMargin:root.scaleHeightMin/8
+            anchors.bottomMargin:root.scaleHeightMin/8
+            clip:true
             model: AppLauncher.desktopEntries
-            contentWidth: root.scaleHeightMin
-            contentHeight: root.height
             delegate: root.delegateComponent
+            spacing:root.scaleHeightMin/6
         }
     }
     
     property Component delegateComponent: Loader {
         id: del
-        scale:1
+        scale:0.9
         required property string name;
         required property string icon;
         required property string workingDirectory;
@@ -49,18 +49,16 @@ BarModuleItem {
         required property int index
         width: root.maxWidth-root.config?.props?.subtractPopupWidth ||
             root.maxWidth+root.config?.props?.addPopupWidth || root.maxWidth
-        // anchors.left:parent.left
-        // anchors.right:parent.right
         height: root.scaleHeightMin
         property var listProps: [root.config?.listDelegateProps?.source,Object.assign(root.config?.listDelegateProps?.properties,
             {colors: ["transparent",Settings.colorPick(root.config.props.primaryColor,
-            root.config.listDelegateProps.bgColors,del.index)]})]
+            root.config.listDelegateProps.bgColors,del.index,2)]})]
 
         onListPropsChanged: {
             del.setSource(listProps[0],listProps[1])
         }
         property color fgColor: Settings.colorPick(root.config.props.primaryColor,
-                        root.config.listDelegateProps.fgColors,del.index)
+                        root.config.listDelegateProps.fgColors,del.index,2)
         BarContentItem {
             id: barcnt
             z:1
@@ -115,10 +113,10 @@ BarModuleItem {
     InputItem {
         id: input
         decor: RectTriangleItem {
-            colors: ["transparent",Settings.colorPick(root.config.primaryColor,root.config.bgColors,del.index)]
+            colors: ["transparent",Settings.colorPick(root.config.primaryColor,root.config.bgColors,del.index,2)]
         }
         implicitWidth:root.scaleHeightMin*3.5
-        implicitHeight:root.scaleHeightMin*0.75
+        implicitHeight:root.scaleHeightMin*0.6
         onTextedited: {
             AppLauncher.matchString = gettext().toLowerCase()
         }
