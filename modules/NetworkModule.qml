@@ -25,32 +25,25 @@ BarModuleItem {
     property bool hideSSID: true
     isPopupVisible: Network.wifiEnabled
 
-    popupComponent: Rectangle {
-        color:root.config?.popupProps?.popupColor || "transparent"
-        radius:root.config?.popupProps?.popupRadius || 0
-        Loader {
-            id: popupldr
-            clip:true
-            anchors.fill:parent
-            property var popLoader: [root.config?.popupProps?.source,root.config?.popupProps?.properties]
-            z:root.config.popupProps.loaderZ
-            onPopLoaderChanged: {
-                popupldr.setSource(popLoader[0],popLoader[1])
-            }
-        }
+    popupComponent: LoaderItem {
+        id: popupldr
+        clip:true
+        loaderProps: [root.config?.popupProps?.source,root.config?.popupProps?.properties]
+        // z:root.config.popupProps.loaderZ
+        
         ListView {
             highlightRangeMode: ListView.StrictlyEnforceRange
             anchors.fill:parent
-            anchors.topMargin:root.scaleHeightMin/8
-            anchors.bottomMargin:root.scaleHeightMin/8
+            anchors.topMargin:root.config?.listDelegateProps?.listvTopMargin || 0
+            anchors.bottomMargin:root.config?.listDelegateProps?.listvBottomMargin || 0
             clip:true
             model: Network.wifinetworks
             delegate: root.delegateComponent
-            spacing:root.scaleHeightMin/6
+            // spacing:root.scaleHeightMin/6
         }
     }
 
-    property Component delegateComponent: Loader {
+    property Component delegateComponent: LoaderItem {
         id:del
         required property string ssid; required property bool profileExist;
         required property int signal; required property string security;
@@ -58,14 +51,11 @@ BarModuleItem {
         property string networkName: root.hideSSID ? "Network " + (index+1) : ssid
         width: root.maxWidth-root.config?.props?.subtractPopupWidth ||
             root.maxWidth+root.config?.props?.addPopupWidth || root.maxWidth
-        scale:0.9
+        scale:root.config?.listDelegateProps?.scale || 1
         height: root.scaleHeightMin
-        property var delProps: [root.config?.listDelegateProps?.source,Object.assign(root.config?.listDelegateProps?.properties,
-            {colors: ["transparent",Settings.colorPick(root.config.props.primaryColor,root.config.listDelegateProps.bgColors,del.index,2)]})]
+        loaderProps: [root.config?.listDelegateProps?.source,Object.assign(root.config?.listDelegateProps?.properties,
+            {colors: [root.config?.listDelegateProps?.genericBgColor || "transparent",Settings.colorPick(root.config.props.primaryColor,root.config.listDelegateProps.bgColors,del.index,2)]})]
             
-        onDelPropsChanged: {
-            del.setSource(delProps[0],delProps[1])
-        }
         property color fgColor: Settings.colorPick(root.config.props.primaryColor,
             root.config.listDelegateProps.fgColors,del.index,2)
             
@@ -126,7 +116,7 @@ BarModuleItem {
                 id: inp
                 visible: del.profileExist ? false : true
                 width: del.width * 0.4
-                height: del.height * 0.7
+                height: del.height * 0.6
                 anchors.centerIn: parent
                 property var inpProps: [root.config?.inputProps?.source,root.config?.inputProps?.properties]
                 onInpPropsChanged: {

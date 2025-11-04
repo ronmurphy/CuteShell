@@ -147,9 +147,8 @@ Singleton {
                             addDefaultWidth: 0,
                             popupHeight: args.side != "center" ? this.common.scaleHeightMin*4 : this.common.scaleHeightMin,
                             // subtractPopupWidth:  root.scaleWidth-(root.scaleWidth/6),
-                            addPopupWidth:  this.common.scaleHeightMin,
-                            popupX: args.side === "left" ? -(this.common.scaleHeightMin)/2 :
-                                args.side === "right" ? -(this.common.scaleHeightMin)/2 : 0,
+                            addPopupWidth:  0,
+                            popupX: 0,
                             popupY: args.side === "center" ? this.common.scaleHeightMin*1.2 : this.common.scaleHeightMin,
                             popupParentItem: args.side === "left" ||  args.side === "right" ? args.popupParentVariants[2]
                                 : args.popupParentVariants[1],
@@ -231,6 +230,11 @@ Singleton {
                             workspaceColor1: this.palette.bgColors[1],workspaceColor2: this.palette.bgColors[2],
                             bgColors: this.palette.bgColors,
                             fgColors: this.palette.bgColors,
+                            fgColor:this.palette.bgColors[1],
+                            bgColor:this.props.secondaryColor,
+                            scale:0.9,
+                            listvTopMargin:this.common.scaleHeightMin/8,
+                            listvBottomMargin:this.common.scaleHeightMin/8,
                             source: "../decorations/GenericDecorItem.qml",
                             properties: {
                                 color: this.props.primaryColor,
@@ -280,7 +284,7 @@ Singleton {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
             get DefaultRectangled() {
                 return {
-                    minHeight:50,
+                    minHeight:45,
                     get common() {
                         return {
                             mainRectSource:"./decorations/GenericDecorItem.qml",
@@ -297,11 +301,10 @@ Singleton {
 
                             popupHeight: args.side != "center" ? this.common.scaleHeightMin*4 : this.common.scaleHeightMin,
                             // subtractPopupWidth:  root.scaleWidth-(root.scaleWidth/6),
-                            addPopupWidth:  this.common.scaleHeightMin,
+                            addPopupWidth:  0,
                             // contentPopupWidth:
                             // popupWidth: root.scaleWidth/6,
-                            popupX: args.side === "left" ? -(this.common.scaleHeightMin)/2 :
-                                args.side === "right" ? -(this.common.scaleHeightMin)/2 : 0,
+                            popupX: 0,
                             popupY: args.side === "center" ? this.common.scaleHeightMin*1.2 : this.common.scaleHeightMin,
                             popupParentItem: args.side === "left" ||  args.side === "right" ? args.popupParentVariants[2]
                                 : args.popupParentVariants[1],
@@ -315,20 +318,11 @@ Singleton {
                             widthScale:1, // bar width scale
                             scaleHeightMin:this.common.scaleHeightMin, // implicit height for bar container
                             popupAnimProps: args.side != "center" ? null : this.popupAnimProps,
-                            gap: 0,
+                            moduleAnimProps: this.moduleAnimProps,
+                            
+                            gap: -1,
                             itemsRowGap: this.common.scaleHeightMin*0.1,
 
-                        }
-                    },
-                    get barProps() {
-                        return {
-                            source: "./decorations/GenericDecorItem.qml",
-                            properties: {
-                                // z:1,
-                                "border.width":this.common.scaleHeightMin*0.1,
-                                "border.color":this.palette.fgColors[1],
-                                color:this.palette.fgColors[0],
-                            }
                         }
                     },
                     get mainRectProps() {
@@ -336,10 +330,15 @@ Singleton {
                             color: this.palette.fgColors[0],
                             "border.width":this.common.scaleHeightMin*0.15,
                             "border.color": colorPick("",this.palette.bgColors,args?.sideIndex || 0,2),
-                            // radius:this.common.scaleHeightMin*0.5,
-                            // "border.width": this.common.scaleHeightMin*0.1,
-                            // "border.color": "#4c7fbbb3",
-                            // "border.color": colorPick("",this.palette.bgColors,args.sideIndex,2),
+                        }
+                    },
+                    get popupProps() {
+                        return {
+                            source: "../decorations/GenericDecorItem.qml",
+                            properties: {
+                                colors: [this.palette.fgColors[0],colorPick("",this.palette.bgColors,args?.sideIndex-1 || 0,2)],
+                                z:-1,
+                            },
                         }
                     },
                     get popupAnimProps() {
@@ -367,20 +366,25 @@ Singleton {
 
                     get listDelegateProps() {
                         return {
-                            workspaceColor1: this.palette.bgColors[1],workspaceColor2: this.palette.bgColors[5],
+                            workspaceColor1: this.palette.bgColors[1],workspaceColor2: this.palette.fgColors[2],
                             bgColors: this.palette.bgColors,
-                            fgColors: this.palette.fgColors,
-                            source: "../decorations/RectTriangleItem.qml",
+                            fgColors: this.palette.bgColors,
+                            fgColor:this.palette.bgColors[1],
+                            bgColor:this.palette.fgColors[0],
+                            source: "../decorations/WidthBorderedItem.qml",
                             properties: {
-                        
+                                "border.width": this.common.scaleHeightMin*0.15,
+                                color:this.palette.fgColors[0],
                             }
                         }
                     },
                     get inputProps() {
                         return {
-                            source: "../decorations/RectTriangleItem.qml",
+                            source: "../decorations/GenericDecorItem.qml",
                             properties: {
-                                colors: ["transparent",this.palette.fgColors[0]],
+                                colors: [this.palette.fgColors[0]],
+                                "border.width": this.common.scaleHeightMin*0.1,
+                                "border.color":this.palette.fgColors[1],
                             }
                         }
                     },
@@ -395,20 +399,22 @@ Singleton {
                             },
                             
                             borderColor:this.palette.bgColors[1],
-                            textColor: this.palette.bgColors[1],
+                            textColor: this.palette.fgColors[2],
                             fgSource: "../decorations/GenericDecorItem.qml",
                             fgProps: {
-                                color:this.palette.fgColors[2],
+                                color:this.palette.fgColors[1],
                                 radius:this.common.scaleHeightMin*0.3
                             }
                         }
                     },
                     get sliderProps() {
                         return {
-                            source: "../decorations/RectTriangleItem.qml",
+                            source: "../decorations/GenericDecorItem.qml",
                             handleWidthScale:6,
                             properties: {
-                                colors: ["transparent",this.palette.fgColors[0]],
+                                colors: [this.palette.fgColors[0]],
+                                "border.width": this.common.scaleHeightMin*0.1,
+                                "border.color":this.palette.fgColors[1],
                             }
                         }
                     }
@@ -417,7 +423,7 @@ Singleton {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
             get Highlighted() {
                 return {
-                    minHeight:45,
+                    minHeight:40,
                     get common() {
                         return {
                             mainRectSource:"./decorations/HighlightDecorRect.qml",
@@ -447,7 +453,7 @@ Singleton {
                             fgColors: this.palette.fgColors,
                             cavaTextBars: ["⠁","⠁","⠃","⠇","⡇"],
                             cavaColors: this.palette.bgColors.reverse(),
-                            heightScale:1, // bar height scale
+                            heightScale:0.6, // bar height scale
                             widthScale:1, // bar width scale
                             scaleHeightMin:this.common.scaleHeightMin, // implicit height for bar container
                             popupAnimProps: args.side != "center" ? null : this.popupAnimProps,
@@ -465,7 +471,7 @@ Singleton {
                                 // "border.width":this.common.scaleHeightMin*0.1,
                                 // "border.color":Qt.darker(this.palette.fgColors[0],1.2),
                                 color:this.palette.fgColors[0],
-                                radius:this.common.scaleHeightMin*0.5,
+                                // radius:this.common.scaleHeightMin*0.5,
                             }
                         }
                     },
@@ -518,6 +524,8 @@ Singleton {
                             workspaceColor1: this.palette.bgColors[1],workspaceColor2: this.palette.fgColors[2],
                             bgColors: this.palette.bgColors,
                             fgColors: [this.palette.fgColors[2]],
+                            fgColor:this.props.primaryColor,
+                            bgColor:this.palette.fgColors[0],
                             source: "../decorations/HighlightDecorRect.qml",
                             properties: {
                                 colors: [this.palette.fgColors[0],colorPick("",this.palette.bgColors,args?.sideIndex || 0,2)],
@@ -661,8 +669,14 @@ Singleton {
                         return {
                             workspaceColor1: this.palette.fgColors[2],workspaceColor2: this.palette.fgColors[0],
                             bgColors: this.palette.bgColors,
-                            fgColors: this.palette.fgColors,
+                            // genericBgColor:this.palette.fgColors[2],
+                            fgColors: [this.palette.fgColors[0]],
+                            fgColor:this.palette.fgColors[0],
+                            bgColor:"transparent",
                             source: "../decorations/RectTriangleItem.qml",
+                            scale:0.95,
+                            listvTopMargin:this.common.scaleHeightMin/8,
+                            listvBottomMargin:this.common.scaleHeightMin/8,
                             properties: {
                         
                             }

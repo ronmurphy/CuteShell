@@ -41,7 +41,7 @@ Rectangle {
     TextInput {
         echoMode: TextInput.Normal
         id: inp
-        width: contentLoader.width
+        width: loader.width
         anchors.centerIn: parent
         focus: true
         activeFocusOnPress: true

@@ -18,45 +18,40 @@ BarModuleItem {
     isPopupVisible: true
     property bool inputactive: false
     
-    popupComponent: Loader {
+    popupComponent: LoaderItem {
         id: popupldr
         clip:true
-        property var popLoader: [root.config?.popupProps?.source,root.config?.popupProps?.properties]
-        onPopLoaderChanged: {
-            popupldr.setSource(popLoader[0],popLoader[1])
-        }
+        loaderProps: [root.config?.popupProps?.source,root.config?.popupProps?.properties]
 
         ListView {
             id:lstv
             highlightRangeMode: ListView.StrictlyEnforceRange
             anchors.fill:parent
-            anchors.topMargin:root.scaleHeightMin/8
-            anchors.bottomMargin:root.scaleHeightMin/8
+            anchors.topMargin:root.config?.listDelegateProps?.listvTopMargin || 0
+            anchors.bottomMargin:root.config?.listDelegateProps?.listvBottomMargin || 0
             clip:true
             model: AppLauncher.desktopEntries
             delegate: root.delegateComponent
-            spacing:root.scaleHeightMin/6
         }
     }
     
-    property Component delegateComponent: Loader {
+    property Component delegateComponent: LoaderItem {
         id: del
-        scale:0.9
+        scale: root.config?.listDelegateProps?.scale || 1
         required property string name;
         required property string icon;
         required property string workingDirectory;
         required property list <string> command;
         required property int index
+        
         width: root.maxWidth-root.config?.props?.subtractPopupWidth ||
             root.maxWidth+root.config?.props?.addPopupWidth || root.maxWidth
         height: root.scaleHeightMin
-        property var listProps: [root.config?.listDelegateProps?.source,Object.assign(root.config?.listDelegateProps?.properties,
-            {colors: ["transparent",Settings.colorPick(root.config.props.primaryColor,
-            root.config.listDelegateProps.bgColors,del.index,2)]})]
 
-        onListPropsChanged: {
-            del.setSource(listProps[0],listProps[1])
-        }
+        loaderProps: [root.config?.listDelegateProps?.source,Object.assign(root.config?.listDelegateProps?.properties,
+            {colors: [root.config?.listDelegateProps?.genericBgColor || "transparent",
+            Settings.colorPick(root.config.props.primaryColor,root.config.listDelegateProps.bgColors,del.index,2)]})]
+
         property color fgColor: Settings.colorPick(root.config.props.primaryColor,
                         root.config.listDelegateProps.fgColors,del.index,2)
         BarContentItem {
@@ -70,6 +65,7 @@ BarModuleItem {
                 Image {
                     anchors.leftMargin:rl.height/2
                     anchors.left: parent.left
+                    scale:0.9
                     width: rl.height
                     height: rl.height
                     Layout.alignment: Qt.AlignCenter

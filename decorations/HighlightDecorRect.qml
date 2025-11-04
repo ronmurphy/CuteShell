@@ -11,7 +11,6 @@ GenericDecorItem {
     id: root
     implicitWidth: 120
     implicitHeight: 40
-    color: colors[0]
     property bool highlightBottom: false
     property bool highlightTop: false
     property bool highlightLeft: false

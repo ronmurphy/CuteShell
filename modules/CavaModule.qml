@@ -35,15 +35,18 @@ BarModuleItem {
         scale:1
         color:"transparent"
         // color:root.config.props.primaryColor
-        Loader {
+        LoaderItem {
             id: upperLoader
             // scale:1.1
             height:root.scaleHeightMin
-            Component.onCompleted: {
-                upperLoader.setSource(root.config?.listDelegateProps?.source,
-                Object.assign(root.config?.listDelegateProps?.properties,
-                {colors: ["transparent",Settings.colorPick("",root.config.props.bgColors,0,2)]}))
-            }
+            loaderProps: [root.config?.listDelegateProps?.source,Object.assign(root.config?.listDelegateProps?.properties,
+                {colors: [root.config?.listDelegateProps?.bgColor || "transparent",
+                Settings.colorPick(root.config.props.primaryColor,root.config.listDelegateProps.bgColors,0,2)]})]
+
+            // loaderProps: [root.config?.listDelegateProps?.source,
+            //     Object.assign(root.config?.listDelegateProps?.properties,
+            //     {colors: ["transparent",Settings.colorPick("",root.config.props.bgColors,0,2)]})]
+
             anchors.fill: parent
             BarContentItem {
                 z:1
@@ -53,7 +56,7 @@ BarModuleItem {
                 implicitWidth: parent.width*0.5
                 implicitHeight: root.scaleHeightMin
                 contentItem: TextItem {
-                    color: root.config.props.fgColors[0]
+                    color: root.config?.listDelegateProps?.fgColor
                     text: Mpris.currentArtist + " " + Mpris.currentTrack
                     textFormat: Text.StyledText
                     elide:Text.ElideRight
@@ -71,7 +74,7 @@ BarModuleItem {
                     width: parent.width/3
                     implicitHeight: root.scaleHeightMin
                     contentItem: TextItem {
-                        color: root.config.props.fgColors[0]
+                        color: root.config?.listDelegateProps?.fgColor
                         text: "󰒮"
                         textFormat: Text.StyledText
 
@@ -85,7 +88,7 @@ BarModuleItem {
                     implicitHeight: root.scaleHeightMin
                     anchors.horizontalCenter: parent.horizontalCenter
                     contentItem: TextItem {
-                        color: root.config.props.fgColors[0]
+                        color: root.config?.listDelegateProps?.fgColor
                         text: Mpris.currentPlayerState
                         textFormat: Text.StyledText
 
@@ -99,7 +102,7 @@ BarModuleItem {
                     width: parent.width/3
                     implicitHeight: root.scaleHeightMin
                     contentItem: TextItem {
-                        color: root.config.props.fgColors[0]
+                        color: root.config?.listDelegateProps?.fgColor
                         text: "󰒭"
                         textFormat: Text.StyledText
 
