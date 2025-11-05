@@ -41,7 +41,7 @@ BarModuleItem {
             anchors.fill: progressBar
             anchors.horizontalCenter: parent.horizontalCenter
             contentItem: TextItem {
-                text: Battery.batteryLevel + (Battery.isCharging ? "󱐋" : "") + (Battery.isPluggedIn? "󰚥" : "")
+                text: Battery.batteryLevel + (Battery.isCharging ? "󱐋" : Battery.isPluggedIn ? "󰚥" : "")
                 color: root.config?.progressBarProps?.textColor
             }
             onClicked: {

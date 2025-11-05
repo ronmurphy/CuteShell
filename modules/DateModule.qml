@@ -18,8 +18,10 @@ BarModuleItem {
         implicitWidth: root.scaleHeightMin*2
         implicitHeight: root.scaleHeightMin
         BarContentItem {
-            anchors.bottom: dateclock.bottom
-            anchors.horizontalCenter: dateclock.horizontalCenter
+            anchors.top: parent.top
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.topMargin:root.scaleHeightMin/10
+
             implicitWidth: root.scaleHeightMin*2
             implicitHeight: root.scaleHeightMin/2
             contentItem: TextItem {
@@ -31,8 +33,10 @@ BarModuleItem {
             }
         }
         BarContentItem {
-            anchors.top: dateclock.top
-            anchors.horizontalCenter: dateclock.horizontalCenter
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin:root.scaleHeightMin/10
+            anchors.horizontalCenter: parent.horizontalCenter
+
             implicitWidth: root.scaleHeightMin
             implicitHeight: root.scaleHeightMin/2
             contentItem: TextItem {

@@ -146,9 +146,8 @@ Singleton {
                             subtractContRectHeight: this.common.scaleHeightMin*0.2, 
                             addDefaultWidth: 0,
                             popupHeight: args.side != "center" ? this.common.scaleHeightMin*4 : this.common.scaleHeightMin,
-                            // subtractPopupWidth:  root.scaleWidth-(root.scaleWidth/6),
-                            addPopupWidth:  0,
-                            popupX: 0,
+                            addPopupWidth:  this.common.scaleHeightMin,
+                            popupX: -this.common.scaleHeightMin/2,
                             popupY: args.side === "center" ? this.common.scaleHeightMin*1.2 : this.common.scaleHeightMin,
                             popupParentItem: args.side === "left" ||  args.side === "right" ? args.popupParentVariants[2]
                                 : args.popupParentVariants[1],
@@ -158,9 +157,7 @@ Singleton {
                             fgColors: this.palette.fgColors,
                             cavaTextBars: ["⠁","⠁","⠃","⠇","⡇"],
                             cavaColors: this.palette.bgColors.reverse(),
-                            heightScale:1, // bar height scale
-                            widthScale:1, // bar width scale
-                            scaleHeightMin:this.common.scaleHeightMin, // implicit height for bar container
+                            scaleHeightMin:this.common.scaleHeightMin,
                             popupAnimProps: args.side != "center" ? null : this.popupAnimProps,
                             moduleAnimProps: this.moduleAnimProps,
                             gap: this.common.scaleHeightMin/10,
@@ -175,11 +172,6 @@ Singleton {
                                 colors: [this.palette.fgColors[0],colorPick("",this.palette.bgColors,args?.sideIndex-1 || 0,2)],
                                 z:-1,
                                 radius:this.common.scaleHeightMin*0.5,
-                                // topRightRadius:root.scaleHeightMin/2
-                                // bottomRightRadius:root.scaleHeightMin/2
-                                // topLeftRadius:0
-                                // bottomLeftRadius:0
-                                // topLeftRadius:this.common.scaleHeightMin/10
                             },
                         }
                     },
@@ -197,9 +189,6 @@ Singleton {
                         return {
                             color: this.props.primaryColor,
                             radius:this.common.scaleHeightMin,
-                            // "border.width": this.common.scaleHeightMin*0.1,
-                            // "border.color": "#4c7fbbb3",
-                            // "border.color": colorPick("",this.palette.bgColors,args.sideIndex,2),
                         }
                     },
                     get popupAnimProps() {
@@ -298,12 +287,8 @@ Singleton {
                             subtractContRectWidth: this.common?.scaleHeightMin/2 || 0, 
                             subtractContRectHeight: 0, 
                             addDefaultWidth: this.common.scaleHeightMin/2,
-
                             popupHeight: args.side != "center" ? this.common.scaleHeightMin*4 : this.common.scaleHeightMin,
-                            // subtractPopupWidth:  root.scaleWidth-(root.scaleWidth/6),
                             addPopupWidth:  0,
-                            // contentPopupWidth:
-                            // popupWidth: root.scaleWidth/6,
                             popupX: 0,
                             popupY: args.side === "center" ? this.common.scaleHeightMin*1.2 : this.common.scaleHeightMin,
                             popupParentItem: args.side === "left" ||  args.side === "right" ? args.popupParentVariants[2]
@@ -314,9 +299,7 @@ Singleton {
                             fgColors: this.palette.fgColors,
                             cavaTextBars: ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"],
                             cavaColors: this.palette.bgColors.reverse(),
-                            heightScale:1, // bar height scale
-                            widthScale:1, // bar width scale
-                            scaleHeightMin:this.common.scaleHeightMin, // implicit height for bar container
+                            scaleHeightMin:this.common.scaleHeightMin,
                             popupAnimProps: args.side != "center" ? null : this.popupAnimProps,
                             moduleAnimProps: this.moduleAnimProps,
                             
@@ -438,24 +421,18 @@ Singleton {
                             subtractContRectHeight: 0, 
                             addDefaultWidth: this.common.scaleHeightMin/2,
                             popupHeight: args.side != "center" ? this.common.scaleHeightMin*4 : this.common.scaleHeightMin,
-                            // subtractPopupWidth:  root.scaleWidth-(root.scaleWidth/6),
                             addPopupWidth:  0,
-                            // contentPopupWidth:
-                            // popupWidth: root.scaleWidth/6,
                             popupX: 0,
                             popupY: args.side === "center" ? this.common.scaleHeightMin*1.2 : this.common.scaleHeightMin,
                             popupParentItem: args.side === "left" ||  args.side === "right" ? args.popupParentVariants[2]
                                 : args.popupParentVariants[1],
                             primaryColor: this.palette.fgColors[2],
                             secondaryColor: this.palette.fgColors[2],
-                            // secondaryColor: colorPick("",this.palette.bgColors,args?.sideIndex || 0,2),
                             bgColors: this.palette.bgColors,
                             fgColors: this.palette.fgColors,
                             cavaTextBars: ["⠁","⠁","⠃","⠇","⡇"],
                             cavaColors: this.palette.bgColors.reverse(),
-                            heightScale:0.6, // bar height scale
-                            widthScale:1, // bar width scale
-                            scaleHeightMin:this.common.scaleHeightMin, // implicit height for bar container
+                            scaleHeightMin:this.common.scaleHeightMin,
                             popupAnimProps: args.side != "center" ? null : this.popupAnimProps,
                             moduleAnimProps: this.moduleAnimProps,
                             gap: -1,
@@ -467,11 +444,7 @@ Singleton {
                         return {
                             source: "./decorations/GenericDecorItem.qml",
                             properties: {
-                                // z:1,
-                                // "border.width":this.common.scaleHeightMin*0.1,
-                                // "border.color":Qt.darker(this.palette.fgColors[0],1.2),
                                 color:this.palette.fgColors[0],
-                                // radius:this.common.scaleHeightMin*0.5,
                             }
                         }
                     },
@@ -610,9 +583,7 @@ Singleton {
                             popupAnimProps: args.side != "center" ? null : this.popupAnimProps,
                             gap: -1,
                             itemsRowGap: this.common.scaleHeightMin*0.1,
-                            heightScale:1, // bar height scale
-                            widthScale:1, // bar width scale
-                            scaleHeightMin:this.common.scaleHeightMin, // implicit height for bar container
+                            scaleHeightMin:this.common.scaleHeightMin,
 
                         }
                     },
@@ -669,7 +640,6 @@ Singleton {
                         return {
                             workspaceColor1: this.palette.fgColors[2],workspaceColor2: this.palette.fgColors[0],
                             bgColors: this.palette.bgColors,
-                            // genericBgColor:this.palette.fgColors[2],
                             fgColors: [this.palette.fgColors[0]],
                             fgColor:this.palette.fgColors[0],
                             bgColor:"transparent",

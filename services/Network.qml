@@ -34,6 +34,7 @@ Singleton {
 
     onWifiEnabledChanged: {
         root.wifinetworks = []
+        // checkWifiEnabled.running = true
         const cmd = wifiEnabled ? "on" : "off";
         connectProc.exec(["nmcli", "radio", "wifi", cmd]);
     }

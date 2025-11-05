@@ -16,14 +16,14 @@ pragma ComponentBehavior: Bound
 Item {
     id: root
     default property alias content: itemsrow.data
-    property real scaleHeightMin: root.parent.parent.parent.height
+    property real scaleHeightMin: 0
     property real defaultWidth: itemsrow.children[0].width + (root.config?.props?.addDefaultWidth || 0)
     property int uniqueIndex: -1
     property int sideIndex: -1
     
     property var config: ({})
 
-    function setConfig() {
+    function updateConfig() {
         config = Settings.getConfig({
             uniqueIndex:uniqueIndex,
             sideIndex:sideIndex,
@@ -35,10 +35,12 @@ Item {
             configName: currConfig.key,
             themeArgs: currConfig.val
         })
-        root.parent.parent.parent.height = config?.props?.scaleHeightMin || 45
-        root.parent.parent.heightScale = config?.props?.heightScale || 1
-        root.parent.parent.widthScale = config?.props?.widthScale || 1
+
+        root.parent.parent.parent.height = (config?.props?.scaleHeightMin *1.5)|| 45
+        // root.parent.parent.heightScale = config?.props?.heightScale || 1
+        // root.parent.parent.widthScale = config?.props?.widthScale || 1
         root.parent.gap = config?.props.gap
+        root.scaleHeightMin = config.props.scaleHeightMin
         
         if (root.config?.barProps?.source && root.config.barProps.properties) {
             root.parent.parent.children[0].active = true
@@ -58,10 +60,10 @@ Item {
                 console.log(i)
             }
         }
-        setConfig()
+        updateConfig()
     }
     onCurrConfigChanged: {
-        setConfig()
+        updateConfig()
     }
     // If false, the module will have a maximum width and
     // will not collapse/expand on interacting

@@ -20,8 +20,6 @@ Variants {
         property real scalefH: height/Settings.scaleHeight
         height: modelData.height
         width: modelData.width
-        // implicitHeight: modelData.height
-        // implicitWidth: modelData.width
         WlrLayershell.layer: WlrLayer.Top
         visible: true
         color: "transparent"
@@ -31,18 +29,18 @@ Variants {
         Item {
             id: barContainer
             width: root.width
-            height: 45 // dummy value, will be overwritten by config value
-
-            // property real scaleFactor: root.width / Settings.scaleWidth
-            Item {// root.width / settings.scalewidth * minheight
+            height: 45 // will be overwritten by config value
+            Item {
                 id: bar
-                property real widthScale: 1
-                property real heightScale: 1
-                width: parent.width*widthScale
-                height: parent.height*heightScale
+                property real widthScale: 1 // will be overwritten by config value
+                property real heightScale: 1 // will be overwritten by config value
+                width: parent.width * widthScale
+                height: parent.height * heightScale
                 anchors.centerIn: parent
                 Loader {
-                    anchors.fill: bar
+                    anchors.centerIn: bar
+                    width:parent.width
+                    height:parent.height
                 }
                 // here you define which bar modules will be positioned
                 // on the left, center and right side of the bar respectively
@@ -50,9 +48,9 @@ Variants {
                     id: left
                     z:1
                     objectName: "left"
-                    anchors.left: barContainer.left;
+                    anchors.left: parent.left;
+                    anchors.verticalCenter: parent.verticalCenter
                     direction: FlexboxLayout.Row
-                    // anchors.leftMargin: barContainer.actualHeight/2
                     MenuModule{}
                     NiriWorkspaceModule{}
                     // HyprlandWorkspaceModule{}
@@ -64,9 +62,8 @@ Variants {
                 FlexboxLayout {
                     id: center
                     objectName: "center"
-                    anchors.horizontalCenter: bar.horizontalCenter
+                    anchors.centerIn: parent
                     direction: FlexboxLayout.Row
-                    height: bar.height
                     // HyprlandWindowModule{}
                     NiriWindowModule{}
                     CavaModule{id: cava}
@@ -74,10 +71,9 @@ Variants {
                 FlexboxLayout {
                     id: right
                     objectName: "right"
-                    anchors.right: bar.right
-                    height: bar.height
+                    anchors.right: parent.right
+                    anchors.verticalCenter: parent.verticalCenter
                     direction: FlexboxLayout.RowReverse
-                    // anchors.rightMargin: barContainer.actualHeight/2
                     DateModule{}
                     BatteryModule{}
                     AudioModule{}
@@ -89,7 +85,8 @@ Variants {
                 State {
                     name: "top"
                     AnchorChanges {
-                        target: barContainer; anchors.top: itemwindow.top
+                        target: barContainer;
+                        anchors.top: itemwindow.top
                     }
                 },
                 State {
@@ -101,7 +98,7 @@ Variants {
             ]
         }
         // Here you define which popups have clickable areas,
-        // ideally it should work automatically but for some reason
+        // this should work automatically but for some reason
         // rgn.regions list is still empty after Qt.createComponent and myComponent.createObject
         // i tried every workaround and it's still empty, but maybe it's a skill issue.
         mask: Region {
@@ -125,12 +122,6 @@ Variants {
             anchors.fill: parent
         }
 
-        // Connections {
-        //     target: Settings
-        //     function onPopupChanged() {
-        //         rgn.childrenChanged()
-        //     }
-        // }
         Connections {
             target: Settings
             function onBarAnchorChanged() {
