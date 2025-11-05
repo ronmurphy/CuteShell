@@ -16,7 +16,7 @@ pragma ComponentBehavior: Bound
 Item {
     id: root
     default property alias content: itemsrow.data
-    property real scaleHeightMin: 0
+    property real scaleHeightMin: 0 // will be overwritten by config value
     property real defaultWidth: itemsrow.children[0].width + (root.config?.props?.addDefaultWidth || 0)
     property int uniqueIndex: -1
     property int sideIndex: -1
@@ -36,9 +36,9 @@ Item {
             themeArgs: currConfig.val
         })
 
-        root.parent.parent.parent.height = (config?.props?.scaleHeightMin *1.5)|| 45
-        // root.parent.parent.heightScale = config?.props?.heightScale || 1
-        // root.parent.parent.widthScale = config?.props?.widthScale || 1
+        root.parent.parent.parent.height =
+            (config?.props?.scaleHeightMin * (config?.props?.stretchBarContainer || 1)) || 45
+        root.parent.parent.height = config?.props?.scaleHeightMin || 45
         root.parent.gap = config?.props.gap
         root.scaleHeightMin = config.props.scaleHeightMin
         
@@ -167,13 +167,11 @@ Item {
         }
         onOpened: {
             popup.height = root.config?.props?.popupHeight || root.scaleHeightMin*3
-            // popup.width = maxWidth
         }
         background: null
         contentItem: null
         onAboutToHide: {
             popup.height = 0
-            // popup.width = 0
         }
         focus: true
         modal: false

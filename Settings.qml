@@ -433,6 +433,7 @@ Singleton {
                             cavaTextBars: ["⠁","⠁","⠃","⠇","⡇"],
                             cavaColors: this.palette.bgColors.reverse(),
                             scaleHeightMin:this.common.scaleHeightMin,
+                            stretchBarContainer:1.5,
                             popupAnimProps: args.side != "center" ? null : this.popupAnimProps,
                             moduleAnimProps: this.moduleAnimProps,
                             gap: -1,

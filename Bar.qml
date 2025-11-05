@@ -32,15 +32,11 @@ Variants {
             height: 45 // will be overwritten by config value
             Item {
                 id: bar
-                property real widthScale: 1 // will be overwritten by config value
-                property real heightScale: 1 // will be overwritten by config value
-                width: parent.width * widthScale
-                height: parent.height * heightScale
+                width: parent.width
+                height: parent.height
                 anchors.centerIn: parent
                 Loader {
-                    anchors.centerIn: bar
-                    width:parent.width
-                    height:parent.height
+                    anchors.fill: bar
                 }
                 // here you define which bar modules will be positioned
                 // on the left, center and right side of the bar respectively
