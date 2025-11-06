@@ -25,7 +25,7 @@ BarModuleItem {
             implicitWidth: root.scaleHeightMin*2
             implicitHeight: root.scaleHeightMin/2
             contentItem: TextItem {
-                text: SysInfo2.clockdate
+                text: SysInfo.clockdate
                 color: root.config.props.secondaryColor
             }
             onClicked: {
@@ -41,7 +41,7 @@ BarModuleItem {
             implicitHeight: root.scaleHeightMin/2
             contentItem: TextItem {
                 color: root.config.props.secondaryColor
-                text: SysInfo2.clocktime
+                text: SysInfo.clocktime
                 textFormat: Text.StyledText
             }
         }

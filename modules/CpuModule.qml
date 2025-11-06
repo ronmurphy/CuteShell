@@ -19,7 +19,7 @@ BarModuleItem {
             font.pointSize:12
             // elide: Text.ElideRight
             // fontSizeMode: Text.HorizontalFit
-            text: "  "+SysInfo2.cpuUsage + "% "
+            text: "  "+SysInfo.cpuUsage + "% "
             color: root.config.props.secondaryColor
         }
         onClicked: {
@@ -31,7 +31,7 @@ BarModuleItem {
         implicitWidth: root.scaleHeightMin
         contentItem: TextItem {
             font.pointSize:12
-            text: SysInfo2.cpuTemp + "  "
+            text: SysInfo.cpuTemp + "  "
             color: root.config.props.secondaryColor
         }
         onClicked: {

@@ -31,7 +31,7 @@ Singleton {
         return idxInterval = idx % intervals.length
     }
 
-    property string clockdate: Qt.formatDateTime(clock.date, "yyyy-MM-dd")
+    property string clockdate: Qt.formatDateTime(clock.date, "yyyy.MM.dd")
     property string clocktime: Qt.formatDateTime(clock.date, "hh:mm")
 
     SystemClock {

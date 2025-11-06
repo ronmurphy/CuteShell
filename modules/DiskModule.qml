@@ -18,7 +18,7 @@ BarModuleItem {
         contentItem: TextItem {
             font.pointSize:12
             color: root.config.props.secondaryColor
-            text: SysInfo2.diskAvail
+            text: SysInfo.diskAvail
         }
         onClicked: {
            Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
@@ -30,7 +30,7 @@ BarModuleItem {
         contentItem: TextItem {
             font.pointSize:12
             color: root.config.props.secondaryColor
-            text: SysInfo2.diskPercent
+            text: SysInfo.diskPercent
         }
         onClicked: {
            Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex

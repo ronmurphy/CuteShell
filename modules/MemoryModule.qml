@@ -17,7 +17,7 @@ BarModuleItem {
         implicitWidth: root.scaleHeightMin*1.5
         contentItem: TextItem {
             font.pointSize:12
-            text: "  "+SysInfo2.memGb + " GB"
+            text: "  "+SysInfo.memGb + " GB"
             color: root.config.props.secondaryColor
         }
         onClicked: {
@@ -28,7 +28,7 @@ BarModuleItem {
         implicitHeight: root.scaleHeightMin
         implicitWidth: root.scaleHeightMin
         contentItem: TextItem {
-            text: SysInfo2.memPercent + "% "
+            text: SysInfo.memPercent + "% "
             font.pointSize:12
             color: root.config.props.secondaryColor
         }

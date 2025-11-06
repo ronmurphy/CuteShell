@@ -16,7 +16,7 @@ pragma ComponentBehavior: Bound
 
 BarModuleItem {
     id:root
-    visibleExpandedElements:0
+    visibleExpandedElements:3
     BarContentItem {
         implicitWidth: root.scaleHeightMin
         implicitHeight: root.scaleHeightMin
@@ -50,6 +50,28 @@ BarModuleItem {
         }
         onClicked: {
             Settings.nextConfig()
+        }
+    }
+    BarContentItem {
+        implicitWidth: root.scaleHeightMin
+        implicitHeight: root.scaleHeightMin
+        contentItem: TextItem {
+            text: "⏻ "
+            color: root.config.props.secondaryColor
+        }
+        onClicked: {
+            Quickshell.execDetached(["shutdown" ,"now"])
+        }
+    }
+    BarContentItem {
+        implicitWidth: root.scaleHeightMin
+        implicitHeight: root.scaleHeightMin
+        contentItem: TextItem {
+            text: " "
+            color: root.config.props.secondaryColor
+        }
+        onClicked: {
+            Quickshell.execDetached(["reboot"])
         }
     }
 }
