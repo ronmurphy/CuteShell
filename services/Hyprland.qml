@@ -16,7 +16,6 @@ Singleton {
 
     function findWorkspaceIndexById(id: int): int {
         const index = workspaces.findIndex(w => w.id === id)
-        console.log(index)
         currentWorkspaceIndex = index
         return index
     }

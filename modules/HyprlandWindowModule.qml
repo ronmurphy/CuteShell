@@ -8,8 +8,9 @@ import QtQuick.Shapes
 import QtQml
 import "../services"
 import "../"
+import "../items"
 
-BarItem {
+BarModuleItem {
     id:root
     defaultWidth: scaleHeightMin*3
     BarContentItem {

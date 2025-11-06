@@ -13,6 +13,7 @@ import "./animations"
 
 pragma ComponentBehavior: Bound
 
+// general interface for bar modules
 Item {
     id: root
     default property alias content: itemsrow.data
@@ -24,14 +25,14 @@ Item {
     property var config: ({})
 
     function updateConfig() {
-        config = Settings.getConfig({
+        config = Settings.getConfig(/* args */{
             uniqueIndex:uniqueIndex,
             sideIndex:sideIndex,
             side:root.parent.objectName,
             panelWidth: root.parent.parent.parent.parent.width,
             popupParentVariants: [root.parent.parent,root.parent,root,flick],
             sideLength: root.parent.children.length,
-        },{
+        },/* specialArgs */{
             configName: currConfig.key,
             themeArgs: currConfig.val
         })
@@ -98,7 +99,9 @@ Item {
     readonly property real maxWidth: visibleExpandedWidth
         + (root.config?.props?.subtractContRectWidth || 0)
         + ((root.config?.props?.itemsRowGap || 0)*itemsrow.children.length)
-
+        
+    // The main rectangle for displaying the inner part of the module,
+    // can be expanded/collapsed
     Rectangle {
         id: contentRect
         Loader {
@@ -124,8 +127,8 @@ Item {
         color: "transparent"
         clip: true
         Flickable {
+            // Internal elements of the main rectangle that can be scrolled
             id: flick
-            // anchors.verticalCenter: parent.verticalCenter
             width: contentRect.width-(root.config?.props?.subtractContRectWidth || 0)
             x: root.config?.props?.flickableX || 0
             height: parent.height
@@ -133,6 +136,7 @@ Item {
             contentHeight: parent.height
             clip: true
             FlexboxLayout {
+                // The internals of the module inherited from BarModuleItem will be located here
                 height: parent.height
                 direction: FlexboxLayout.Row 
                 alignContent:FlexboxLayout.AlignCenter
@@ -142,14 +146,16 @@ Item {
             }
         }
     }
-    // here you define popup behavior,
-    // but content of popup in 
+    
+    // Here you define popup behavior.
+    // Quickshell's PopupWindow doesn't really go hand in hand with QML reactivity,
+    // so a normal popup was chosen
     Popup {
         id: popup
         parent: root.config?.props?.popupParentItem || contentRect
         x: root.config?.props?.popupX || 0
-        y: root.config?.props?.popupY || root.scaleHeightMin
-        bottomMargin: Settings.isTop ? 0 : root.scaleHeightMin
+        y: root.config?.props?.popupMargin || root.scaleHeightMin
+        bottomMargin: root.config?.props?.popupMargin || root.scaleHeightMin
         height:0
         width: maxWidth
         property real maxWidth: root.config?.props?.popupWidth ||

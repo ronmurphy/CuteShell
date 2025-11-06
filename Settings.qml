@@ -148,7 +148,7 @@ Singleton {
                             popupHeight: args.side != "center" ? this.common.scaleHeightMin*4 : this.common.scaleHeightMin,
                             addPopupWidth:  this.common.scaleHeightMin,
                             popupX: -this.common.scaleHeightMin/2,
-                            popupY: args.side === "center" ? this.common.scaleHeightMin*1.2 : this.common.scaleHeightMin,
+                            popupMargin: args.side === "center" ? this.common.scaleHeightMin*1.2 : this.common.scaleHeightMin,
                             popupParentItem: args.side === "left" ||  args.side === "right" ? args.popupParentVariants[2]
                                 : args.popupParentVariants[1],
                             primaryColor: this.palette.fgColors[1],
@@ -290,7 +290,7 @@ Singleton {
                             popupHeight: args.side != "center" ? this.common.scaleHeightMin*4 : this.common.scaleHeightMin,
                             addPopupWidth:  0,
                             popupX: 0,
-                            popupY: args.side === "center" ? this.common.scaleHeightMin*1.2 : this.common.scaleHeightMin,
+                            popupMargin: args.side === "center" ? this.common.scaleHeightMin*1.2 : this.common.scaleHeightMin,
                             popupParentItem: args.side === "left" ||  args.side === "right" ? args.popupParentVariants[2]
                                 : args.popupParentVariants[1],
                             primaryColor: this.palette.fgColors[1],
@@ -423,7 +423,7 @@ Singleton {
                             popupHeight: args.side != "center" ? this.common.scaleHeightMin*4 : this.common.scaleHeightMin,
                             addPopupWidth:  0,
                             popupX: 0,
-                            popupY: args.side === "center" ? this.common.scaleHeightMin*1.2 : this.common.scaleHeightMin,
+                            popupMargin: args.side === "center" ? this.common.scaleHeightMin*1.2 : this.common.scaleHeightMin,
                             popupParentItem: args.side === "left" ||  args.side === "right" ? args.popupParentVariants[2]
                                 : args.popupParentVariants[1],
                             primaryColor: this.palette.fgColors[2],
@@ -455,7 +455,7 @@ Singleton {
                             properties: {
                                 z:-1,
                                 colors: [this.palette.fgColors[0],colorPick("",this.palette.bgColors,args?.sideIndex || 0,2)],
-                                highlightBottom: true,
+                                // highlightBottom: true,
                             },
                         }
                     },
@@ -570,7 +570,7 @@ Singleton {
                             subtractPopupWidth: args.side === "center" ? this.common.scaleHeightMin : 0,
                             popupX: args.side === "left" ? -this.common.scaleHeightMin/2 :
                                 args.side === "right" ? this.common.scaleHeightMin/2 : this.common.scaleHeightMin/2,
-                            popupY: args.side === "center" ? this.common.scaleHeightMin*1.2 : this.common.scaleHeightMin,
+                            popupMargin: args.side === "center" ? this.common.scaleHeightMin*1.2 : this.common.scaleHeightMin,
                             popupParentItem: args.side === "left" ||  args.side === "right" ? args.popupParentVariants[2]
                                 : args.popupParentVariants[1],
                             primaryColor: args.side != "center" ? colorPick("",this.palette.bgColors,args?.sideIndex || 0,2):

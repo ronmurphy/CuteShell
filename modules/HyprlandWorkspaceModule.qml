@@ -8,6 +8,7 @@ import QtQuick.Shapes
 import QtQml
 import "../services"
 import "../"
+import "../items"
 
 pragma ComponentBehavior: Bound
 
@@ -17,11 +18,9 @@ BarModuleItem {
     Connections {
         target: Hyprland
         function onWorkspacesChanged() {
-            console.log("wripscake change1")
             listv.positionViewAtIndex(Hyprland.findWorkspaceIndexById(Hyprland.focusedworkspace.id), ListView.Contain)
         }
         function onFocusedworkspaceChanged() {
-            console.log("wripscake change2")
             listv.positionViewAtIndex(Hyprland.findWorkspaceIndexById(Hyprland.focusedworkspace.id), ListView.Contain)
         }
     }
@@ -51,14 +50,13 @@ BarModuleItem {
             implicitHeight: root.scaleHeightMin
             
             contentItem: TextItem {
-                text: id
-                color: del.index === Hyprland.currentWorkspaceIndex ?
-                root.config.listDelegateProps.workspaceColor1 : root.config.listDelegateProps.workspaceColor2
+                text: del.id
+                color: del.index === Hyprland.currentWorkspaceIndex ? root.config.listDelegateProps.workspaceColor1 : root.config.listDelegateProps.workspaceColor2
             }
 
             onClicked: {
-                Hyprland.activateWorkspaceById(id)
-                Settings.curridx = root.indx == Settings.curridx ? -1 : root.indx
+                if (del.index != Hyprland.currentWorkspaceIndex) Hyprland.activateWorkspaceById(del.id)
+                Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
             }
         }
     }
