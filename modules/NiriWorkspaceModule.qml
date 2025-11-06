@@ -17,28 +17,28 @@ BarModuleItem {
     id:root
     visibleExpandedElements:1
     Connections {
-        target: NiriFinal
+        target: Niri
         function onWorkspacesChanged() {
-            listv.positionViewAtIndex(NiriFinal.focusedWorkspaceIndex, ListView.Center)
+            listv.positionViewAtIndex(Niri.focusedWorkspaceIndex, ListView.Center)
         }
     }
     onCurrConfigChanged: {
         listv.implicitWidthChanged()
-        listv.positionViewAtIndex(NiriFinal.focusedWorkspaceIndex, ListView.Center)
+        listv.positionViewAtIndex(Niri.focusedWorkspaceIndex, ListView.Center)
     }
     ListView {
         id:listv
         implicitWidth: root.uniqueIndex === Settings.curridx || !root.isExpandable?
             root.scaleHeightMin*3 : root.scaleHeightMin
         onImplicitWidthChanged: {
-            listv.positionViewAtIndex(NiriFinal.focusedWorkspaceIndex, ListView.Center)
+            listv.positionViewAtIndex(Niri.focusedWorkspaceIndex, ListView.Center)
         }
         boundsBehavior: Flickable.StopAtBounds
         clip:true
         implicitHeight: root.scaleHeightMin
         layoutDirection: Qt.LeftToRight
         orientation: Qt.Horizontal
-        model: NiriFinal.allWorkspaces
+        model: Niri.allWorkspaces
         delegate: BarContentItem {
             id: del
             required property int idx;
@@ -48,12 +48,12 @@ BarModuleItem {
             contentItem: TextItem {
                 id:textitem
                 text: idx
-                color: del.index === NiriFinal.focusedWorkspaceIndex ?
+                color: del.index === Niri.focusedWorkspaceIndex ?
                 root.config.listDelegateProps.workspaceColor1: root.config.listDelegateProps.workspaceColor2
             }
 
             onClicked: {
-                NiriFinal.switchToWorkspace(del.idx)
+                Niri.switchToWorkspace(del.idx)
                 Settings.curridx = root.uniqueIndex == Settings.curridx ? -1 : root.uniqueIndex
             }
         }

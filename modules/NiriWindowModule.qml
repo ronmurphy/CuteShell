@@ -20,7 +20,7 @@ BarModuleItem {
             font.pointSize:12
             elide: Text.ElideRight
             fontSizeMode: Text.VerticalFit
-            text: NiriFinal.currentWindowTitle
+            text: Niri.currentWindowTitle
             color: root.config.props.secondaryColor
         }
     }

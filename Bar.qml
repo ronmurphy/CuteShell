@@ -93,7 +93,7 @@ Variants {
                 }
             ]
         }
-        // Here you define which popups have clickable areas,
+        // Here you define which popups have interactive areas,
         // this should work automatically but for some reason
         // rgn.regions list is still empty after Qt.createComponent and myComponent.createObject
         // i tried every workaround and it's still empty, but maybe it's a skill issue.

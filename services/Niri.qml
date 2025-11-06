@@ -7,7 +7,7 @@ import QtQuick
 import Quickshell
 import Quickshell.Io
 import Quickshell.Wayland
-// import qs.Common
+import "../items"
 
 Singleton {
     id: root
@@ -29,7 +29,7 @@ Singleton {
     property bool hasInitialConnection: false
 
     signal windowUrgentChanged
-    DankSocket {
+    SocketItem {
         id: eventStreamSocket
         path: root.socketPath
         connected: true
@@ -52,7 +52,7 @@ Singleton {
         }
     }
 
-    DankSocket {
+    SocketItem {
         id: requestSocket
         path: root.socketPath
         connected: true
@@ -71,11 +71,8 @@ Singleton {
         case 'WorkspaceActiveWindowChanged':
             handleWorkspaceActiveWindowChanged(event.WorkspaceActiveWindowChanged)
             break
-        case 'WorkspaceActiveWindowChanged':
-            handleWorkspaceActiveWindowChanged(event.WorkspaceActiveWindowChanged)
-            break
         case 'WindowFocusChanged':
-            currentWindowTitle = windows.find(p => p.id === event.WindowFocusChanged.id).title
+            currentWindowTitle = windows.find(p => p.id ?? p.id === event.WindowFocusChanged.id).title
             break
         case 'WindowsChanged':
             windows = sortWindowsByLayout(event.WindowsChanged.windows)

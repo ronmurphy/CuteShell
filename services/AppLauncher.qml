@@ -20,7 +20,6 @@ Singleton {
     
     function appIconByAppId(id: string): string {
         const desktopentry = DesktopEntries.byId(id)
-        console.log(desktopentry)
         return Quickshell.iconPath(desktopentry.icon, true)
     }
 }

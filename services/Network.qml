@@ -147,7 +147,6 @@ Singleton {
                         security: net[3],
                         profileExist: net[4] === "true",
                     };
-                    console.log(JSON.stringify(cn))
                     if (net[1] === "*") root.wifiSSIDInUse = net[0]
                     root.wifinetworks.push(cn)
                 })

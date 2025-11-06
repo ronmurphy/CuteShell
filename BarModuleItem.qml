@@ -58,7 +58,6 @@ Item {
         for (const [i,v] of root.parent.children.entries()) {
             if (v === root) {
                 sideIndex = i
-                console.log(i)
             }
         }
         updateConfig()
