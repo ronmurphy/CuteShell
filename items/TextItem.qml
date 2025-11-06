@@ -18,6 +18,6 @@ Text {
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
     font.pointSize: 72
-    minimumPointSize: 10
+    minimumPointSize: 8
     antialiasing:true
 }

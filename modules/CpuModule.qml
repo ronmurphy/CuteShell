@@ -16,9 +16,6 @@ BarModuleItem {
         implicitHeight: root.scaleHeightMin
         implicitWidth: root.scaleHeightMin*1.5
         contentItem: TextItem {
-            font.pointSize:12
-            // elide: Text.ElideRight
-            // fontSizeMode: Text.HorizontalFit
             text: "  "+SysInfo.cpuUsage + "% "
             color: root.config.props.secondaryColor
         }
@@ -30,7 +27,6 @@ BarModuleItem {
         implicitHeight: root.scaleHeightMin
         implicitWidth: root.scaleHeightMin
         contentItem: TextItem {
-            font.pointSize:12
             text: SysInfo.cpuTemp + "  "
             color: root.config.props.secondaryColor
         }

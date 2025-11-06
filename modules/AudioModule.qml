@@ -36,7 +36,7 @@ BarModuleItem {
     }
     SliderItem {
         implicitWidth:root.scaleHeightMin*3
-        implicitHeight:root.scaleHeightMin
+        implicitHeight:root.scaleHeightMin/1.5
         handleWidthScale: root.config?.sliderProps?.handleWidthScale || 4
         id: sld
         from: 0

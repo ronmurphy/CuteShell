@@ -16,7 +16,6 @@ BarModuleItem {
         implicitWidth: root.scaleHeightMin
         implicitHeight: root.scaleHeightMin
         contentItem: TextItem {
-            font.pointSize:12
             color: root.config.props.secondaryColor
             text: SysInfo.diskAvail
         }
@@ -28,7 +27,6 @@ BarModuleItem {
         implicitWidth: root.scaleHeightMin
         implicitHeight: root.scaleHeightMin
         contentItem: TextItem {
-            font.pointSize:12
             color: root.config.props.secondaryColor
             text: SysInfo.diskPercent
         }

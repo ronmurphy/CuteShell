@@ -13,6 +13,7 @@ import "../"
 
 BarModuleItem {
     id:root
+    visibleExpandedElements: 3
     Item {
         id:batteryDecor
         implicitWidth: root.scaleHeightMin*1.5
@@ -60,4 +61,33 @@ BarModuleItem {
         sld.backgroundloader.setSource(root.config?.sliderProps?.source,
         root.config?.sliderProps?.properties)
     }
+    BarContentItem {
+        implicitWidth: root.scaleHeightMin
+        implicitHeight:root.scaleHeightMin
+        contentItem: TextItem {
+            color: root.config.props.secondaryColor
+            text: "󰃟 "
+        }
+    }
+
+    SliderItem {
+        id: sld
+        implicitWidth:root.scaleHeightMin*3
+        implicitHeight:root.scaleHeightMin/1.5
+        from: 1
+        value:Battery.brightness
+        handleWidthScale: root.config?.sliderProps?.handleWidthScale || 4
+        to: 255
+        Connections {
+            target: Battery
+            function onBrightnessChanged() {
+                sld.value = Battery.brightness
+            }
+        }
+        onMoved: {
+            Battery.brightness = sld.value
+            Battery.changeBrightness = true
+        }
+    }
+
 }

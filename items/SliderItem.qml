@@ -18,10 +18,10 @@ Slider {
     property Loader backgroundloader: backgroundLoader
     
     property Component backgroundDecor: Rectangle {
-        color:Settings.dark
+        color:"blue"
     }
     property Component handleDecor: RectTriangleItem {
-        colors: ["transparent",Settings.colorPick(root.config.primaryColor,root.config.bgColors,del.index,2)]
+        colors: ["transparent","green"]
     }
     property int handleWidthScale: 4
     implicitWidth: 80
@@ -32,17 +32,19 @@ Slider {
     background: Loader {
         id: backgroundLoader
         width: root.width
-        height: root.height/12
+        height: root.height/8
         anchors.centerIn: root
         sourceComponent: root.backgroundDecor
     }
 
     handle: Loader {
         id: handleLoader
-        x: root.leftPadding + (root.horizontal ? root.visualPosition * (root.availableWidth - width) : (root.availableWidth - width) / 2)
-        y: root.topPadding + (root.vertical ? root.visualPosition * (root.availableHeight - height) : (root.availableHeight - height) / 2)
+        x: root.leftPadding + root.visualPosition * (root.availableWidth - width)
+        y: root.topPadding + root.availableHeight / 2 - height / 2
+        // x: root.leftPadding + (root.horizontal ? root.visualPosition * (root.availableWidth - width) : (root.availableWidth - width) / 2)
+        // y: root.topPadding + (root.vertical ? root.visualPosition * (root.availableHeight - height) : (root.availableHeight - height) / 2)
         width:root.width/root.handleWidthScale
-        height:root.height/2
+        height:root.height/1.5
         sourceComponent: root.handleDecor
     }
 }

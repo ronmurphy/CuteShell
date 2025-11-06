@@ -97,7 +97,8 @@ Item {
     implicitWidth: contentRect.implicitWidth
     readonly property real maxWidth: visibleExpandedWidth
         + (root.config?.props?.subtractContRectWidth || 0)
-        + ((root.config?.props?.itemsRowGap || 0)*itemsrow.children.length)
+        + ((root.config?.props?.itemsRowGap || 0)
+        * (visibleExpandedElements === 0 ? itemsrow.children.length : visibleExpandedElements))
         
     // The main rectangle for displaying the inner part of the module,
     // can be expanded/collapsed
@@ -131,7 +132,7 @@ Item {
             width: contentRect.width-(root.config?.props?.subtractContRectWidth || 0)
             x: root.config?.props?.flickableX || 0
             height: parent.height
-            contentWidth: itemsrow.width
+            contentWidth: itemsrow.width + (itemsrow.children.length*itemsrow.gap)
             contentHeight: parent.height
             clip: true
             FlexboxLayout {

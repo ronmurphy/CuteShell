@@ -16,12 +16,12 @@ Rectangle {
     property real scaleInputWidth: 0.75
 
     property Loader contentLoader: loader
-    signal textedited
-    signal accepted
-    signal editingfinished
     function gettext(): string {
         return inp.text
     }
+    signal textedited
+    signal accepted
+    signal editingfinished
     color: "transparent"
     clip: true
     implicitWidth: 80
