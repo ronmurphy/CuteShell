@@ -49,6 +49,7 @@ BarModuleItem {
             color: root.config.props.secondaryColor
         }
         onClicked: {
+            SysInfo.nextWallpaper()
             Settings.nextConfig()
         }
     }
