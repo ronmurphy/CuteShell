@@ -41,23 +41,20 @@ Variants {
                 // here you define which bar modules will be positioned
                 // on the left, center and right side of the bar respectively
                 FlexboxLayout {
-                    id: left
-                    z:1
-                    objectName: "left"
+                    id: left; objectName: "left"
                     anchors.left: parent.left;
                     anchors.verticalCenter: parent.verticalCenter
                     direction: FlexboxLayout.Row
+                    // HyprlandWorkspaceModule{}
                     MenuModule{}
                     NiriWorkspaceModule{}
-                    // HyprlandWorkspaceModule{}
                     CpuModule{}
                     DiskModule{}
                     AppLauncherModule{id: applauncher}
                     MemoryModule{}
                 }
                 FlexboxLayout {
-                    id: center
-                    objectName: "center"
+                    id: center; objectName: "center"
                     anchors.centerIn: parent
                     direction: FlexboxLayout.Row
                     // HyprlandWindowModule{}
@@ -65,8 +62,7 @@ Variants {
                     CavaModule{id: cava}
                 }
                 FlexboxLayout {
-                    id: right
-                    objectName: "right"
+                    id: right; objectName: "right"
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
                     direction: FlexboxLayout.RowReverse

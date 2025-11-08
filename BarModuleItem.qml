@@ -1,6 +1,6 @@
-import Quickshell // for PanelWindow
+import Quickshell
 import Quickshell.Io
-import QtQuick // for Text
+import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import Quickshell.Widgets
@@ -26,9 +26,9 @@ Item {
 
     function updateConfig() {
         config = Settings.getConfig(/* args */{
-            uniqueIndex:uniqueIndex,
-            sideIndex:sideIndex,
-            side:root.parent.objectName,
+            uniqueIndex: uniqueIndex,
+            sideIndex: sideIndex,
+            side: root.parent.objectName,
             panelWidth: root.parent.parent.parent.parent.width,
             popupParentVariants: [root.parent.parent,root.parent,root,flick],
             sideLength: root.parent.children.length,
@@ -37,8 +37,8 @@ Item {
             themeArgs: currConfig.val
         })
 
-        root.parent.parent.parent.height =
-            (config?.props?.scaleHeightMin * (config?.props?.stretchBarContainer || 1)) || 45
+        root.parent.parent.parent.height = (config?.props?.scaleHeightMin
+            * (config?.props?.stretchBarContainer || 1)) || 45
         root.parent.parent.height = config?.props?.scaleHeightMin || 45
         root.parent.gap = config?.props.gap
         root.scaleHeightMin = config.props.scaleHeightMin

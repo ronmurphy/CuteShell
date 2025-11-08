@@ -80,25 +80,11 @@ Singleton {
         
         },
         Highlighted: {
-            Onedark:{
-                bgColors: root.colors[1],
-                fgColors: root.colorsGrayscale[1],
-                get moduleAnimProps() {
-                    return {
-                        duration:100,
-                        easingType: 1,
-                        easingAmplitude: 1.3,
-                        easingPeriod: 1,
-                    }
-                },
+            // In addition to general configurations,
+            // you can define themes within the same configuration and make use of them internally. 
+            Onedark: {
                 cavaTextBars: ["⠁","⠁","⠃","⠇","⡇"],
-                get common() {
-                    return {
-                        primaryColor: this.fgColors[1],
-                    }
-                },
-
-            }
+            },
         }
     })
 
@@ -145,7 +131,7 @@ Singleton {
                             subtractContRectWidth: 0, 
                             subtractContRectHeight: this.common.scaleHeightMin*0.2, 
                             addDefaultWidth: 0,
-                            popupHeight: args.side != "center" ? this.common.scaleHeightMin*4 : this.common.scaleHeightMin,
+                            popupHeight: args.side != "center" ? this.common.scaleHeightMin*6.2 : this.common.scaleHeightMin,
                             addPopupWidth:  this.common.scaleHeightMin,
                             popupX: -this.common.scaleHeightMin/2,
                             popupMargin: args.side === "center" ? this.common.scaleHeightMin*1.2 : this.common.scaleHeightMin,
@@ -273,7 +259,7 @@ Singleton {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
             get DefaultRectangled() {
                 return {
-                    minHeight:45,
+                    minHeight:43,
                     get common() {
                         return {
                             mainRectSource:"./decorations/GenericDecorItem.qml",
@@ -287,10 +273,10 @@ Singleton {
                             subtractContRectWidth: this.common?.scaleHeightMin/2 || 0, 
                             subtractContRectHeight: 0, 
                             addDefaultWidth: this.common.scaleHeightMin/2,
-                            popupHeight: args.side != "center" ? this.common.scaleHeightMin*4 : this.common.scaleHeightMin,
+                            popupHeight: args.side != "center" ? this.common.scaleHeightMin*5 : this.common.scaleHeightMin,
                             addPopupWidth:  0,
                             popupX: 0,
-                            popupMargin: args.side === "center" ? this.common.scaleHeightMin*1.2 : this.common.scaleHeightMin,
+                            popupMargin: args.side === "center" ? this.common.scaleHeightMin*1.1 : this.common.scaleHeightMin,
                             popupParentItem: args.side === "left" ||  args.side === "right" ? args.popupParentVariants[2]
                                 : args.popupParentVariants[1],
                             primaryColor: this.palette.fgColors[1],
@@ -420,7 +406,7 @@ Singleton {
                             subtractContRectWidth: this.common?.scaleHeightMin/2 || 0, 
                             subtractContRectHeight: 0, 
                             addDefaultWidth: this.common.scaleHeightMin/2,
-                            popupHeight: args.side != "center" ? this.common.scaleHeightMin*4 : this.common.scaleHeightMin,
+                            popupHeight: args.side != "center" ? this.common.scaleHeightMin*5 : this.common.scaleHeightMin,
                             addPopupWidth:  0,
                             popupX: 0,
                             popupMargin: args.side === "center" ? this.common.scaleHeightMin*1.2 : this.common.scaleHeightMin,
@@ -430,7 +416,7 @@ Singleton {
                             secondaryColor: this.palette.fgColors[2],
                             bgColors: this.palette.bgColors,
                             fgColors: this.palette.fgColors,
-                            cavaTextBars: ["⠁","⠁","⠃","⠇","⡇"],
+                            cavaTextBars: specialArgs?.themeArgs?.cavaTextBars || ["⠁","⠁","⠃","⠇","⡇"],
                             cavaColors: this.palette.bgColors.reverse(),
                             scaleHeightMin:this.common.scaleHeightMin,
                             stretchBarContainer:1.5,
@@ -566,7 +552,7 @@ Singleton {
                             subtractContRectWidth: this.common?.scaleHeightMin/2 || 0, 
                             subtractContRectHeight: 0, 
                             addDefaultWidth: this.common.scaleHeightMin/2,
-                            popupHeight: args.side != "center" ? this.common.scaleHeightMin*4 : this.common.scaleHeightMin,
+                            popupHeight: args.side != "center" ? this.common.scaleHeightMin*5.2 : this.common.scaleHeightMin,
                             subtractPopupWidth: args.side === "center" ? this.common.scaleHeightMin : 0,
                             popupX: args.side === "left" ? -this.common.scaleHeightMin/2 :
                                 args.side === "right" ? this.common.scaleHeightMin/2 : this.common.scaleHeightMin/2,

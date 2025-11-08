@@ -72,7 +72,7 @@ Singleton {
             handleWorkspaceActiveWindowChanged(event.WorkspaceActiveWindowChanged)
             break
         case 'WindowFocusChanged':
-            currentWindowTitle = windows.find(p => p.id ?? p.id === event.WindowFocusChanged.id).title
+            currentWindowTitle = windows.find(p => p.id === event.WindowFocusChanged.id).title
             break
         case 'WindowsChanged':
             windows = sortWindowsByLayout(event.WindowsChanged.windows)
