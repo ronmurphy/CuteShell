@@ -15,18 +15,6 @@ Singleton {
     readonly property bool isCharging: batteryAvailable && device.state === UPowerDeviceState.Charging && device.changeRate > 0
     readonly property bool isPluggedIn: batteryAvailable && (device.state !== UPowerDeviceState.Discharging && device.state !== UPowerDeviceState.Empty)
     readonly property bool isLowBattery: batteryAvailable && batteryLevel <= 20
-    property bool changeBrightness: false
-    property int brightness: 50
-
-    Process {
-        id: brightnessctl
-        running: root.changeBrightness
-        command: [ "brightnessctl" , "set", root.brightness]
-        
-        onExited: {
-            root.changeBrightness = false
-        }
-    }
 
 
 

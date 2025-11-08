@@ -49,19 +49,7 @@ BarModuleItem {
             color: root.config.props.secondaryColor
         }
         onClicked: {
-            SysInfo.nextWallpaper()
             Settings.nextConfig()
-        }
-    }
-    BarContentItem {
-        implicitWidth: root.scaleHeightMin
-        implicitHeight: root.scaleHeightMin
-        contentItem: TextItem {
-            text: " "
-            color: root.config.props.secondaryColor
-        }
-        onClicked: {
-            Quickshell.execDetached(["sh" ,"-c","niri msg action screenshot"])
         }
     }
 
