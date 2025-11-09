@@ -1,5 +1,5 @@
 ## What is this?
-There are already many beautiful quickshell configurations but they all have different hardcoded UI tree implementations. This is my attempt to standardize it (at least for myself). This allows to actually create customizable configurations that can be hot swapped on demand. So basically this is waybar on steroids. The final goal is to make the most general API possible for minimal hot swappable configurations
+There are already many beautiful quickshell configurations but they all have different hardcoded UI tree implementations. This is my attempt to standardize it (at least for myself). This allows to actually create customizable configurations that can be hot swapped on demand, Not only the color themes but full-fledged ricing with sophisticated layouts, decorations. So basically this is waybar on steroids. The final goal is to make the most general API possible for minimal hot swappable configurations
 
 ### Showcase
 <p align="center" width="100%">
