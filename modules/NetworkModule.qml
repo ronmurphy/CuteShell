@@ -11,7 +11,6 @@ import QtQml
 import "../services"
 import "../items"
 import "../decorations"
-import "../animations"
 import "../"
 
 pragma ComponentBehavior: Bound

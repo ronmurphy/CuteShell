@@ -8,7 +8,6 @@ import Quickshell.Widgets
 import Quickshell.Wayland
 import QtQuick.Shapes
 import "../decorations"
-import "../animations"
 import "../"
 
 

@@ -48,6 +48,7 @@ Variants {
                     // HyprlandWorkspaceModule{}
                     MenuModule{}
                     NiriWorkspaceModule{}
+                    LabwcTaskbarModule{}
                     CpuModule{}
                     DiskModule{}
                     AppLauncherModule{id: applauncher}

@@ -9,7 +9,6 @@ import QtQuick.Shapes
 import "./modules"
 import "./services"
 import "./decorations"
-import "./animations"
 
 pragma ComponentBehavior: Bound
 
@@ -64,6 +63,10 @@ Item {
     }
     onCurrConfigChanged: {
         updateConfig()
+    }
+    Connections {
+        target: Settings
+        function onColorsUpdated() { root.updateConfig() }
     }
     // If false, the module will have a maximum width and
     // will not collapse/expand on interacting

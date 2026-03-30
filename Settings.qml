@@ -2,6 +2,7 @@ pragma Singleton
 
 import QtQuick
 import Quickshell
+import Quickshell.Io
 
 import Quickshell // for PanelWindow
 import QtQuick // for Text
@@ -9,12 +10,42 @@ import QtQuick // for Text
 import "./services"
 import "./items"
 import "./decorations"
-import "./animations"
 import "./"
 
 Singleton {
     id: root
     signal popupChanged
+
+    property bool settingsWindowVisible: false
+    function toggleSettings() { settingsWindowVisible = !settingsWindowVisible }
+    signal colorsUpdated
+
+    function applyColors(raw) {
+        if (!raw || raw.trim() === "") return
+        try {
+            var d = JSON.parse(raw)
+            root.colors = [
+                [d.primary, d.secondary, d.tertiary, d.error,
+                 d.primary_container, d.secondary_container, d.tertiary_container],
+                [d.primary, d.secondary, d.tertiary, d.error,
+                 d.primary_container, d.secondary_container, d.tertiary_container]
+            ]
+            root.colorsGrayscale = [
+                [d.surface_variant, d.outline,         d.on_surface],
+                [d.surface_variant, d.outline_variant, d.on_surface_variant]
+            ]
+            console.log("matugen colors applied: primary=" + d.primary + " surface=" + d.surface_variant)
+            root.colorsUpdated()
+        } catch(e) {
+            console.warn("matugen parse error:", e)
+        }
+    }
+
+    FileView {
+        path: "/home/brad/.config/quickshell/colors/matugen.json"
+        watchChanges: true
+        onTextChanged: root.applyColors(String(text))
+    }
     property real scaleWidth: 1920
     property real scaleHeight: 1080    
 
@@ -26,6 +57,20 @@ Singleton {
 
     function changeBarState() {
         barAnchor = isTop ? barAnchors.BOTTOM : barAnchors.TOP
+    }
+
+    readonly property var defaultColors: [
+        ["#d699b6","#e67e80","#e69875","#dbbc7f","#a7c080","#83c092","#7fbbb3"],
+        ["#61AFEF","#E06C75","#E5C07B","#C678DD","#E06C75","#61AFEF"]
+    ]
+    readonly property var defaultColorsGrayscale: [
+        ["#424b50","#8a887d","#d3c6aa"],
+        ["#282C34","#3E4452","#ABB2BF"]
+    ]
+    function resetColors() {
+        colors = [defaultColors[0].slice(), defaultColors[1].slice()]
+        colorsGrayscale = [defaultColorsGrayscale[0].slice(), defaultColorsGrayscale[1].slice()]
+        colorsUpdated()
     }
 
     property bool isTop: barAnchor == barAnchors.TOP
