@@ -28,7 +28,7 @@ Item {
             uniqueIndex: uniqueIndex,
             sideIndex: sideIndex,
             side: root.parent.objectName,
-            panelWidth: root.parent.parent.parent.parent.width,
+            panelWidth: Settings.scaleWidth,
             popupParentVariants: [root.parent.parent,root.parent,root,flick],
             sideLength: root.parent.children.length,
         },/* specialArgs */{

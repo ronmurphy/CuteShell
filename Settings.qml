@@ -6,7 +6,6 @@ import Quickshell.Io
 
 import Quickshell // for PanelWindow
 import QtQuick // for Text
-
 import "./services"
 import "./items"
 import "./decorations"
@@ -15,6 +14,10 @@ import "./"
 Singleton {
     id: root
     signal popupChanged
+
+    readonly property string homeDir: Quickshell.env("HOME") || "/home/" + Quickshell.env("USER")
+    readonly property string configDir: homeDir + "/.config/quickshell-qdm"
+    readonly property string picturesDir: homeDir + "/Pictures"
 
     property bool settingsWindowVisible: false
     function toggleSettings() { settingsWindowVisible = !settingsWindowVisible }
@@ -42,12 +45,12 @@ Singleton {
     }
 
     FileView {
-        path: "/home/brad/.config/quickshell/colors/matugen.json"
+        path: root.homeDir + "/.local/state/quickshell/user/generated/colors.json"
         watchChanges: true
         onTextChanged: root.applyColors(String(text))
     }
     property real scaleWidth: 1920
-    property real scaleHeight: 1080    
+    property real scaleHeight: 1080
 
     property int barAnchor: barAnchors.TOP
     property var barAnchors: Object.freeze({
@@ -464,7 +467,7 @@ Singleton {
                             cavaTextBars: specialArgs?.themeArgs?.cavaTextBars || ["⠁","⠁","⠃","⠇","⡇"],
                             cavaColors: this.palette.bgColors.reverse(),
                             scaleHeightMin:this.common.scaleHeightMin,
-                            stretchBarContainer:1.5,
+                            stretchBarContainer:1.0,
                             popupAnimProps: args.side != "center" ? null : this.popupAnimProps,
                             moduleAnimProps: this.moduleAnimProps,
                             gap: -1,

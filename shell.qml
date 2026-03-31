@@ -13,4 +13,5 @@ ShellRoot {
         sourceComponent: Bar {}
     }
     SettingsWindow {}
+    WallpaperPicker {}
 }
